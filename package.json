@@ -1,0 +1,21 @@
+{
+  "name": "react_server",
+  "version": "1.0.0",
+  "description": "react connect",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server.js",
+    "front": "cd MyAndroidAppstudy.github.io && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run front\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "concurrently": "^7.1.0",
+    "express": "^4.17.3",
+    "multer": "^1.4.4",
+    "npm": "^8.6.0"
+  }
+}
