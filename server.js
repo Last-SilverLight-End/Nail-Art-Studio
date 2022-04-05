@@ -8,7 +8,7 @@ const PORT = 4000;
 app.get('/data',(req,res)=>{
     const data = {
         lastname : "Lee",
-        firstname : "chang_Geun"
+        firstname : "chang_eGeun"
     };
     res.json(data);
 })
