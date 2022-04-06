@@ -1,94 +1,57 @@
 import React,{ useState } from 'react';
-import Data from './Data';
-import Data2 from './Data2';
-function App() {
-  return (
-    <div>
+import axios from 'axios';
 
-     <Data2/>
-    </div>
-  );
-}
- 
-export default App;
+class Main extends React.Component {
+  constructor(props) {
+    super(props);
 
-/*import React, { useState } from "react";
-import axios from "axios";
-const BASE_URL = "http://localhost:4000";
+    this.state = {
+      imageURL: '',
+    };
 
-function Data2() {
-    const [img, setImage] = useState(null);
+    this.handleUploadImage = this.handleUploadImage.bind(this);
+  }
+  handleUploadImage(ev){
+    ev.preventDefault();
 
-    const onChange = (e) => {
-        setImage(e.target.files[0]);
-      }
-    
-      const onClick = async () => {
-        const formData = new FormData();
-        formData.append('file', img);
-        // 서버의 upload API 호출
-        const res = await axios.post("/api/upload", formData);
-        console.log(res);
-      }
-      
-  return (
-    <div className="App">
-      <input type="img" multiple onChange={onChange}/>
-      <button onClick={onClick}>제출</button>
-    </div>
-  );
-  
-  
-}
+    const data = new FormData();
+    data.append('file',this.uploadInput.files[0]);
+    data.append('filename',this.fileName.value);
 
-export default Data2;*/
-
-
-/*const onChange = e => {
-    setContent(e.target.files[0]);
-  };
-  const onSubmit = e => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("img", content); 
-    axios
-      .post("/upload", formData)
-      .then(res => {
-        const { fileName } = res.data;
-        console.log(fileName);
-        setUploadedImg({ fileName, filePath: `${BASE_URL}/img/${fileName}` });
-        alert("The file is successfully uploaded");
-      })
-      .catch(err => {
-        console.error(err);
+    fetch('http://localhost:5000/uploads',{
+      method : 'POST',
+      body:data,
+    }).then((response) => {
+      response.json().then((body) => {
+        this.setState({ imageURL : `http://localhost:5000/${body.file}`});
       });
-  };
+    });
+  }
+  uploadFile(e) {
+    e.preventDefault();
+    let file = this.state.fileToBeSent;
+    let file_name = this.state.fileToBeSent.name;
+    console.log(file_name);
+    const formData = new FormData();
 
-export default function App() {
-  const [content, setContent] = useState("");
+    formData.append("file", file);
 
-  const [uploadedImg, setUploadedImg] = useState({
-
-    fileName: "",
-    fillPath: ""
+    axios
+      .post("/uploads", formData)
+      .then(res => console.log(res))
+      .catch(err => console.warn(err));
     }
-  );
+    
+  render(){
+    return (
+      <div>
+      <input type="file" name="file" onChange={this.onChangeFile}/>
+      <button onClick={this.uploadFile}>
+          Upload 
+      </button>
+      </div>
+    );
+  }
+}
 
-  return (
-    <>
-      <form onSubmit={onSubmit}>
-        {uploadedImg ? (
-          <>
-            <img src={uploadedImg.filePath} alt="" />
-            <h3>{uploadedImg.fileName}</h3>
-          </>
-        ) : (
-          ""
-        )}
-        <input type="file" onChange={onChange} />
-        <button type="submit">Upload</button>
-      </form>
-    </>
-  );
-}*/
-
+export default Main;
