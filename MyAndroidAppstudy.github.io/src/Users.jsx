@@ -1,16 +1,51 @@
 import React,{ useState } from 'react';
+import PropTypes from 'prop-types';
 import Data from './Data';
 import Data2 from './Data2';
-function App() {
-  return (
-    <div>
 
-     <Data2/>
-    </div>
-  );
+class Users extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+        imageURL: "",
+    };
+    this.UploadImage = this.UploadImage.bind(this);
+}
+
+  UploadImage(ev) {
+    ev.preventDefault();
+
+    const data = new FormData();
+    data.append('file', this.uploadInput.files[0]);
+    data.append('filename', this.fileName.value);
+
+    fetch('http://localhost:5000/uploader', { method: 'POST', body: data })
+    .then((response) => { response.json().then((body) => { 
+        this.setState({ imageURL: `http://localhost:5000/${body.file}` });
+      });
+    });
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.UploadImage}>
+        <div>
+          <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
+        </div>
+        <div>
+          <input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />
+        </div>
+        <br />
+        <div>
+          <button>Upload</button>
+        </div>
+        <img src={this.state.imageURL} alt="img" />
+      </form>
+    );
+  }
 }
  
-export default App;
+export default Users;
 
 /*import React, { useState } from "react";
 import axios from "axios";
