@@ -1,4 +1,5 @@
 import React,{ useState } from 'react';
+<<<<<<< HEAD
 import PropTypes from 'prop-types';
 import Data from './Data';
 import Data2 from './Data2';
@@ -83,47 +84,61 @@ export default Data2;*/
     setContent(e.target.files[0]);
   };
   const onSubmit = e => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("img", content); 
-    axios
-      .post("/upload", formData)
-      .then(res => {
-        const { fileName } = res.data;
-        console.log(fileName);
-        setUploadedImg({ fileName, filePath: `${BASE_URL}/img/${fileName}` });
-        alert("The file is successfully uploaded");
-      })
-      .catch(err => {
-        console.error(err);
+=======
+import axios from 'axios';
+
+class Main extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      imageURL: '',
+    };
+
+    this.handleUploadImage = this.handleUploadImage.bind(this);
+  }
+  handleUploadImage(ev){
+    ev.preventDefault();
+
+    const data = new FormData();
+    data.append('file',this.uploadInput.files[0]);
+    data.append('filename',this.fileName.value);
+
+    fetch('http://localhost:5000/uploads',{
+      method : 'POST',
+      body:data,
+    }).then((response) => {
+      response.json().then((body) => {
+        this.setState({ imageURL : `http://localhost:5000/${body.file}`});
       });
-  };
+    });
+  }
+  uploadFile(e) {
+>>>>>>> a2a11575f37f134cb824b2931e5209e8e7c44450
+    e.preventDefault();
+    let file = this.state.fileToBeSent;
+    let file_name = this.state.fileToBeSent.name;
+    console.log(file_name);
+    const formData = new FormData();
 
-export default function App() {
-  const [content, setContent] = useState("");
+    formData.append("file", file);
 
-  const [uploadedImg, setUploadedImg] = useState({
-
-    fileName: "",
-    fillPath: ""
+    axios
+      .post("/uploads", formData)
+      .then(res => console.log(res))
+      .catch(err => console.warn(err));
     }
-  );
+    
+  render(){
+    return (
+      <div>
+      <input type="file" name="file" onChange={this.onChangeFile}/>
+      <button onClick={this.uploadFile}>
+          Upload 
+      </button>
+      </div>
+    );
+  }
+}
 
-  return (
-    <>
-      <form onSubmit={onSubmit}>
-        {uploadedImg ? (
-          <>
-            <img src={uploadedImg.filePath} alt="" />
-            <h3>{uploadedImg.fileName}</h3>
-          </>
-        ) : (
-          ""
-        )}
-        <input type="file" onChange={onChange} />
-        <button type="submit">Upload</button>
-      </form>
-    </>
-  );
-}*/
-
+export default Main;
