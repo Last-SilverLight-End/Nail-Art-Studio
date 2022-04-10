@@ -1,9 +1,9 @@
-import os
-from flask import Flask, flash, request, redirect, url_for, session
+
+from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 
-import logging
 app = Flask(__name__)
+
 @app.route('/upload')
 def upload_file():
     return render_template('Users.jsx')
@@ -16,3 +16,5 @@ def uploader_file():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+

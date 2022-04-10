@@ -9,6 +9,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/react": "^18.0.0",
+    "axios": "^0.26.1",
     "fingerpose": "0.0.2",
     "gh-pages": "^3.2.3",
     "homepage": "https://myandroidappstudy.github.io/MyAndroidAppstudy.github.io/",
@@ -47,9 +48,5 @@
       "last 1 safari version"
     ]
   },
-<<<<<<< HEAD
-  "proxy": "http://localhost:4000"
-=======
   "proxy": "http://localhost:5000"
->>>>>>> a2a11575f37f134cb824b2931e5209e8e7c44450
 }
