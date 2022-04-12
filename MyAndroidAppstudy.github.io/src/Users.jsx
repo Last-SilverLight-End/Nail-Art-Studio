@@ -17,7 +17,7 @@ class Main extends React.Component {
     const data = new FormData();
     data.append('file',this.uploadInput.files[0]);
     data.append('filename',this.fileName.value);
-
+// 이 부분 수정
     fetch('http://localhost:5000/uploader',{
       method : 'POST',
       body:data,
