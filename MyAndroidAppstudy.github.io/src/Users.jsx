@@ -17,10 +17,13 @@ class Main extends React.Component {
     const data = new FormData();
     data.append('file',this.uploadInput.files[0]);
     data.append('filename',this.fileName.value);
+    const imageInfo = {
+      method :'POST',
+      body:data,
+    }
 
     fetch('http://localhost:5000/uploader',{
-      method : 'POST',
-      body:data,
+      
     }).then((response) => {
       response.json().then((body) => {
         this.setState({ imageURL : `http://localhost:5000/${body.file}`});
