@@ -21,7 +21,7 @@ class Main extends React.Component {
     fetch('http://localhost:5000/uploader',{
       method : 'POST',
       body:data,
-    }).then((response) => {s
+    }).then((response) => {
       response.json().then((body) => {
         this.setState({ imageURL : `http://localhost:5000/${body.file}`});
       })
