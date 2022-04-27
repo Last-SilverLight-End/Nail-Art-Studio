@@ -1,7 +1,7 @@
 {
   "name": "handpose",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "dependencies": {
     "@tensorflow-models/coco-ssd": "^2.1.0",
     "@tensorflow/tfjs": "^2.4.0",
@@ -9,13 +9,9 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/react": "^18.0.0",
-    "axios": "^0.26.1",
     "fingerpose": "0.0.2",
     "gh-pages": "^3.2.3",
-    "homepage": "https://myandroidappstudy.github.io/MyAndroidAppstudy.github.io/",
-    "npm": "^8.6.0",
     "pages": "0.0.16",
-    "prop-types": "^15.8.1",
     "react": "^16.13.1",
     "react-camera-pro": "^1.1.1",
     "react-dom": "^16.13.1",
@@ -48,5 +44,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:4000"
 }
