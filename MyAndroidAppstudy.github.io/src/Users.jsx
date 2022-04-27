@@ -27,8 +27,9 @@ class Main extends React.Component {
     }).then((response) => {
       response.json().then((body) => {
         this.setState({ imageURL : `http://localhost:5000/${body.file}`});
-      });
-    });
+      })
+      
+    }) .then(data => console.log(data));
   }
 
   render(){
