@@ -1,5 +1,4 @@
 import React,{ useState } from 'react';
-import axios from 'axios';
 
 class Main extends React.Component {
   constructor(props) {
@@ -21,7 +20,6 @@ class Main extends React.Component {
       method :'POST',
       body:data,
     }
-
     fetch('http://localhost:5000/uploader',{
       
     }).then((response) => {

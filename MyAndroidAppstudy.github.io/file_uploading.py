@@ -12,17 +12,13 @@ def upload_file():
 
 @app.route('/uploader', methods = ['GET','POST'])
 def uploader_file():
-
-    target = os.path.join(app.config['UPLOAD_FOLDER'], 'test')
-    logger.info("welcome to upload`")
-
-    f = request.files['file']
-    f_name = f.filename
-
-    destination = "/".join([target,f_name])
-    f.save(destination)
-    response = "file uploaded successfully"
-    return response 
+    if request.method == 'POST':
+        f= request.files['file']
+        f.save(secure_filename(f.filename))
+        response = "file uploaded successfully"
+        return response
+    else:
+        return render_template('Users.jsx') 
 
 @app.route('/data')
 def User_data():
