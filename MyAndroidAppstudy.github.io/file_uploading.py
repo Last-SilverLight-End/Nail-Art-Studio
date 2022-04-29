@@ -9,7 +9,7 @@ logger = logging.getLogger('HELLO WORLD')
 app = Flask(__name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 #여기에서 upload 파일 루트 변경해 줘야 한다.
-UPLOAD_FOLD = '/Users/Changgeun/Documents/react_server/MyAndroidAppstudy.github.io/public'
+UPLOAD_FOLD = './public'
 UPLOAD_FOLDER = os.path.join(APP_ROOT, UPLOAD_FOLD)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 

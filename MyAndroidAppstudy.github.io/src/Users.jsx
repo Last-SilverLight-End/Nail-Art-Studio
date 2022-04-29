@@ -5,13 +5,11 @@ import axios from 'axios';
 
 // 일단은 전송은 되나 나중에 사진 찍고 저장하여 파일 업로드는 구현 해야 한다.
 class Main extends React.Component{
- 
   constructor(){
       super();
       this.state = {
           selectedFile:'',
       }
-
       this.handleInputChange = this.handleInputChange.bind(this);
   }
 
@@ -23,16 +21,18 @@ class Main extends React.Component{
 
   submit(){
       const data = new FormData() 
-      data.append('file', this.state.selectedFile)
+      data.append('file', this.state.selectedFile);
       console.warn(this.state.selectedFile);
+
       let url = "/uploader";
 
-      axios.post(url, data, { // receive two parameter endpoint url ,form data 
+      axios.post(url, data, {
+         // 주소와 formdata를 posting 한다
       })
-      .then(res => { // then print response status
+      .then(res => { 
+        //상태 출력
           console.warn(res);
       })
-
   }
 
   render(){
