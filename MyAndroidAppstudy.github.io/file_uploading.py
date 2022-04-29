@@ -2,14 +2,12 @@ import os
 from flask import Flask, render_template, request, session
 from werkzeug.utils import secure_filename
 import logging
-
+import imghdr
 logger = logging.getLogger('HELLO WORLD')
 
 
 app = Flask(__name__)
-@app.route('/upload')
-def upload_file():
-    return render_template('Users.jsx')
+app.config['UPLOAD_FOLDER'] = './public'
 
 @app.route('/')
 def hello():
@@ -21,19 +19,24 @@ def hellos():
         'hola' : "oh yeah"
     }
 
+def validate_image(stream):
+    header = stream.read(512)  # 512 bytes should be enough for a header check
+    stream.seek(0)  # reset stream pointer
+    format = imghdr.what(None, header)
+    if not format:
+        return None
+    return '.' + (format if format != 'jpeg' else 'jpg')
+
+
 @app.route('/uploader', methods = ['GET','POST'])
 def uploader_file():
-
-    target = os.path.join(app.config['UPLOAD_FOLDER'], 'test')
-    logger.info("welcome to upload`")
-
     f = request.files['file']
-    f_name = f.filename
+    f.save(secure_filename(f.filename))
 
-    destination = "/".join([target,f_name])
-    f.save(destination)
-    response = "file uploaded successfully"
-    return response 
+    
+    return 'file uploaded successfully'
+
+
 
 @app.route('/data')
 def User_data():

@@ -4,8 +4,8 @@ app = Flask(__name__)
 
 @app.route('/upload')
 def upload_file():
-    return render_template('upload.html')
-
+    return render_template('upload.html ')
+    
 @app.route('/uploader', methods = ['GET','POST'])
 def uploader_file():
     f = request.files['file']
