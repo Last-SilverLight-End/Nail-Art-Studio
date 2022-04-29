@@ -2,6 +2,8 @@ import React,{ useState,Component } from 'react';
 import "./App.css";
 import axios from 'axios';
 
+
+// 일단은 전송은 되나 나중에 사진 찍고 저장하여 파일 업로드는 구현 해야 한다.
 class Main extends React.Component{
  
   constructor(){
