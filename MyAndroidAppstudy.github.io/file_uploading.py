@@ -5,20 +5,35 @@ import logging
 
 logger = logging.getLogger('HELLO WORLD')
 
+
 app = Flask(__name__)
 @app.route('/upload')
 def upload_file():
     return render_template('Users.jsx')
 
+@app.route('/')
+def hello():
+    return 'hello!'
+
+@app.route('/api')
+def hellos():
+    return{
+        'hola' : "oh yeah"
+    }
+
 @app.route('/uploader', methods = ['GET','POST'])
 def uploader_file():
-    if request.method == 'POST':
-        f= request.files['file']
-        f.save(secure_filename(f.filename))
-        response = "file uploaded successfully"
-        return response
-    else:
-        return render_template('Users.jsx') 
+
+    target = os.path.join(app.config['UPLOAD_FOLDER'], 'test')
+    logger.info("welcome to upload`")
+
+    f = request.files['file']
+    f_name = f.filename
+
+    destination = "/".join([target,f_name])
+    f.save(destination)
+    response = "file uploaded successfully"
+    return response 
 
 @app.route('/data')
 def User_data():

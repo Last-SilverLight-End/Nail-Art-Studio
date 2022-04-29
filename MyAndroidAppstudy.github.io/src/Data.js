@@ -2,15 +2,15 @@ import React,{ useState } from 'react';
  
 function Data() {
   const [data,setData] = useState({});
-  fetch('/data')
-  .then(res => res.json())
-  .then(data => setData(data),()=>{
-  console.log('data read : ' , data);
-  })
+  fetch('/data').then(response => {
+    if(response.ok){
+      return response.json()
+    }
+  }).then(data => console.log(data),[])
  
   return (
     <div>
-      {data.lastname} {data.firstname}
+      Hello
     </div>
   );
 }

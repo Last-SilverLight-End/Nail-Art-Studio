@@ -1,52 +1,39 @@
 import React,{ useState } from 'react';
+import "./App.css";
+import Axios from 'axios';
 
-class Main extends React.Component {
-  constructor(props) {
-    super(props);
+function Main(){
 
-    this.state = {
-      imageURL: '',
-    };
+  const [imageSelected, setImageSelected] = useState("");
+  const uploadImage = () => {
+    const formData = new FormData()
+    formData.append("file",imageSelected)
+    formData.append("upload_preset");
 
-    this.handleUploadImage = this.handleUploadImage.bind(this);
-  }
-  handleUploadImage(ev){
-    ev.preventDefault();
+    Axios.post(
+        "/uploader",formData)
+        .then((response) => {
+          console.log(response);
+        });
+  };
 
-    const data = new FormData();
-    data.append('file',this.uploadInput.files[0]);
-    data.append('filename',this.fileName.value);
-    const imageInfo = {
-      method :'POST',
-      body:data,
-    }
-    fetch('http://localhost:5000/uploader',{
-      
-    }).then((response) => {
-      response.json().then((body) => {
-        this.setState({ imageURL : `http://localhost:5000/${body.file}`});
-      })
-      
-    }) .then(data => console.log(data));
-  }
-
-  render(){
     return (
-      <form onSubmit={this.handleUploadImage}>
-        <div>
-          <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
-        </div>
-        <div>
-          <input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />
-        </div>
-        <br />
-        <div>
-          <button>Upload</button>
-        </div>
-        <img src={this.state.imageURL} alt="img" />
-      </form>
+      <div className = "App">
+        <h1>THE FORM</h1>
+        <form>
+          <div className=''>
+            <label>SelectFile</label>
+            <input type="file"
+             name ="file" 
+             onChange = {(e) =>
+              setImageSelected(e.target.files)}/>
+          </div>
+          <br/>
+          <button onClick={uploadImage}>Upload</button>
+        </form>
+      </div>
     );
   }
-}
+
 
 export default Main;
