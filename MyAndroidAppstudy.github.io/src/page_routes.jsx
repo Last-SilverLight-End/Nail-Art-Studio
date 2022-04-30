@@ -1,12 +1,16 @@
 // Import dependencies
 import React, { useRef, useState, useEffect } from "react";
 import {  BrowserRouter as Router,  Routes,  Route} from "react-router-dom";
+
+
 import App from "./App";
 import About from "./About";
 import Users from "./Users";
 import Home from "./Home";
 import Camera from "./Camera";
 import Loading from "./Loading";
+import Loginpage from "./Loginpage";
+
 
 function Buttons() {
     return (
@@ -19,6 +23,7 @@ function Buttons() {
                 <Route path ="/Users" element={<Users/>}/>
                 <Route path ="/Camera" element={<Camera/>}/>
                 <Route path ="/Loading" element={<Loading/>}/>
+                <Route path ="/Loginpage" element={<Loginpage/>}/>
 
             </Routes>
         </Router>
