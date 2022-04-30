@@ -9,6 +9,7 @@ import './index.css';
 import App from "./App";
 import Users from "./Users"
 import Loginpage from './Loginpage';
+import Looding from "./Loading"
 import Page_routes from './page_routes';
 
 ReactDOM.render(

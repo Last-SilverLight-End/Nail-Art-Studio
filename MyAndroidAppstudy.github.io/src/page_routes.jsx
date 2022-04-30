@@ -6,15 +6,20 @@ import About from "./About";
 import Users from "./Users";
 import Home from "./Home";
 import Camera from "./Camera";
+import Loading from "./Loading";
+
 function Buttons() {
     return (
         <Router>
             <Routes>
+                
                 <Route path="/" element={<Home/>}/>
                 <Route path ="/App" element= {<App/>}/>
                 <Route path ="/About"element= {<About/>}/>
                 <Route path ="/Users" element={<Users/>}/>
                 <Route path ="/Camera" element={<Camera/>}/>
+                <Route path ="/Loading" element={<Loading/>}/>
+
             </Routes>
         </Router>
     );
