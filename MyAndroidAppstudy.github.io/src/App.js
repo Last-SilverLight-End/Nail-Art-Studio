@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as cocossd from "@tensorflow-models/coco-ssd";
 import Webcam from "react-webcam";
+import {Camera} from "react-camera-pro";
 import "./App.css";
 import { drawRect } from "./utilities";
 

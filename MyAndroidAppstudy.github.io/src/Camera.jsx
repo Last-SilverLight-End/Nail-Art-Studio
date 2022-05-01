@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import {Camera} from "react-camera-pro";
+import * as cocossd from "@tensorflow-models/coco-ssd";
 import "./App.css";
 const Component = () => {
 
