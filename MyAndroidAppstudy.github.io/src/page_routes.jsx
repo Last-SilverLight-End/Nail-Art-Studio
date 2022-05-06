@@ -10,7 +10,7 @@ import Home from "./Home";
 import Camera from "./Camera";
 import Loading from "./Loading";
 import Loginpage from "./Loginpage";
-
+import SelectPage from "./SelectPage";
 
 function Buttons() {
     return (
@@ -24,6 +24,7 @@ function Buttons() {
                 <Route path ="/Camera" element={<Camera/>}/>
                 <Route path ="/Loading" element={<Loading/>}/>
                 <Route path ="/Loginpage" element={<Loginpage/>}/>
+                <Route path ="/SelectPage" element={<SelectPage/>}/>
 
             </Routes>
         </Router>

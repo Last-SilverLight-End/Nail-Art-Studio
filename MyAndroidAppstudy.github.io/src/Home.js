@@ -30,7 +30,7 @@ const Home = () => {
          onClick = {AboutClick}>NailStudio 소개</button>
 
          <button className="buttontransfer"
-         onClick = {CameraClick}> 사진 찍기 </button>
+         onClick = {CameraClick}> 사진 찍기 및 저장 </button>
 
         <button className="buttontransfer"
          onClick = {AppClick}> tensorflow 인식 </button>
