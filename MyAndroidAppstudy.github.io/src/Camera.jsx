@@ -55,8 +55,8 @@ const Component = () => {
 
 
     setTimeout(() => {
-      navigate('/SelectPage');
-    }, 3000);
+      navigate('/Loading');
+    }, 1000);
 
   }
 
