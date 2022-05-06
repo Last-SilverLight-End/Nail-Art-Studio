@@ -11,20 +11,23 @@ import Camera from "./Camera";
 import Loading from "./Loading";
 import Loginpage from "./Loginpage";
 import SelectPage from "./SelectPage";
-
+import Notfound from "./Notfound";
 function Buttons() {
     return (
         <Router>
             <Routes>
                 
                 <Route path="/" element={<Home/>}/>
+
                 <Route path ="/App" element= {<App/>}/>
                 <Route path ="/About"element= {<About/>}/>
                 <Route path ="/Users" element={<Users/>}/>
                 <Route path ="/Camera" element={<Camera/>}/>
                 <Route path ="/Loading" element={<Loading/>}/>
                 <Route path ="/Loginpage" element={<Loginpage/>}/>
+                
                 <Route path ="/SelectPage" element={<SelectPage/>}/>
+                <Route path="*" element={<Notfound/>} />
 
             </Routes>
         </Router>

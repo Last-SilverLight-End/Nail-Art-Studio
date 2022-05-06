@@ -68,7 +68,7 @@ const Component = () => {
         facingMode='environment'
       />
 
-      <img src={image} alt='이미지 미리보기'
+      <img className="image-size" src={image} alt='이미지 미리보기'
 
       />
       <button
