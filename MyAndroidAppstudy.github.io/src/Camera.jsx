@@ -5,7 +5,7 @@ import "./App.css";
 import axios from 'axios';
 import { time } from "@tensorflow/tfjs";
 import { Navigate, useNavigate } from "react-router";
-
+import Loading from './Loading';
 
 const Component = () => {
 
