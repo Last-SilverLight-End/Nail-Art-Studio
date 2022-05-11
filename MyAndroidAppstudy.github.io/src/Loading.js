@@ -3,7 +3,7 @@ import ReactLoading from "react-loading";
 import { Navigate, useNavigate } from "react-router";
 import SelectPage from './SelectPage';
 import "./App.css";
-
+import axios from 'axios';
 
 const Loading = () => {
 
@@ -13,10 +13,21 @@ const Loading = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 3000);
-    })
+        setIsLoading(true)
+       axios({}).then(function (response){
+            console.log(response)
+       });
+    },[])
+
+    /* axios.post(url, data, {
+        // 주소와 formdata를 posting 한다
+     })
+     .then(res => { 
+       //상태 출력
+         console.warn(res);
+     });*/
+
+
     return (
         <div>
             {

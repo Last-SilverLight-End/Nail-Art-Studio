@@ -1,9 +1,11 @@
 import os
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session ,Blueprint
 from werkzeug.utils import secure_filename
 import logging
 import imghdr
 logger = logging.getLogger('HELLO WORLD')
+
+from ZepetoMain import AutoProcess
 
 
 app = Flask(__name__)
@@ -51,6 +53,16 @@ def User_data():
         "Date" : "x",
         "Cost" : "1000",
     }
+
+@app.route('/rendering')
+def Rendering():
+    autoprocess = AutoProcess()
+    try:
+        autoprocess.main()
+        return "all ok"
+    except:
+        return "error occured"
+
 
 
 if __name__ == '__main__':
