@@ -32,14 +32,11 @@ const Home = () => {
          <button className="buttontransfer"
          onClick = {CameraClick}> 사진 찍기 및 저장 </button>
 
-        <button className="buttontransfer"
-         onClick = {AppClick}> tensorflow 인식 </button>
-
          <button className="buttontransfer"
          onClick = {UserClick}> 사용자 정보 </button>
 
         <button className="buttontransfer"
-         onClick = {LoadingClick}> 로딩 추가 버튼(왜 안됨?) </button>
+         onClick = {LoadingClick}> 로딩 추가 버튼 </button>
 
 
         </header>

@@ -4,28 +4,27 @@ import { Navigate, useNavigate } from "react-router";
 import SelectPage from './SelectPage';
 import "./App.css";
 import axios from 'axios';
-
+import Camera from './Camera';
 const Loading = () => {
 
     function SelectPageClick(){
         window.location.href = "/SelectPage"
-      }
-
+    }
+    function CameraClick(){
+        window.location.href = "/Camera"
+    }
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         setIsLoading(true)
-       axios({}).then(function (response){
-            console.log(response)
-       });
+       axios({}).then(res => {
+            console.warn(res)
+            SelectPageClick()
+       }).catch(res => {
+           console.warn(res +  "error must be fix!")
+           CameraClick()
+       })
     },[])
 
-    /* axios.post(url, data, {
-        // 주소와 formdata를 posting 한다
-     })
-     .then(res => { 
-       //상태 출력
-         console.warn(res);
-     });*/
 
 
     return (
