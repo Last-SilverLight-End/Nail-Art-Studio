@@ -16,7 +16,7 @@ const Loading = () => {
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         setIsLoading(true)
-       axios({}).then(res => {
+       axios("/rendering",{}).then(res => {
             console.warn(res)
             SelectPageClick()
        }).catch(res => {

@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Camera } from "react-camera-pro";
-import * as cocossd from "@tensorflow-models/coco-ssd";
 import "./App.css";
 import axios from 'axios';
-import { time } from "@tensorflow/tfjs";
+import * as tf from "@tensorflow/tfjs";
 import { Navigate, useNavigate } from "react-router";
 import Loading from './Loading';
 
@@ -19,6 +18,14 @@ const Component = () => {
     let now = new Date().toString();
     return now;
   }
+
+  const URL = "https://teachablemachine.withgoogle.com/models/Ab3ndS3RI/";
+
+  const modelURL = URL + "model.json";
+  const metadataURL = URL + "metadata.json";
+
+
+
 
   const dataURLtoFile = (dataurl, fileName) => {
 
@@ -67,7 +74,6 @@ const Component = () => {
         aspectRatio={16 / 9}
         facingMode='environment'
       />
-
       <img className="image-size" src={image} alt='이미지 미리보기'
 
       />

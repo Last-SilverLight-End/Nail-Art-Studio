@@ -7,7 +7,9 @@ import { time } from "@tensorflow/tfjs";
 import { Navigate, useNavigate } from "react-router";
 
 
-
+const ZepetoAuto = () => {
+    
+}
 
 const SelectPage = () => {
     const [image, setShowImage] = useState('');

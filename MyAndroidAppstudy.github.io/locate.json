@@ -1,0 +1,25 @@
+{
+    "Lens Studio":{
+        "File":[4.84, 3.05],
+        "Open Project":[6.30, 8.51],
+        "Publish":[7.9, 5.1],
+        "My Lenses":[7.39, 2.59],
+        "Log In":[9.11, 5.64],
+        "Log Out":[8.85, 6.75]
+    },
+    "Choose project file":{
+        "Address_Bar":[28.12,5.37],
+        "FileName_Bar":[29.114,90.277],
+        "Open":[90.52,92.5]
+    },
+    "Publish Lens":[6.04, 5.46],
+    "Zepeto":{
+        "dirLocate":[350,50],        
+        "fileName":[245,447]
+    },
+    "Pinata":{
+        "dirLocate":[350,50],        
+        "uploadButtonForDir":[499,482]
+    }
+}
+

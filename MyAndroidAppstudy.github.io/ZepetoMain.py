@@ -17,7 +17,7 @@ class AutoProcess:
 
         print("로그인 성공")
 
-        self.upload()
+        self.uploadImage()
         
         self.writeInfo()
 
@@ -45,22 +45,38 @@ class AutoProcess:
             '//*[@id="__next"]/div[1]/article/div/div/div[2]/form/button').click()
 
 
-    def upload(self):
-        self.driver.implicitly_wait(10)
+    def uploadImage(self):
+    
+        self.driver.implicitly_wait(20)
         self.driver.find_element_by_xpath('//*[@id="__next"]/div[1]/div[2]/div[1]/nav/div/div[1]/button/div/div/div').click()
         self.driver.implicitly_wait(3)
         self.driver.find_element_by_xpath('/html/body/div[4]/div/div/div[2]/div/div[3]/ul/li[1]/button').click()
-        self.driver.implicitly_wait(3)
+        time.sleep(3)
         self.driver.find_element_by_xpath('/html/body/div[8]/div/div/div[2]/div/button').click()
-
         time.sleep(3)
         self.driver.find_element_by_xpath('//*[@id="__next"]/div[1]/div[2]/article/div/div/section/div[4]/div/div/div[1]/div[2]/div/div/div/div[2]/div/a/span[1]').click()#네일 생성 버튼
-        time.sleep(10)
-        self.driver.find_element_by_xpath('/html/body/div[6]/div/div/div/div/article/div/div/div/div/div[2]/button').click()
-        #driver.find_element_by_xpath('/html/body/div[6]/div/div/div/div/article/div/div/div/div/div[2]/button').click().send_keys(r"C:/Users/mvr/Desktop/image/"+zepeto.fileName)
-        zepetoAuto.uploadZepetoAutogui()
-        time.sleep(2)
-        self.driver.find_element_by_class_name('upload_btns').click()
+        time.sleep(5)
+        #driver.quit()
+        while True:
+            try:
+                #time.sleep(3)
+                self.driver.find_element_by_xpath('/html/body/div[6]/div/div/div/div/article/div/div/div/div/div[2]/button').click()
+                #driver.find_element_by_xpath('/html/body/div[6]/div/div/div/div/article/div/div/div/div/div[2]/button').click().send_keys(r"C:/Users/mvr/Desktop/image/"+zepeto.fileName)
+                zepetoAuto.uploadZepetoAutogui()
+                time.sleep(2)
+                self.driver.find_element_by_class_name('upload_btns').click()
+                break
+            except:
+                print('대기중')
+                time.sleep(10)
+                # time.sleep(30)
+                # print('실행가능')
+                # time.sleep(3)
+                # driver.find_element_by_xpath('/html/body/div[6]/div/div/div/div/article/div/div/div/div/div[2]/button').click()
+                # #driver.find_element_by_xpath('/html/body/div[6]/div/div/div/div/article/div/div/div/div/div[2]/button').click().send_keys(r"C:/Users/mvr/Desktop/image/"+zepeto.fileName)
+                # zepetoAuto.uploadZepetoAutogui()
+                # time.sleep(2)
+                # driver.find_element_by_class_name('upload_btns').click()
 
     def writeInfo(self):
         self.driver.implicitly_wait(3)
