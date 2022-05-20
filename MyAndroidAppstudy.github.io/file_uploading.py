@@ -1,10 +1,13 @@
+from asyncore import write
 import os
+import py_compile
+from tkinter import W
 from flask import Flask, render_template, request, session ,Blueprint
 from werkzeug.utils import secure_filename
 import logging
 import imghdr
 logger = logging.getLogger('HELLO WORLD')
-
+import zepetoInfo
 from ZepetoMain import AutoProcess
 
 
@@ -42,6 +45,22 @@ def uploader_file():
 
     
     return 'file uploaded successfully'
+#여기에서 서버에서 ZepetoInfo 변경 해야 한다 나중에 알략님께 물어볼것
+@app.route('/changeZepeto_Info', methods = ["POST"])
+def change_file_Zepeto():
+    edited_lines = []
+    with open(zepetoInfo) as f:
+        lines = f.readlines()
+        for line in lines:
+            if 'id' in line:
+                edited_lines.append('id="아이디 변경 변수 넣기"')
+            if 'pwd' in line:
+                edited_lines.append('pwd="비밀번호 넣기"')
+            else:
+                edited_lines.append(line)
+    with open(zepetoInfo,'w') as f:
+        f.writelines(edited_lines)
+
 
 
 #api testing data

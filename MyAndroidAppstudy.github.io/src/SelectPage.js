@@ -1,11 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Camera } from "react-camera-pro";
-import * as cocossd from "@tensorflow-models/coco-ssd";
 import "./App.css";
 import axios from 'axios';
-import { time, valueAndGrads } from "@tensorflow/tfjs";
 import { Navigate, useNavigate } from "react-router";
-
 
 const ZepetoAuto = () => {
     
@@ -33,6 +29,18 @@ const SelectPage = () => {
         setSubmitting(true);       
     if (values.id !="" && values.password.length >= 8) {
       alert("로그인 성공");
+      // 여기에 fetch 넣고 적용
+      const formData = new FormData();
+
+      formData.append("id",values.id);
+      formData.append("pwd",values.password);
+
+      axios.post('/changeZepeto_Info',formData,
+      {})
+      .then(res => { 
+        //상태 출력
+          console.warn(res);
+      })
       GuideZepeto()
     }
     else
@@ -59,6 +67,7 @@ const SelectPage = () => {
                 name = "password"
                 onChange = {handleChange}
                 />
+
             <button type="submit" disabled= {submitting} className="buttonshow">
                 Zepeto로 안내</button>
             </form>

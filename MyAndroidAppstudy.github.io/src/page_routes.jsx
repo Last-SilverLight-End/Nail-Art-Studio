@@ -12,6 +12,7 @@ import Loading from "./Loading";
 import Loginpage from "./Loginpage";
 import SelectPage from "./SelectPage";
 import Notfound from "./Notfound";
+import finishPage_zepeto from "./finishPage_zepeto";
 function Buttons() {
     return (
         <Router>
@@ -25,7 +26,7 @@ function Buttons() {
                 <Route path ="/Camera" element={<Camera/>}/>
                 <Route path ="/Loading" element={<Loading/>}/>
                 <Route path ="/Loginpage" element={<Loginpage/>}/>
-                
+                <Route path ="/finishPage_zepeto" element={<finishPage_zepeto/>}/>
                 <Route path ="/SelectPage" element={<SelectPage/>}/>
                 <Route path="*" element={<Notfound/>} />
 
