@@ -4,7 +4,7 @@ import "./App.css";
 import axios from 'axios';
 import * as tf from "@tensorflow/tfjs";
 import { Navigate, useNavigate } from "react-router";
-import Loading from './Loading';
+import * as tmImage from '@teachablemachine/image';
 
 const Component = () => {
 
@@ -14,17 +14,23 @@ const Component = () => {
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
   // const [isLoading,setIsLoading] = useState<Boolean>(false);
+
+  // teachable machine 모텔 불러오기 코드
+  const URL = "https://teachablemachine.withgoogle.com/models/Ab3ndS3RI/";
+  const modelURL = URL + "model.json";
+  const metadataURL = URL + "metadata.json";
+
+  let maxPredictions;
+
   const todayTime = () => {
     let now = new Date().toString();
     return now;
   }
-
-  const URL = "https://teachablemachine.withgoogle.com/models/Ab3ndS3RI/";
-
-  const modelURL = URL + "model.json";
-  const metadataURL = URL + "metadata.json";
-
-
+  
+  const init = () => {
+    model = await tmImage.load(modelURL,metadataURL);
+    maxPredictions = model.getTotalClasses();
+  }
 
 
   const dataURLtoFile = (dataurl, fileName) => {

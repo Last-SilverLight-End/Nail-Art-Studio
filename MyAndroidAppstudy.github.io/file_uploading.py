@@ -42,25 +42,26 @@ def validate_image(stream):
 def uploader_file():
     f = request.files['file']
     f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
-
-    
     return 'file uploaded successfully'
+
 #여기에서 서버에서 ZepetoInfo 변경 해야 한다 나중에 알략님께 물어볼것
 @app.route('/changeZepeto_Info', methods = ["POST"])
 def change_file_Zepeto():
+    id_request = request.files.get('id') #cg45624364235
+    pwd_request = request.files.get('pwd') #aSDfasdfasfda
+
     edited_lines = []
     with open(zepetoInfo) as f:
         lines = f.readlines()
         for line in lines:
             if 'id' in line:
-                edited_lines.append('id="아이디 변경 변수 넣기"')
+                edited_lines.append('id="%s"' % id_request)
             if 'pwd' in line:
-                edited_lines.append('pwd="비밀번호 넣기"')
+                edited_lines.append('pwd="%s"' % pwd_request)
             else:
                 edited_lines.append(line)
     with open(zepetoInfo,'w') as f:
         f.writelines(edited_lines)
-
 
 
 #api testing data
@@ -72,6 +73,7 @@ def User_data():
         "Date" : "x",
         "Cost" : "1000",
     }
+
 
 @app.route('/rendering')
 def Rendering():
