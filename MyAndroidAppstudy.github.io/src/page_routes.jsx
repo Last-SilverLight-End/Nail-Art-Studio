@@ -13,13 +13,14 @@ import Loginpage from "./Loginpage";
 import SelectPage from "./SelectPage";
 import Notfound from "./Notfound";
 import finishPage_zepeto from "./finishPage_zepeto";
+
 function Buttons() {
     return (
         <Router>
             <Routes>
                 
                 <Route path="/" element={<Home/>}/>
-
+                
                 <Route path ="/App" element= {<App/>}/>
                 <Route path ="/About"element= {<About/>}/>
                 <Route path ="/Users" element={<Users/>}/>

@@ -5,6 +5,7 @@ import axios from 'axios';
 import * as tf from "@tensorflow/tfjs";
 import { Navigate, useNavigate } from "react-router";
 import * as tmImage from '@teachablemachine/image';
+//import { model } from "@tensorflow/tfjs";
 
 const Component = () => {
 
@@ -13,23 +14,45 @@ const Component = () => {
   const [selectedFile, setSelectedFile] = useState('');
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
+  const [showResult,setShowResult]=useState(false);
+  //const [photo,setPhoto] = useState('');
   // const [isLoading,setIsLoading] = useState<Boolean>(false);
 
   // teachable machine 모텔 불러오기 코드
   const URL = "https://teachablemachine.withgoogle.com/models/Ab3ndS3RI/";
   const modelURL = URL + "model.json";
   const metadataURL = URL + "metadata.json";
-
+  const [predictionArr,setPredictionArr]=useState([]);
   let maxPredictions;
-
+  let model;
   const todayTime = () => {
     let now = new Date().toString();
     return now;
   }
   
-  const init = () => {
+  async function init () {
     model = await tmImage.load(modelURL,metadataURL);
     maxPredictions = model.getTotalClasses();
+
+  }
+
+  const handleChangeFile = (e) => {
+
+  }
+  async function predict () {
+
+
+    model = await tmImage.load(modelURL,metadataURL);
+    maxPredictions = model.getTotalClasses();
+
+
+    const tempImage = document.getElementById('srcImg');
+    const image2 = new tmImage.image(200,200);
+
+    const prediction = await model.predict(image2,false);
+    console.log(prediction[0].probability);
+    setPredictionArr(prediction)
+    setShowResult(true)
   }
 
 
@@ -47,6 +70,9 @@ const Component = () => {
 
     return new File([u8arr], fileName, { type: mime });
   }
+
+  
+
   const  submit = () => {
     //바꾼 파일을 
 
@@ -85,8 +111,10 @@ const Component = () => {
       />
       <button
         onClick={() => {
-          const photo = camera.current.takePhoto();
+          const photo = (camera.current.takePhoto());
           setImage(photo);
+          predict();
+          
         }}
       > 카메라 사진 찍기</button>
       <button
