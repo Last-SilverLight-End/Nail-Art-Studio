@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { Camera } from "react-camera-pro";
 import "./App.css";
 import axios from 'axios';
-import * as tf from "@tensorflow/tfjs";
+//import * as tf from "@tensorflow/tfjs";
 import { Navigate, useNavigate } from "react-router";
 import * as tmImage from '@teachablemachine/image';
 //import { model } from "@tensorflow/tfjs";
-
+import Resizer from "react-image-file-resizer";
 const Component = () => {
 
   const camera = useRef(null);
@@ -25,16 +25,37 @@ const Component = () => {
   const [predictionArr,setPredictionArr]=useState([]);
   let maxPredictions;
   let model;
+  //현재 시간
   const todayTime = () => {
     let now = new Date().toString();
     return now;
   }
+  // 이미지 resize
+
+  const resizeFile = (file) =>
+  new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      244,
+      244,
+      "PNG",
+      122,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      "base64"
+    );
+  });
+
   
   async function init () {
     model = await tmImage.load(modelURL,metadataURL);
     maxPredictions = model.getTotalClasses();
 
   }
+
+
 
   const handleChangeFile = (e) => {
 
@@ -46,13 +67,14 @@ const Component = () => {
     maxPredictions = model.getTotalClasses();
 
 
-    const tempImage = document.getElementById('srcImg');
-    const image2 = new tmImage.image(200,200);
-
-    const prediction = await model.predict(image2,false);
-    console.log(prediction[0].probability);
-    setPredictionArr(prediction)
-    setShowResult(true)
+    //const tempImage = document.getElementById('srcImg');
+    
+    
+   // const convertedFile = dataURLtoFile(image, todayTime() + ".png");
+    //const prediction = await model.predict(convertedFile);
+   // console.log(prediction[0].probability);
+    //setPredictionArr(prediction)
+    //setShowResult(true)
   }
 
 
@@ -71,31 +93,39 @@ const Component = () => {
     return new File([u8arr], fileName, { type: mime });
   }
 
-  
+  const  submit = async() => {
 
-  const  submit = () => {
-    //바꾼 파일을 
-
+    // 먼저 파일 변환 후에 
     const convertedFile = dataURLtoFile(image, todayTime() + ".png");
-    const data = new FormData();
-    data.append('file', convertedFile);
     console.warn(convertedFile);
+
+    //파일 사이즈 조절
+    const file = convertedFile;
+    const imagetemp = await resizeFile(file);
+    console.log(imagetemp);
+    const newFile = dataURLtoFile(imagetemp, todayTime() + ".png");
+
+
+    // 그다음 데이터 형식으로 만들어서 파일로 서버한테 전송 시킨다.
+    const data = new FormData();
+    data.append('file', newFile);
+    console.warn(newFile);
     
     let url = "/uploader";
 
 
-    /* axios.post(url, data, {
+     axios.post(url, data, {
         // 주소와 formdata를 posting 한다
      })
      .then(res => { 
        //상태 출력
          console.warn(res);
-     });*/
+     });
 
 
     setTimeout(() => {
-      navigate('/Loading');
-    }, 1000);
+      //navigate('/Loading');
+    }, 10000);
 
   }
 
@@ -106,16 +136,17 @@ const Component = () => {
         aspectRatio={16 / 9}
         facingMode='environment'
       />
-      <img className="image-size" src={image} alt='이미지 미리보기'
+      <img id = "srcimg" className="image-size" src={image} alt='이미지 미리보기'
 
       />
       <button
         onClick={() => {
           const photo = (camera.current.takePhoto());
           setImage(photo);
-          predict();
+         /* predict();*/
           
         }}
+        
       > 카메라 사진 찍기</button>
       <button
         hidden={numberOfCameras <= 1}
