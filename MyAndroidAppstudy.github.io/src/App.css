@@ -55,7 +55,8 @@
   color: white;
 }
 .image-size{
-  height: 50vmin;
+  height: 80vmin;
+  width: 80vmin;
 }
 .App-link {
   color: #61dafb;
@@ -68,4 +69,23 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+#camera_main {
+  background-color: rgb(64, 64, 64);
+
+  position: relative;
+  z-Index: 2;
+  top : 0;
+  left: 0;
+
+  width : 100vh;
+  height : 100vh;
+  min-width: 100vh;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
