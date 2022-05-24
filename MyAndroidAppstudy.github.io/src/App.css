@@ -103,3 +103,8 @@ nav > button {
   right: 0;
   height: 45px;
 }
+
+.temp {
+  width: 100%;
+	height: 45vh;
+}

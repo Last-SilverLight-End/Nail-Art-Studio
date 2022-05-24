@@ -165,14 +165,16 @@ const Component = () => {
 
   return (
   <div>
-      <Camera ref={camera}
+    <div >
+      <Camera ref={camera} className="temp"
         numberOfCamerasCallback={setNumberOfCameras}
-        aspectRatio={4/3}
+        aspectRatio={16/12}
         facingMode='environment'
       />
       <img id="srcImg"
-       className="image-size" src={image} alt='이미지 미리보기'>
+       className="temp" src={image} alt='이미지 미리보기'>
       </img>
+    </div>
     <nav className="wrapper">
       
       <button className = "buttonshow_cameras"
@@ -183,7 +185,7 @@ const Component = () => {
 
         }}
 
-      > 카메라 사진 찍기</button>
+      > 사진 찍기</button>
       <button className = "buttonshow_cameras"
         hidden={numberOfCameras <= 1}
         onClick={() => {
