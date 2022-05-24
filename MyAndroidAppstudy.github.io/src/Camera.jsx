@@ -9,8 +9,31 @@ import * as tmImage from '@teachablemachine/image';
 import Resizer from "react-image-file-resizer";
 
 import styled from "styled-components";
-import TeachableMachine from "@sashido/teachablemachine-node";
+
 import tempimage from "./KakaoTalk_20211129_161520094.jpg"
+
+const Wrapper = styled.div`
+  background-position: center;
+  
+  width: 70%;
+  height: 70%;
+  left:0px;
+  right:0px;
+  margin: auto 0;
+  margin-top: 0.5rem;
+    z-index: 1;
+`;
+const FullScreenImagePreview = styled.div`
+  width: 100%;
+  height: 90%;
+  z-index: 100;
+  position: absolute;
+  background-color: black;
+  ${({ image }) => (image ? `background-image:  url(${image});` : '')}
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
 
 const Component = () => {
 
@@ -19,15 +42,14 @@ const Component = () => {
   const [selectedFile, setSelectedFile] = useState('');
   const [image, setImage] = useState(tempimage);
   const navigate = useNavigate();
-
+  const [showImage, setShowImage] = useState(false);
   const [showResult, setShowResult] = useState(false);
-  const [Check,setCheck] = useState(false);
+  const [Check, setCheck] = useState(false);
+  const canvasRef = useRef(null);
   //const [photo,setPhoto] = useState('');
 
-  // const [isLoading,setIsLoading] = useState<Boolean>(false);
-
   // teachable machine 모텔 불러오기 코드
-  const URL = "https://teachablemachine.withgoogle.com/models/Ab3ndS3RI/";
+  const URL = "https://teachablemachine.withgoogle.com/models/7TVFokN0L/";
   const modelURL = URL + "model.json";
   const metadataURL = URL + "metadata.json";
   const [predictionArr, setPredictionArr] = useState([]);
@@ -65,23 +87,6 @@ const Component = () => {
   }
 
 
-  const ImageContainer = styled.div`
-  position:relative;
-  width: 70%;
-  height: 28%;
-  display:flex;
-  background-color:rgba(0, 0, 0, 0.07);
-  border-radius:10px;
-  /* border:3px dashed #535c68; */
-  justify-content:center;
-  align-items:center;
-  box-shadow: 0px 0px 25px #576574;
-  z-index:5;
-  flex-direction:column;
-  box-shadow: 0px 3px 20px 10px rgba(0, 0, 0, 0.10);
-`;
-
-
 
   async function predict() {
 
@@ -97,18 +102,19 @@ const Component = () => {
 
     const tempImg = document.getElementById('srcImg');
     const prediction = await model.predict(tempImg, false);
+
     for (let i = 0; i < maxPredictions; i++) {
       const classPrediction = prediction[1].probability;
-      console.log( prediction[i].className + ": " + classPrediction);
+      console.log(prediction[i].className + ": " + classPrediction);
     }
     console.log(prediction[1].probability);
-    if(prediction[1].probability >=0.1)
-    {
+    alert("잠시만 기다려 주세요!");
+    if (prediction[1].probability >= 0.1) {
       setCheck(true);
       alert("준비 되었습니다! 업로드 하실려면 버튼을 눌러주세요!")
       //submit();
     }
-    else{
+    else {
       setCheck(false);
       alert("다시 찍어 주세요");
     }
@@ -126,87 +132,110 @@ const Component = () => {
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
     }
-    
+
     return new File([u8arr], fileName, { type: mime });
   }
 
   const submit = async () => {
-    if(Check ==true)
-    {
-    // 먼저 파일 변환 후에 
-    const convertedFile = dataURLtoFile(image, todayTime() + ".png");
-    console.warn(convertedFile);
+    if (Check == true) {
+      // 먼저 파일 변환 후에 
+      const convertedFile = dataURLtoFile(image, todayTime() + ".png");
+      console.warn(convertedFile);
 
-    //파일 사이즈 조절
-    const file = convertedFile;
-    const imagetemp = await resizeFile(file);
-    console.log(imagetemp);
-    const newFile = dataURLtoFile(imagetemp, todayTime() + ".png");
-
-
-    // 그다음 데이터 형식으로 만들어서 파일로 서버한테 전송 시킨다.
-    const data = new FormData();
-    data.append('file', newFile);
-    console.warn(newFile);
-
-    let url = "/uploader";
+      //파일 사이즈 조절
+      const file = convertedFile;
+      const imagetemp = await resizeFile(file);
+      console.log(imagetemp);
+      const newFile = dataURLtoFile(imagetemp, todayTime() + ".png");
 
 
-    axios.post(url, data, {
-      // 주소와 formdata를 posting 한다
-    })
-      .then(res => {
-        //상태 출력
-        console.warn(res);
-      });
+      // 그다음 데이터 형식으로 만들어서 파일로 서버한테 전송 시킨다.
+      const data = new FormData();
+      data.append('file', newFile);
+      console.warn(newFile);
+
+      let url = "/uploader";
 
 
-    setTimeout(() => {
-      //navigate('/Loading');
-    }, 10000);
-  }
-  else{
-    alert("사진이 정확하지 않습니다 다시 찍어 주세요!")
-  }
+      axios.post(url, data, {
+        // 주소와 formdata를 posting 한다
+      })
+        .then(res => {
+          //상태 출력
+          console.warn(res);
+        });
+
+
+      setTimeout(() => {
+        //navigate('/Loading');
+      }, 10000);
+    }
+    else {
+      alert("사진이 정확하지 않습니다 다시 찍어 주세요!")
+    }
   }
 
   return (
 
-  <div>
-    <div >
-      <Camera ref={camera} className="temp"
-        numberOfCamerasCallback={setNumberOfCameras}
-        aspectRatio={16/12}
+    <div>
 
-        facingMode='environment'
-      />
+      {showImage ? (
+       
+        <div className="App-header3">
+           <Wrapper>
+          <img id="srcImg"
+            className="temp" src={image} alt='이미지 미리보기'>
+          </img>
+          </Wrapper>
+          <button type="submit" className="buttonshow_camera"
+            onClick={() => submit()}> 업로드</button>
+            <button type="submit" className="buttonshow_camera"
+            onClick={() => setShowImage(false)}> 다시 찍기</button>
+   
+        </div>
+        
+      ) : (
+        <div className="App-header3">
+          <Wrapper>
+            <Camera ref={camera} className="temp"
+              numberOfCamerasCallback={setNumberOfCameras}
+              aspectRatio={1 / 1}
+              facingMode='environment'
+              errorMessages={{
+                noCameraAccessible: 'No camera device accessible. Please connect your camera or try a different browser.',
+                permissionDenied: 'Permission denied. Please refresh and give camera permission.',
+                switchCamera:
+                  'It is not possible to switch camera to different one because there is only one video device accessible.',
+                canvas: 'Canvas is not supported.',
+              }}
+            />
+          </Wrapper>
 
-      <img id="srcImg"
-       className="temp" src={image} alt='이미지 미리보기'>
-      </img>
+
+          <button className="buttonshow_camera"
+            onClick={() => {
+              const photo = (camera.current.takePhoto());
+              setImage(photo);
+              setShowImage(true);
+              predict();
+
+            }}
+
+          > 사진 찍기</button>
+
+          <button className="buttonshow_camera"
+            hidden={numberOfCameras <= 1}
+            onClick={() => {
+              const photo = (camera.current.switchCamera());
+              setImage(photo);
+              predict();
+            }}
+          >카메라 전환 </button>
+
+        </div>
+      )
+      }
     </div>
-    <nav className="wrapper">
-      
-      <button className = "buttonshow_cameras"
-        onClick={() => {
-          const photo = (camera.current.takePhoto());
-          setImage(photo);
-          predict();
-
-        }}
-
-      > 사진 찍기</button>
-      <button className = "buttonshow_cameras"
-        hidden={numberOfCameras <= 1}
-        onClick={() => {
-          camera.current.switchCamera();
-
-        }}
-      >카메라 전환 </button>
-      <button type="submit" className = "buttonshow_cameras"
-        onClick={() => submit()}> 업로드 하기</button>
-    </nav>
-  </div>
 
   );
 }
