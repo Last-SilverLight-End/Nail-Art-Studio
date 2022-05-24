@@ -9,14 +9,16 @@ import * as tmImage from '@teachablemachine/image';
 import Resizer from "react-image-file-resizer";
 import styled from "styled-components";
 import TeachableMachine from "@sashido/teachablemachine-node";
+import tempimage from "./KakaoTalk_20211129_161520094.jpg"
 const Component = () => {
 
   const camera = useRef(null);
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [selectedFile, setSelectedFile] = useState('');
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(tempimage);
   const navigate = useNavigate();
   const [showResult, setShowResult] = useState(false);
+  const [Check,setCheck] = useState(false);
   //const [photo,setPhoto] = useState('');
   // const [isLoading,setIsLoading] = useState<Boolean>(false);
 
@@ -27,6 +29,7 @@ const Component = () => {
   const [predictionArr, setPredictionArr] = useState([]);
   let maxPredictions;
   let model;
+
   //현재 시간
   const todayTime = () => {
     let now = new Date().toString();
@@ -89,8 +92,19 @@ const Component = () => {
     const tempImg = document.getElementById('srcImg');
     const prediction = await model.predict(tempImg, false);
     for (let i = 0; i < maxPredictions; i++) {
-      const classPrediction = prediction[i].probability;
-      console.log(prediction[i].probability);
+      const classPrediction = prediction[1].probability;
+      console.log( prediction[i].className + ": " + classPrediction);
+    }
+    console.log(prediction[1].probability);
+    if(prediction[1].probability >=0.1)
+    {
+      setCheck(true);
+      alert("준비 되었습니다! 업로드 하실려면 버튼을 눌러주세요!")
+      //submit();
+    }
+    else{
+      setCheck(false);
+      alert("다시 찍어 주세요");
     }
   }
 
@@ -110,7 +124,8 @@ const Component = () => {
   }
 
   const submit = async () => {
-
+    if(Check ==true)
+    {
     // 먼저 파일 변환 후에 
     const convertedFile = dataURLtoFile(image, todayTime() + ".png");
     console.warn(convertedFile);
@@ -142,21 +157,25 @@ const Component = () => {
     setTimeout(() => {
       //navigate('/Loading');
     }, 10000);
-
+  }
+  else{
+    alert("사진이 정확하지 않습니다 다시 찍어 주세요!")
+  }
   }
 
   return (
-    <div>
+  <div>
       <Camera ref={camera}
         numberOfCamerasCallback={setNumberOfCameras}
-        aspectRatio={16 / 9}
+        aspectRatio={4/3}
         facingMode='environment'
       />
-
-      <img id="srcImg" className="image-size" src={image} alt='이미지 미리보기' />
-
-
-      <button
+      <img id="srcImg"
+       className="image-size" src={image} alt='이미지 미리보기'>
+      </img>
+    <nav className="wrapper">
+      
+      <button className = "buttonshow_cameras"
         onClick={() => {
           const photo = (camera.current.takePhoto());
           setImage(photo);
@@ -165,16 +184,17 @@ const Component = () => {
         }}
 
       > 카메라 사진 찍기</button>
-      <button
+      <button className = "buttonshow_cameras"
         hidden={numberOfCameras <= 1}
         onClick={() => {
           camera.current.switchCamera();
 
         }}
       >카메라 전환 </button>
-      <button type="submit"
+      <button type="submit" className = "buttonshow_cameras"
         onClick={() => submit()}> 업로드 하기</button>
-    </div>
+    </nav>
+  </div>
   );
 }
 
