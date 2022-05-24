@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 `;
 const FullScreenImagePreview = styled.div`
   width: 100%;
-  height: 90%;
+  height: 100%;
   z-index: 100;
   position: absolute;
   background-color: black;
@@ -67,8 +67,8 @@ const Component = () => {
     new Promise((resolve) => {
       Resizer.imageFileResizer(
         file,
-        244,
-        244,
+        416,
+        416,
         "PNG",
         122,
         0,
@@ -180,20 +180,20 @@ const Component = () => {
     <div>
 
       {showImage ? (
-       
+
         <div className="App-header3">
-           <Wrapper>
-          <img id="srcImg"
-            className="temp" src={image} alt='이미지 미리보기'>
-          </img>
+          <Wrapper>
+            <img id="srcImg"
+              className="temp" src={image} alt='이미지 미리보기'>
+            </img>
           </Wrapper>
           <button type="submit" className="buttonshow_camera"
             onClick={() => submit()}> 업로드</button>
-            <button type="submit" className="buttonshow_camera"
+          <button type="submit" className="buttonshow_camera"
             onClick={() => setShowImage(false)}> 다시 찍기</button>
-   
+
         </div>
-        
+
       ) : (
         <div className="App-header3">
           <Wrapper>
