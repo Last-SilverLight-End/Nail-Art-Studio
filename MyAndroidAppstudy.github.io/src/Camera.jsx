@@ -2,153 +2,38 @@ import React, { useState, useRef, useEffect } from "react";
 import { Camera } from "react-camera-pro";
 import "./App.css";
 import axios from 'axios';
-//import * as tf from "@tensorflow/tfjs";
+import * as tf from "@tensorflow/tfjs";
 import { Navigate, useNavigate } from "react-router";
 import * as tmImage from '@teachablemachine/image';
 //import { model } from "@tensorflow/tfjs";
 import Resizer from "react-image-file-resizer";
 
-import styled from 'styled-components';
-
-const Control = styled.div`
-  position: fixed;
-  display: flex;
-  right: 0;
-  width: 20%;
-  min-width: 130px;
-  min-height: 130px;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 50px;
-  box-sizing: border-box;
-  flex-direction: column-reverse;
-  @media (max-aspect-ratio: 1/1) {
-    flex-direction: row;
-    bottom: 0;
-    width: 100%;
-    height: 20%;
-  }
-  @media (max-width: 400px) {
-    padding: 10px;
-  }
-`;
-
-const Wrapper = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-`;
-const FullScreenImagePreview = styled.div`
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  position: absolute;
-  background-color: black;
-  ${({ image }) => (image ? `background-image:  url(${image});` : '')}
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-`;
-
-const ImagePreview = styled.div`
-  width: 100px;
-  height: 100px;
-  ${({ image }) => (image ? `background-image:  url(${image});` : '')}
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  @media (max-width: 400px) {
-    width: 50px;
-    height: 120px;
-  }
-`;
-
-const Button = styled.button`
-  outline: none;
-  color: white;
-  opacity: 1;
-  background: transparent;
-  background-color: transparent;
-  background-position-x: 0%;
-  background-position-y: 0%;
-  background-repeat: repeat;
-  background-image: none;
-  padding: 0;
-  text-shadow: 0px 0px 4px black;
-  background-position: center center;
-  background-repeat: no-repeat;
-  pointer-events: auto;
-  cursor: pointer;
-  z-index: 2;
-  filter: invert(100%);
-  border: none;
-  &:hover {
-    opacity: 0.7;
-  }
-`;
-
-const TakePhotoButton = styled(Button)`
-  background: url('https://img.icons8.com/ios/50/000000/compact-camera.png');
-  background-position: center;
-  background-size: 50px;
-  background-repeat: no-repeat;
-  width: 80px;
-  height: 80px;
-  border: solid 4px black;
-  border-radius: 50%;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-`;
-
-const ChangeFacingCameraButton = styled(Button)`
-  background: url(https://img.icons8.com/ios/50/000000/switch-camera.png);
-  background-position: center;
-  background-size: 40px;
-  background-repeat: no-repeat;
-  width: 40px;
-  height: 40px;
-  padding: 40px;
-  &:disabled {
-    opacity: 0;
-    cursor: default;
-    padding: 60px;
-  }
-  @media (max-width: 400px) {
-    padding: 40px 5px;
-    &:disabled {
-      padding: 40px 25px;
-    }
-  }
-`;
-
-
-
-
+import styled from "styled-components";
+import TeachableMachine from "@sashido/teachablemachine-node";
+import tempimage from "./KakaoTalk_20211129_161520094.jpg"
 
 const Component = () => {
 
   const camera = useRef(null);
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [selectedFile, setSelectedFile] = useState('');
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(tempimage);
   const navigate = useNavigate();
-  const [showResult,setShowResult]=useState(false);
-  const [showImage, setShowImage] = useState(false);
+
+  const [showResult, setShowResult] = useState(false);
+  const [Check,setCheck] = useState(false);
+  //const [photo,setPhoto] = useState('');
+
   // const [isLoading,setIsLoading] = useState<Boolean>(false);
 
   // teachable machine 모텔 불러오기 코드
   const URL = "https://teachablemachine.withgoogle.com/models/Ab3ndS3RI/";
   const modelURL = URL + "model.json";
   const metadataURL = URL + "metadata.json";
-  const [predictionArr,setPredictionArr]=useState([]);
+  const [predictionArr, setPredictionArr] = useState([]);
   let maxPredictions;
   let model;
+
   //현재 시간
   const todayTime = () => {
     let now = new Date().toString();
@@ -157,50 +42,76 @@ const Component = () => {
   // 이미지 resize
 
   const resizeFile = (file) =>
-  new Promise((resolve) => {
-    Resizer.imageFileResizer(
-      file,
-      244,
-      244,
-      "PNG",
-      122,
-      0,
-      (uri) => {
-        resolve(uri);
-      },
-      "base64"
-    );
-  });
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        244,
+        244,
+        "PNG",
+        122,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        "base64"
+      );
+    });
 
-  
-  async function init () {
-    model = await tmImage.load(modelURL,metadataURL);
+
+  async function init() {
+    model = await tmImage.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
 
   }
 
-  
+
+  const ImageContainer = styled.div`
+  position:relative;
+  width: 70%;
+  height: 28%;
+  display:flex;
+  background-color:rgba(0, 0, 0, 0.07);
+  border-radius:10px;
+  /* border:3px dashed #535c68; */
+  justify-content:center;
+  align-items:center;
+  box-shadow: 0px 0px 25px #576574;
+  z-index:5;
+  flex-direction:column;
+  box-shadow: 0px 3px 20px 10px rgba(0, 0, 0, 0.10);
+`;
 
 
 
-  const handleChangeFile = (e) => {
-
-  }
-  async function predict () {
+  async function predict() {
 
 
-    model = await tmImage.load(modelURL,metadataURL);
+
+    model = await tmImage.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
 
 
-    //const tempImage = document.getElementById('srcImg');
-    
-    
-   // const convertedFile = dataURLtoFile(image, todayTime() + ".png");
-    //const prediction = await model.predict(convertedFile);
-   // console.log(prediction[0].probability);
-    //setPredictionArr(prediction)
-    //setShowResult(true)
+
+    // image png 화 시킨 후 -> predict 에 바로 들어갈수 있는지? or  base64 형태로 들어가는지?
+
+
+    const tempImg = document.getElementById('srcImg');
+    const prediction = await model.predict(tempImg, false);
+    for (let i = 0; i < maxPredictions; i++) {
+      const classPrediction = prediction[1].probability;
+      console.log( prediction[i].className + ": " + classPrediction);
+    }
+    console.log(prediction[1].probability);
+    if(prediction[1].probability >=0.1)
+    {
+      setCheck(true);
+      alert("준비 되었습니다! 업로드 하실려면 버튼을 눌러주세요!")
+      //submit();
+    }
+    else{
+      setCheck(false);
+      alert("다시 찍어 주세요");
+    }
   }
 
 
@@ -215,12 +126,13 @@ const Component = () => {
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
     }
-
+    
     return new File([u8arr], fileName, { type: mime });
   }
 
-  const  submit = async() => {
-
+  const submit = async () => {
+    if(Check ==true)
+    {
     // 먼저 파일 변환 후에 
     const convertedFile = dataURLtoFile(image, todayTime() + ".png");
     console.warn(convertedFile);
@@ -236,71 +148,66 @@ const Component = () => {
     const data = new FormData();
     data.append('file', newFile);
     console.warn(newFile);
-    
+
     let url = "/uploader";
 
 
-     axios.post(url, data, {
-        // 주소와 formdata를 posting 한다
-     })
-     .then(res => { 
-       //상태 출력
-         console.warn(res);
-     });
+    axios.post(url, data, {
+      // 주소와 formdata를 posting 한다
+    })
+      .then(res => {
+        //상태 출력
+        console.warn(res);
+      });
 
 
     setTimeout(() => {
       //navigate('/Loading');
     }, 10000);
-
+  }
+  else{
+    alert("사진이 정확하지 않습니다 다시 찍어 주세요!")
+  }
   }
 
   return (
-    <Wrapper>
-      {showImage ? (
-        <FullScreenImagePreview
-          image={image}
-          onClick={() => {
-            setShowImage(!showImage);
-          }}
-          />
-      )
-      :(
-      <Camera ref={camera}
-        numberOfCamerasCallback={setNumberOfCameras}
-        aspectRatio="cover"
-        facingMode='environment'
-        className = "image-size"
-      />
-      )}
 
-    <Control>
-        <ImagePreview
-          image={image}
-          onClick={() => {
-            setShowImage(!showImage);
-          }}
-        />
-        <TakePhotoButton
-          onClick={() => {
-            if (camera.current) {
-              const photo = camera.current.takePhoto();
-              console.log(photo);
-              setImage(photo);
-            }
-          }}
-        />
-        <ChangeFacingCameraButton
-          disabled={numberOfCameras <= 1}
-          onClick={() => {
-            if (camera.current) {
-              const result = camera.current.switchCamera();
-              console.log(result);
-            }
-          }}
-        />
-      </Control>
-    </Wrapper>
+  <div>
+    <div >
+      <Camera ref={camera} className="temp"
+        numberOfCamerasCallback={setNumberOfCameras}
+        aspectRatio={16/12}
+
+        facingMode='environment'
+      />
+
+      <img id="srcImg"
+       className="temp" src={image} alt='이미지 미리보기'>
+      </img>
+    </div>
+    <nav className="wrapper">
+      
+      <button className = "buttonshow_cameras"
+        onClick={() => {
+          const photo = (camera.current.takePhoto());
+          setImage(photo);
+          predict();
+
+        }}
+
+      > 사진 찍기</button>
+      <button className = "buttonshow_cameras"
+        hidden={numberOfCameras <= 1}
+        onClick={() => {
+          camera.current.switchCamera();
+
+        }}
+      >카메라 전환 </button>
+      <button type="submit" className = "buttonshow_cameras"
+        onClick={() => submit()}> 업로드 하기</button>
+    </nav>
+  </div>
+
   );
 }
 
