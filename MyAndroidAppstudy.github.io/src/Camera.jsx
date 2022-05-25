@@ -20,7 +20,8 @@ const Wrapper = styled.div`
   left:0px;
   right:0px;
   margin: auto 0;
-  margin-top: 0.5rem;
+  margin-top: 2rem;
+  margin-bottom :2rem;
     z-index: 1;
 `;
 const FullScreenImagePreview = styled.div`
