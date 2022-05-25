@@ -57,11 +57,12 @@ const SelectPage = () => {
             <img src="08c3d43117adf478.jpg" ></img>
             <h1>Zepeto</h1>
             <form onSubmit= {handleSubmit}>
+                <p>ID</p>
                 <input
                 value = {values.id} 
                 name = "id" 
                 onChange={handleChange}/>
-
+                <p> Password</p>
                 <input
                 value = {values.password}
                 name = "password"
@@ -71,11 +72,25 @@ const SelectPage = () => {
             <button type="submit" disabled= {submitting} className="buttonshow">
                 Zepeto로 안내</button>
             </form>
+
             <h1>SnapChat</h1>
+            <form onSubmit= {handleSubmit}>
+                <p>ID</p>
+                <input
+                value = {values.id} 
+                name = "id" 
+                onChange={handleChange}/>
+                <p> Password</p>
+                <input
+                value = {values.password}
+                name = "password"
+                onChange = {handleChange}
+                />
+            
                 <button className="buttonshow" onClick={() =>
                 window.open('https://accounts.snapchat.com/accounts/login?continue=%2Faccounts%2Fwelcome', '_blank')}>
                 snapchat으로 안내</button>
-
+            </form>
 
         </div>
     );

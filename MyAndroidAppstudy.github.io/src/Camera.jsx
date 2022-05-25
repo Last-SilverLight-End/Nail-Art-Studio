@@ -110,7 +110,7 @@ const Component = () => {
     }
     console.log(prediction[1].probability);
     alert("잠시만 기다려 주세요!");
-    if (prediction[1].probability >= 0.1) {
+    if (prediction[1].probability >= 0.8) {
       setCheck(true);
       alert("준비 되었습니다! 업로드 하실려면 버튼을 눌러주세요!")
       //submit();
@@ -188,9 +188,9 @@ const Component = () => {
               className="temp" src={image} alt='이미지 미리보기'>
             </img>
           </Wrapper>
-          <button type="submit" className="buttonshow_camera"
+          <button type="submit" className="buttonshow_camera2"
             onClick={() => submit()}> 업로드</button>
-          <button type="submit" className="buttonshow_camera"
+          <button type="submit" className="buttonshow_camera2"
             onClick={() => setShowImage(false)}> 다시 찍기</button>
 
         </div>

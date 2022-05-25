@@ -13,6 +13,7 @@ import Loginpage from "./Loginpage";
 import SelectPage from "./SelectPage";
 import Notfound from "./Notfound";
 import finishPage_zepeto from "./finishPage_zepeto";
+import YoloPage from "./YoloPage";
 
 function Buttons() {
     return (
@@ -30,6 +31,7 @@ function Buttons() {
                 <Route path ="/finishPage_zepeto" element={<finishPage_zepeto/>}/>
                 <Route path ="/SelectPage" element={<SelectPage/>}/>
                 <Route path="*" element={<Notfound/>} />
+                <Route path= "/YoloPage" element= {<YoloPage/>}/>
 
             </Routes>
         </Router>
