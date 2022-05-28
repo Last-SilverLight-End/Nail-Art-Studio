@@ -32,6 +32,8 @@ def mask_image():
 
 ##################################################### THE REAL DEAL HAPPENS ABOVE ######################################
 
+
+# 최종적으로 return 받는 곳
 @app.route('/test' , methods=['GET','POST'])
 def test():
 	print("log: got at test" , file=sys.stderr)

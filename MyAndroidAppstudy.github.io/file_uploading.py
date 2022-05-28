@@ -93,10 +93,10 @@ def Rendering():
 ## 여기부터 YOLO 돌리기 위한 작업들 시작
 
 ############################################## THE REAL DEAL ###############################################
-@app.route('/detectObject' , methods=['POST'])
+@app.route('/detectObject' , methods=['GET','POST'])
 def mask_image():
 	# print(request.files , file=sys.stderr)
-	file = request.files['image'].read() ## byte file
+	file = request.files['file'].read() ## byte file
 	npimg = np.fromstring(file, np.uint8)
 	img = cv2.imdecode(npimg,cv2.IMREAD_COLOR)
 	######### Do preprocessing here ################
@@ -121,7 +121,7 @@ def test():
 	print("log: got at test" , file=sys.stderr)
 	return jsonify({'status':'succces'})
 
-@app.route('/finish_yolo')
+@app.route('/')
 def home():
 	return render_template('./index.html')
 

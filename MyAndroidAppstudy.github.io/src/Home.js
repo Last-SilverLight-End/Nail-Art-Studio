@@ -33,6 +33,10 @@ const Home = () => {
          onClick = {CameraClick}> 사진 찍기 및 저장 </button>
 
 
+
+
+
+
         </header>
       </div>
     );

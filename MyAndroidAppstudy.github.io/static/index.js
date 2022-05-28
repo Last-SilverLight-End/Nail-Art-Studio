@@ -6,6 +6,7 @@ window.onload = () => {
 		{
 			let formData = new FormData();
 			formData.append('image' , input.files[0]);
+			console.log(input.files[0])
 			$.ajax({
 				url: "http://localhost:5000/detectObject", // fix this to your liking
 				type:"POST",

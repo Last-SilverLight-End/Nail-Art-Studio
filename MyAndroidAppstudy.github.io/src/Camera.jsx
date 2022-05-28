@@ -140,6 +140,7 @@ const Component = () => {
   const submit = async () => {
     if (Check == true) {
       // 먼저 파일 변환 후에 
+      console.log(image);
       const convertedFile = dataURLtoFile(image, todayTime() + ".png");
       console.warn(convertedFile);
 
