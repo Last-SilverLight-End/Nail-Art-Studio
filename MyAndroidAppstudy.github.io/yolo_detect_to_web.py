@@ -41,8 +41,8 @@ class Detection:
                 model = torch.hub.load(r"./yolov5-master",
                                     'custom', path=model_name, force_reload=True, source="local")
                 return model
-            except:
-                print("Model Name is Wrong!!")
+            except Exception as e:
+                print("Model Name is Wrong!!", e)
                 return None
 
     def score_frame(self, frame):

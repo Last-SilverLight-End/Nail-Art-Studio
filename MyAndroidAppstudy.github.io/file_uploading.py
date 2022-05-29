@@ -14,9 +14,10 @@ import cv2
 import base64
 from yolo_detect_to_web import Detection
 from PIL import Image
-
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 #여기에서 upload 파일 루트 변경해 줘야 한다.
 UPLOAD_FOLD = './public'
@@ -104,6 +105,7 @@ def mask_image():
 	## any random stuff do here
 	################################################
 
+    #여기서 못받음
 	detector = Detection(img,"./nail_best.pt")
 	print(detector.getDetectInfo())
 	img=detector.getImage()

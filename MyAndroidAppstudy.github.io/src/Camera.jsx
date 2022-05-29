@@ -105,14 +105,15 @@ const Component = () => {
     const prediction = await model.predict(tempImg, false);
 
     for (let i = 0; i < maxPredictions; i++) {
-      const classPrediction = prediction[1].probability;
+      const classPrediction = prediction[i].probability;
       console.log(prediction[i].className + ": " + classPrediction);
+      //console.log(prediction[i].probability);
     }
-    console.log(prediction[1].probability);
+    
     alert("잠시만 기다려 주세요!");
-    if (prediction[1].probability >= 0.8) {
+    if (prediction[0].probability >= 0) {
       setCheck(true);
-      alert("준비 되었습니다! 업로드 하실려면 버튼을 눌러주세요!")
+      alert("준비 되었습니다! 업로드 하실려면 버튼을i눌러주세요!")
       //submit();
     }
     else {
@@ -150,13 +151,18 @@ const Component = () => {
       console.log(imagetemp);
       const newFile = dataURLtoFile(imagetemp, todayTime() + ".png");
 
+      if(typeof window !== "undefined"){
+        window.sessionStorage.setItem("image", imagetemp);
+        window.location.href = "/YoloPage";
+      }
+
 
       // 그다음 데이터 형식으로 만들어서 파일로 서버한테 전송 시킨다.
       const data = new FormData();
       data.append('file', newFile);
       console.warn(newFile);
 
-      let url = "/uploader";
+      let url = "http://localhost:5000/uploader";
 
 
       axios.post(url, data, {

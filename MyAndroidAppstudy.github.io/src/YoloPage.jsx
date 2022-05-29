@@ -1,14 +1,29 @@
 
+import { setPlatform } from "@tensorflow/tfjs";
 import axios from "axios";
 import React, { useState, useRef, useEffect, isValidElement } from "react";
 
 import "./App.css";
 import loadingYoloImages from "./KakaoTalk_20211129_161520094.jpg";
-import $ from "jquery";
 const readUrl = (input) => {
 
     console.log(input);
 }
+
+const dataURLtoFile = (dataurl, fileName) => {
+
+    var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], fileName, { type: mime });
+  }
 
 const YoloPage = () => {
 
@@ -18,8 +33,8 @@ const YoloPage = () => {
     const [input,setinput] = useState("");
     const [bytestring,setbytestring] = useState('');
     const [image,setimage] = useState('');
-    const [file, setFile] = useState("");
-
+    const [file, setFile] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
+    const [previewfile, setPreviewFile] = useState(sessionStorage.getItem("image"));
 
     const handleInputChange = (e) => {
 
@@ -28,7 +43,8 @@ const YoloPage = () => {
        // console.log(e.target.files) // 이걸로 먼저 들어온 파일 리스트 인식
         //console.log(e.target.files[0]); // 파일 안의 내용 인식
         
-		setFile(URL.createObjectURL(e.target.files[0]));
+		setPreviewFile(URL.createObjectURL(e.target.files[0]));
+        setFile(e.target.files[0]);
         console.log(file);
 
        
@@ -42,7 +58,8 @@ const YoloPage = () => {
         axios.post(url,formData,{
         }).then(res => {
             console.log(res);
-
+            const bytestring = res.data.status.split('\'')[1];
+            setPreviewFile(`data:image/jpeg;base64,${bytestring}`);
         }).catch(err => {
             console.log("upload error" , err);
         })
@@ -57,7 +74,7 @@ const YoloPage = () => {
                 </p>
 
                 <div className="pre_img">
-                <img src={file} />
+                <img src={previewfile} />
                 </div>
 
                 <form>
