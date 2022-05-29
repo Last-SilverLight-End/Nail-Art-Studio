@@ -64,7 +64,9 @@ const YoloPage = () => {
             console.log("upload error" , err);
         })
     }
-
+    const returnCamera = () =>{
+        window.location.href = "/Camera";
+    }
 
     return (
         <div className='App'>
@@ -80,7 +82,8 @@ const YoloPage = () => {
                 <form>
                     <input id="imageinput" type="file" name="image" onChange={ handleInputChange }  />
                 </form>
-                <button name="send" id="sendbutton" onClick = {() => upLoad()}>Send</button>
+                <button name="send" id="sendbutton" onClick = {() => upLoad()}>손가락 인식</button>
+                <button onClick ={() => returnCamera()}>되돌아가기</button>
             </header>
         </div>
     );
