@@ -110,10 +110,10 @@ const Component = () => {
       //console.log(prediction[i].probability);
     }
     
-    alert("잠시만 기다려 주세요!");
-    if (prediction[0].probability >= 0) {
+    alert(" 잠시만 기다려 주세요! ");
+    if (prediction[0].probability >= 0.8) {
       setCheck(true);
-      alert("준비 되었습니다! 업로드 하실려면 버튼을i눌러주세요!")
+      alert("준비 되었습니다! 업로드 하시려면 버튼을 눌러주세요!")
       //submit();
     }
     else {
@@ -151,7 +151,7 @@ const Component = () => {
       console.log(imagetemp);
       const newFile = dataURLtoFile(imagetemp, todayTime() + ".png");
 
-      if(typeof window !== "undefined"){
+     if(typeof window !== "undefined"){
         window.sessionStorage.setItem("image", imagetemp);
         window.location.href = "/YoloPage";
       }
@@ -162,8 +162,7 @@ const Component = () => {
       data.append('file', newFile);
       console.warn(newFile);
 
-      let url = "http://localhost:5000/uploader";
-
+      let url = "/uploader";
 
       axios.post(url, data, {
         // 주소와 formdata를 posting 한다
@@ -171,6 +170,8 @@ const Component = () => {
         .then(res => {
           //상태 출력
           console.warn(res);
+        }).catch(err => {
+          console.log(err);
         });
 
 

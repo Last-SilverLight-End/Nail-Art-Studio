@@ -1,4 +1,3 @@
-
 import { setPlatform } from "@tensorflow/tfjs";
 import axios from "axios";
 import React, { useState, useRef, useEffect, isValidElement } from "react";
@@ -54,7 +53,7 @@ const YoloPage = () => {
         //console.log(file);
         const formData = new FormData();
         formData.append('file',file)
-        let url = "http://localhost:5000/detectObject";
+        let url = "/detectObject";
         axios.post(url,formData,{
         }).then(res => {
             console.log(res);
@@ -64,9 +63,7 @@ const YoloPage = () => {
             console.log("upload error" , err);
         })
     }
-    const returnCamera = () =>{
-        window.location.href = "/Camera";
-    }
+
 
     return (
         <div className='App'>
@@ -82,8 +79,7 @@ const YoloPage = () => {
                 <form>
                     <input id="imageinput" type="file" name="image" onChange={ handleInputChange }  />
                 </form>
-                <button name="send" id="sendbutton" onClick = {() => upLoad()}>손가락 인식</button>
-                <button onClick ={() => returnCamera()}>되돌아가기</button>
+                <button name="send" id="sendbutton" onClick = {() => upLoad()}>Send</button>
             </header>
         </div>
     );
