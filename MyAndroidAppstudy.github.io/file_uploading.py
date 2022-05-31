@@ -7,14 +7,14 @@ from werkzeug.utils import secure_filename
 import logging
 import imghdr
 logger = logging.getLogger('HELLO WORLD')
-import zepetoInfo
-from ZepetoMain import AutoProcess
+
 import numpy as np 
 import cv2
 import base64
 from yolo_detect_to_web import Detection
 from PIL import Image
 from flask_cors import CORS
+from ZepetoMain import AutoProcess
 
 app = Flask(__name__)
 CORS(app)
@@ -51,24 +51,33 @@ def uploader_file():
     return 'file uploaded successfully'
 
 #여기에서 서버에서 ZepetoInfo 변경 해야 한다 나중에 알략님께 물어볼것
-@app.route('/changeZepeto_Info', methods = ["POST"])
+@app.route('/changeZepeto_Info', methods = ["POST","GET"])
 def change_file_Zepeto():
     id_request = request.files.get('id') #cg45624364235
     pwd_request = request.files.get('pwd') #aSDfasdfasfda
-
-    edited_lines = []
-    with open(zepetoInfo) as f:
+    text_file_path = './zepetoText.txt'
+    new_text_content = ''
+    print(id_request)
+    print(pwd_request)
+    with open(text_file_path,'r') as f:
         lines = f.readlines()
-        for line in lines:
-            if 'id' in line:
-                edited_lines.append('id="%s"' % id_request)
-            if 'pwd' in line:
-                edited_lines.append('pwd="%s"' % pwd_request)
-            else:
-                edited_lines.append(line)
-    with open(zepetoInfo,'w') as f:
-        f.writelines(edited_lines)
+        for i, l in enumerate(lines):
+            if i == 0:
+                new_string = id_request
+            elif i == 1:
+                new_string = pwd_request
+            elif i == 2:
+                new_string = 'sam.png'
+            elif i ==3:
+                new_string = 'sam'
 
+            if new_string:
+                new_text_content += new_string + '\n'
+            else:
+                continue 
+    with open(text_file_path,'w') as f:
+        f.write(new_text_content)
+    return print("finish!")
 
 #api testing data
 @app.route('/data')
@@ -105,7 +114,7 @@ def mask_image():
 	## any random stuff do here
 	################################################
 
-    #여기서 못받음
+    #여기서 못받음 -> 이제 받음
 	detector = Detection(img,"./nail_best.pt")
 	print(detector.getDetectInfo())
 	img=detector.getImage()

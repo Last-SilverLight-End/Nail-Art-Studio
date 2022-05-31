@@ -2,14 +2,21 @@ import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import axios from 'axios';
 import { Navigate, useNavigate } from "react-router";
-
 const ZepetoAuto = () => {
     
 }
 
 const GuideZepeto = () => 
 {
-    window.open('https://studio.zepeto.me/kr/console/auth/signin', '_blank')
+    axios.get('/rendering',
+      )
+      .then(res => { 
+        //상태 출력
+          console.warn(res);
+      })
+      .catch(err => {
+          console.warn(err);
+      })
 }
 
 const SelectPage = () => {
@@ -17,7 +24,7 @@ const SelectPage = () => {
     const [values, setValues] = useState({ id: "", password: "" });
     const [submitting, setSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
-
+    const [previewyolo,setPreviewYolo] = useState(sessionStorage.getItem("image_yolo2"));
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -26,7 +33,9 @@ const SelectPage = () => {
     
     const handleSubmit = (event) => {
         event.preventDefault();
-        setSubmitting(true);       
+        setSubmitting(true);      
+        console.log(values.id);
+        console.log(values.password);
     if (values.id !="" && values.password.length >= 8) {
       alert("로그인 성공");
       // 여기에 fetch 넣고 적용
@@ -35,12 +44,15 @@ const SelectPage = () => {
       formData.append("id",values.id);
       formData.append("pwd",values.password);
 
-      axios.post('/changeZepeto_Info',formData,
+     /* axios.post('/changeZepeto_Info',formData,
       {})
       .then(res => { 
         //상태 출력
           console.warn(res);
       })
+      .catch(err => {
+          console.warn(err);
+      })*/
       GuideZepeto()
     }
     else
@@ -54,7 +66,9 @@ const SelectPage = () => {
     return (
         <div className="App-header">
             <h1 > 사진 미리보기 </h1>
-            <img src="08c3d43117adf478.jpg" ></img>
+            <div className="pre_img">
+                <img src={previewyolo} />   
+            </div>
             <h1>Zepeto</h1>
             <form onSubmit= {handleSubmit}>
                 <p>ID</p>

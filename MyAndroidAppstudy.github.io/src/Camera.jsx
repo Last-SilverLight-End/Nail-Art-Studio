@@ -111,7 +111,7 @@ const Component = () => {
     }
     
     alert(" 잠시만 기다려 주세요! ");
-    if (prediction[0].probability >= 0.8) {
+    if (prediction[0].probability >= 0.0) {
       setCheck(true);
       alert("준비 되었습니다! 업로드 하시려면 버튼을 눌러주세요!")
       //submit();
@@ -177,7 +177,7 @@ const Component = () => {
 
       setTimeout(() => {
         //navigate('/Loading');
-      }, 10000);
+      }, 1000000);
     }
     else {
       alert("사진이 정확하지 않습니다 다시 찍어 주세요!")

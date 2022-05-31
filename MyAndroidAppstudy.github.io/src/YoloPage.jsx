@@ -28,13 +28,13 @@ const YoloPage = () => {
 
     const [yolo_Images, setyolo_Images] = useState(loadingYoloImages);
     const [InputImage, setInputImage] = useState('');
-
+    const [next,setNext] = useState(false);
     const [input,setinput] = useState("");
     const [bytestring,setbytestring] = useState('');
     const [image,setimage] = useState('');
     const [file, setFile] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
     const [previewfile, setPreviewFile] = useState(sessionStorage.getItem("image"));
-
+    const [previewfile2, setPreviewFile2] = useState(sessionStorage.getItem("image"));
     const handleInputChange = (e) => {
 
         console.log(e.target.files[0]);
@@ -54,22 +54,59 @@ const YoloPage = () => {
         const formData = new FormData();
         formData.append('file',file)
         let url = "/detectObject";
+
+        function SelectPageClick(e){
+            window.location.href = "/SelectPage"
+          }
+          console.log(previewfile);
+          
         axios.post(url,formData,{
         }).then(res => {
             console.log(res);
             const bytestring = res.data.status.split('\'')[1];
-            setPreviewFile(`data:image/jpeg;base64,${bytestring}`);
+            setPreviewFile(`data:image/png;base64,${bytestring}`);
+            console.log(previewfile);
+            setNext(true);
+            
+        
         }).catch(err => {
             console.log("upload error" , err);
+            setNext(false);
         })
+        /*setTimeout(() => {
+            if(typeof window !== "undefined"){
+                console.log("gogo");
+                if(previewfile == previewfile2)
+                {
+                    console.log("wtf?");
+                }
+                //window.sessionStorage.setItem("image_yolo", previewfile);
+               // window.location.href = "/SelectPage";
+            }
+        }, 5000);*/
+       // upLoad2();
     }
 
+    const gotoNext = async () => {
+        //console.log(file);
+        
+          
+        setTimeout(() => {
+            if(typeof window !== "undefined"){
+                console.log("gogo");
+                
+                window.sessionStorage.setItem("image_yolo2", previewfile);
+                window.location.href = "/SelectPage";
+            }
+        }, 3000);
+        
+    }
 
     return (
         <div className='App'>
             <header className='App-header'>
                 <p>
-                    Object Detection - YOLO
+                    손이 제대로 인식 되었는지 확인하세요!
                 </p>
 
                 <div className="pre_img">
@@ -80,6 +117,8 @@ const YoloPage = () => {
                     <input id="imageinput" type="file" name="image" onChange={ handleInputChange }  />
                 </form>
                 <button name="send" id="sendbutton" onClick = {() => upLoad()}>Send</button>
+               {/*  <button name="send2" id="sendbutton2" onClick = {() => upLoad2()}>Send2</button> */}
+               <button name = "next" id = "gotonext" onClick = {() => gotoNext()}>go to Next</button>
             </header>
         </div>
     );
