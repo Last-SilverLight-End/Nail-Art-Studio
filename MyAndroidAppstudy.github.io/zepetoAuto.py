@@ -16,7 +16,7 @@ with open(r'locate.json','r')as f:
 zepetoLocate = json_data['Zepeto']['fileName']
 dirLoacte  = json_data['Zepeto']['dirLocate']
 
-dirPath = r'C:/Users/mvr/Desktop/image'
+dirPath = r'C:/Users/Changgeun/Documents/creativethinkingProject/MyAndroidAppstudy.github.io/'
 
 def uploadZepetoAutogui():
     time.sleep(1)

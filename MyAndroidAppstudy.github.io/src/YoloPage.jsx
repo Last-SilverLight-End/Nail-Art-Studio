@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState, useRef, useEffect, isValidElement } from "react";
 
 import "./App.css";
-import loadingYoloImages from "./KakaoTalk_20211129_161520094.jpg";
+import loadingYoloImages from "./slimeimg1.png";
 const readUrl = (input) => {
 
     console.log(input);
@@ -33,8 +33,10 @@ const YoloPage = () => {
     const [bytestring,setbytestring] = useState('');
     const [image,setimage] = useState('');
     const [file, setFile] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
+    const [file2, setFile2] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
     const [previewfile, setPreviewFile] = useState(sessionStorage.getItem("image"));
     const [previewfile2, setPreviewFile2] = useState(sessionStorage.getItem("image"));
+    const [gotonextcheck, setGoToNextCheck] = useState(false);
     const handleInputChange = (e) => {
 
         console.log(e.target.files[0]);
@@ -44,7 +46,10 @@ const YoloPage = () => {
         
 		setPreviewFile(URL.createObjectURL(e.target.files[0]));
         setFile(e.target.files[0]);
+        setPreviewFile2(URL.createObjectURL(e.target.files[0]));
+        setFile2(e.target.files[0]);
         console.log(file);
+        console.log(file2);
 
        
     };
@@ -62,11 +67,22 @@ const YoloPage = () => {
           
         axios.post(url,formData,{
         }).then(res => {
-            console.log(res);
-            const bytestring = res.data.status.split('\'')[1];
-            setPreviewFile(`data:image/png;base64,${bytestring}`);
-            console.log(previewfile);
-            setNext(true);
+            console.log(res.data);
+            if(res.data == "error occured")
+            {
+                console.log("not good")
+                setGoToNextCheck(false);
+                setPreviewFile(loadingYoloImages)
+            }
+            else{
+                console.log("good")
+                setGoToNextCheck(true);
+                const bytestring = res.data.status.split('\'')[1];
+                setPreviewFile(`data:image/png;base64,${bytestring}`);
+                console.log(previewfile);
+                setNext(true);
+            }
+           
             
         
         }).catch(err => {
@@ -95,7 +111,7 @@ const YoloPage = () => {
             if(typeof window !== "undefined"){
                 console.log("gogo");
                 
-                window.sessionStorage.setItem("image_yolo2", previewfile);
+                window.sessionStorage.setItem("image_yolo2", previewfile2);
                 window.location.href = "/SelectPage";
             }
         }, 3000);
@@ -110,7 +126,8 @@ const YoloPage = () => {
                 </p>
 
                 <div className="pre_img">
-                <img src={previewfile} />
+                {gotonextcheck ? <img src={previewfile} /> : <img src = {previewfile2}/>}
+               
                 </div>
 
                 <form>

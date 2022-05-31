@@ -34,25 +34,26 @@ const SelectPage = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         setSubmitting(true);      
-        console.log(values.id);
-        console.log(values.password);
+       
     if (values.id !="" && values.password.length >= 8) {
       alert("로그인 성공");
       // 여기에 fetch 넣고 적용
-      const formData = new FormData();
+      const formdata = new FormData();
 
-      formData.append("id",values.id);
-      formData.append("pwd",values.password);
+      formdata.append("data" ,values.id);
+      formdata.append("pwd" , values.password);
 
-     /* axios.post('/changeZepeto_Info',formData,
-      {})
+      console.log(values.id);
+      console.log(values.password);
+     axios.post('/changeZepetoInfo',formdata,
+     )
       .then(res => { 
         //상태 출력
           console.warn(res);
       })
       .catch(err => {
           console.warn(err);
-      })*/
+      })
       GuideZepeto()
     }
     else
@@ -88,23 +89,20 @@ const SelectPage = () => {
             </form>
 
             <h1>SnapChat</h1>
-            <form onSubmit= {handleSubmit}>
-                <p>ID</p>
-                <input
-                value = {values.id} 
-                name = "id" 
-                onChange={handleChange}/>
-                <p> Password</p>
-                <input
-                value = {values.password}
-                name = "password"
-                onChange = {handleChange}
-                />
+
+       
             
                 <button className="buttonshow" onClick={() =>
                 window.open('https://accounts.snapchat.com/accounts/login?continue=%2Faccounts%2Fwelcome', '_blank')}>
                 snapchat으로 안내</button>
-            </form>
+
+            <h1>NFT</h1>
+
+       
+            
+                <button className="buttonshow" onClick={() =>
+                window.open('https://accounts.snapchat.com/accounts/login?continue=%2Faccounts%2Fwelcome', '_blank')}>
+                NFT로 안내</button>
 
         </div>
     );
