@@ -24,7 +24,7 @@ const SelectPage = () => {
     const [values, setValues] = useState({ id: "", password: "" });
     const [submitting, setSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
-    const [previewyolo,setPreviewYolo] = useState(sessionStorage.getItem("image_yolo2"));
+    const [previewyolo,setPreviewYolo] = useState(sessionStorage.getItem("image_yolo3"));
 
     const handleChange = (event) => {
         const { name, value } = event.target;

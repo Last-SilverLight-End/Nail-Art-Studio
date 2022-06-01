@@ -1,7 +1,7 @@
 import { setPlatform } from "@tensorflow/tfjs";
 import axios from "axios";
 import React, { useState, useRef, useEffect, isValidElement } from "react";
-
+import FileBase64 from 'react-file-base64';
 import "./App.css";
 import loadingYoloImages from "./slimeimg1.png";
 const readUrl = (input) => {
@@ -36,8 +36,10 @@ const YoloPage = () => {
     const [file2, setFile2] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
     const [previewfile, setPreviewFile] = useState(sessionStorage.getItem("image"));
     const [previewfile2, setPreviewFile2] = useState(sessionStorage.getItem("image"));
-    const [gotonextcheck, setGoToNextCheck] = useState(false);
-    const handleInputChange = (e) => {
+    const [gotonextcheck, setGoToNextCheck] = useState(true);
+    const [savebase64data, setSaveBase64Data] = useState("");
+
+    const handleInputChange = async (e) => {
 
         console.log(e.target.files[0]);
 
@@ -51,11 +53,25 @@ const YoloPage = () => {
         console.log(file);
         console.log(file2);
 
-       
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onloadend = () => {
+            const base64data = reader.result;
+            console.log(base64data);
+            setSaveBase64Data(base64data);
+        }
+
+
+    
     };
 
     const upLoad = async () => {
-        //console.log(file);
+        
+        console.warn("upload")
+        console.log(file);
+        console.log(file2);
+
+
         const formData = new FormData();
         formData.append('file',file)
         let url = "/detectObject";
@@ -73,6 +89,7 @@ const YoloPage = () => {
                 console.log("not good")
                 setGoToNextCheck(false);
                 setPreviewFile(loadingYoloImages)
+                
             }
             else{
                 console.log("good")
@@ -89,30 +106,26 @@ const YoloPage = () => {
             console.log("upload error" , err);
             setNext(false);
         })
-        /*setTimeout(() => {
-            if(typeof window !== "undefined"){
-                console.log("gogo");
-                if(previewfile == previewfile2)
-                {
-                    console.log("wtf?");
-                }
-                //window.sessionStorage.setItem("image_yolo", previewfile);
-               // window.location.href = "/SelectPage";
-            }
-        }, 5000);*/
+
        // upLoad2();
     }
 
     const gotoNext = async () => {
         //console.log(file);
-        
+       
           
         setTimeout(() => {
             if(typeof window !== "undefined"){
                 console.log("gogo");
-                
-                window.sessionStorage.setItem("image_yolo2", previewfile2);
-                window.location.href = "/SelectPage";
+                console.log(gotonextcheck);
+                if(gotonextcheck == false)
+                {
+                    window.sessionStorage.setItem("image_yolo3", savebase64data);
+                   // window.location.href = "/SelectPage";
+                }
+                else{
+                    alert("이미지가 좋지 않습니다 다른 이미지로 시도해 주세요!")
+                }
             }
         }, 3000);
         
@@ -126,7 +139,7 @@ const YoloPage = () => {
                 </p>
 
                 <div className="pre_img">
-                {gotonextcheck ? <img src={previewfile} /> : <img src = {previewfile2}/>}
+                {gotonextcheck ? <img src={previewfile} /> : <img src = {loadingYoloImages}/>}
                
                 </div>
 
