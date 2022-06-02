@@ -68,18 +68,20 @@ const YoloPage = () => {
     const upLoad = async () => {
         
         console.warn("upload")
-        console.log(file);
-        console.log(file2);
+        console.log(file.name);
+        console.log(file2.name);
+        let directory_file = "./"
 
 
         const formData = new FormData();
         formData.append('file',file)
         let url = "/detectObject";
 
+
         function SelectPageClick(e){
             window.location.href = "/SelectPage"
           }
-          console.log(previewfile);
+         // console.log(previewfile);
           
         axios.post(url,formData,{
         }).then(res => {
@@ -96,7 +98,7 @@ const YoloPage = () => {
                 setGoToNextCheck(true);
                 const bytestring = res.data.status.split('\'')[1];
                 setPreviewFile(`data:image/png;base64,${bytestring}`);
-                console.log(previewfile);
+                //console.log(previewfile);
                 setNext(true);
             }
            
@@ -112,22 +114,52 @@ const YoloPage = () => {
 
     const gotoNext = async () => {
         //console.log(file);
-       
+
+        const formData = new FormData();
+        formData.append('file',file2);
+        let route = file2.name;
+        console.log(route);
+        formData.append('route',route);
+        let url = "/cropping"
+
+        axios.post(url,formData,{
+        }).then(res => {
+            console.log(res.data);
+            if(res.data == "error occured")
+            {
+                console.log("not good")
+                setGoToNextCheck(false);
+                setPreviewFile(loadingYoloImages);
+            }
+
+            else{
+                console.log("good")
+                setGoToNextCheck(true);
+            }
+           
+            
+        
+        }).catch(err => {
+            console.log("upload error" , err);
+            setNext(false);
+        })
           
-        setTimeout(() => {
+        /*setTimeout(() => {
+
+            
             if(typeof window !== "undefined"){
                 console.log("gogo");
                 console.log(gotonextcheck);
-                if(gotonextcheck == false)
+                if(gotonextcheck == true)
                 {
                     window.sessionStorage.setItem("image_yolo3", savebase64data);
-                   // window.location.href = "/SelectPage";
+                   window.location.href = "/SelectPage";
                 }
                 else{
                     alert("이미지가 좋지 않습니다 다른 이미지로 시도해 주세요!")
                 }
             }
-        }, 3000);
+        }, 3000000);*/
         
     }
 
