@@ -6,7 +6,6 @@ import cv2
 import os
 from glob import glob
 import numpy as np
-from PIL import Image
 def createFolder(dir):
     try:
         if not os.path.exists(dir):
@@ -39,15 +38,15 @@ class Cropper:
             cv2.imwrite(dir+f"{key}_{self.rawFileName}.jpg",val)
     def get_opencv_dict(self):
         return self.openCV_dict
+    def save_as_json_opencv_dict(self,dir_path):
+        import json
+        with open(dir_path,"w+") as f:
+            f.write(json.dumps({key: val.tolist() for key,val in self.openCV_dict.items()}))
     def openJsonPath(fileName):
         import json
         with open(os.path.abspath(".")+"/"+fileName,"r") as f:
             data=json.load(f)
         return data
-    def save_as_json_opencv_dict(self,dir_path):
-        import json
-        with open(dir_path,"w+") as f:
-            f.write(json.dumps({key: val.tolist() for key,val in self.openCV_dict.items()}))
 def openJsonPath(fileName):
     import json
     with open(os.path.abspath(".")+"/"+fileName,"r") as f:
@@ -67,14 +66,14 @@ class Merge:
         "Ring":[38,1,84,104],
         "Middle":[86,1,135,108],
         "Index":[137,1,184,106],
-        "Thumb":[186,1,254,124]
+        "Thumb":[186,1,254,124],
         },
         "Bottom":{
         "Thumb": [2,254,69,131],
         "Index":  [71,254,118,149],
         "Middle":[120,254,169,148],
         "Pinky": [171,254,217,151],
-        "Ring": [ 219,254,254,177]
+        "Ring": [ 219,254,254,177],
         }
     }
     def swapper(self,a,b):
@@ -88,19 +87,13 @@ class Merge:
             for (key,val) in val.items():
                 x1,y1,x2,y2=val
                 [x1,x2],[y1,y2]=self.swapper(x1,x2),self.swapper(y1,y2)
-                #print("that is : ",dict[key])
-                temp=cv2.resize(dict[key],(x2-x1,y2-y1))
+                temp=cv2.resize(self.dict[key],(x2-x1,y2-y1))
                 mergeImg[y1:y2,x1:x2]= cv2.flip(temp,0)if flag else temp
         return mergeImg
     def get_nft_merge(self):
         mergeImg=None
-        for key in ["Thumb","Index","Middle","Pinky","Ring"]:
-            print("asdfasdf : ", key)
-            print(dict[key])
-            #im = im.permute(0, 2, 3, 1).cpu().numpy()
-            #im = Image.fromarray((im[0] * 255).astype('uint8'))
-            #im = im.resize((192, 320), Image.ANTIALIAS)
-            temp=cv2.resize(dict[key],(100,100),interpolation = cv2.INTER_AREA)
+        for key in self.nft_template:
+            temp=cv2.resize(self.dict[key],(100,100))
             mergeImg=temp if mergeImg is None else cv2.hconcat((mergeImg,temp))
         return mergeImg
 ### 사용 예시
@@ -113,10 +106,8 @@ class Merge:
 #dict=cropper.get_opencv_dict()# {손톱 라벨: 손톱 이미지}로 매핑된 딕셔너리 구조를 반환한다.
 
 
-#merge=Merge(opencv_dict=dict)
-#print(merge.dict)#{손톱 라벨: 손톱 이미지} 딕셔너리로 인스턴스 생성
+#merge=Merge(opencv_dict=dict)#{손톱 라벨: 손톱 이미지} 딕셔너리로 인스턴스 생성
 #nft_merge_img=merge.get_nft_merge()#nft 합병 이미지 가져옴
 #zepeto_merge_img=merge.get_zepeto_merge()# 제페토 합병 이미지 가져옴
-
 #Merge.save_img_by_path(nft_merge_img,"./hello.png")# 특정 디렉토리에 이미지 저장
 #Merge.save_img_by_path(zepeto_merge_img,"./hello.png")# 특정 디렉토리에 이미지 저장

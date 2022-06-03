@@ -58,6 +58,11 @@ class Cropper:
         with open(os.path.abspath(".")+"/"+fileName,"r") as f:
             data=json.load(f)
         return data
+    def openJsonPath(fileName):
+        import json
+        with open(os.path.abspath(".")+"/"+fileName,"r") as f:
+            data=json.load(f)
+        return data        
     
             
 def openJsonPath(fileName):
@@ -105,7 +110,7 @@ class Merge:
                 for (key,val) in val.items():
                     x1,y1,x2,y2=val
                     [x1,x2],[y1,y2]=self.swapper(x1,x2),self.swapper(y1,y2)
-                    temp=cv2.resize(dict[key],(x2-x1,y2-y1))
+                    temp=cv2.resize(self.dict[key],(x2-x1,y2-y1))
                     mergeImg[y1:y2,x1:x2]= cv2.flip(temp,0)if flag else temp
             return mergeImg
         except Exception as e:
@@ -115,7 +120,7 @@ class Merge:
         try:
             mergeImg=None
             for key in ["Thumb","Index","Middle","Pinky","Ring"]:
-                temp=cv2.resize(dict[key],(100,100))
+                temp=cv2.resize(self.dict[key],(100,100))
                 mergeImg=temp if mergeImg is None else cv2.hconcat((mergeImg,temp))
             return mergeImg
         except Exception as e:

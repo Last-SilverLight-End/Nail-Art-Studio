@@ -122,7 +122,7 @@ const YoloPage = () => {
         formData.append('route',route);
         let url = "/cropping"
 
-        axios.post(url,formData,{
+       /* axios.post(url,formData,{
         }).then(res => {
             console.log(res.data);
             if(res.data == "error occured")
@@ -142,9 +142,9 @@ const YoloPage = () => {
         }).catch(err => {
             console.log("upload error" , err);
             setNext(false);
-        })
-          
-        /*setTimeout(() => {
+        })*/
+        
+        setTimeout(() => {
 
             
             if(typeof window !== "undefined"){
@@ -153,14 +153,16 @@ const YoloPage = () => {
                 if(gotonextcheck == true)
                 {
                     window.sessionStorage.setItem("image_yolo3", savebase64data);
-                   window.location.href = "/SelectPage";
+                    //window.location.href = "/SelectPage";
+                    setPreviewFile("http://localhost:5000/bringimg")
+                    //setPreviewFile(require("./../image/nft_image.png"))  
                 }
                 else{
                     alert("이미지가 좋지 않습니다 다른 이미지로 시도해 주세요!")
                 }
             }
-        }, 3000000);*/
-        
+        }, 3000);
+    
     }
 
     return (

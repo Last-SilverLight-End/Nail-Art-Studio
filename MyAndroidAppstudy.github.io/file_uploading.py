@@ -12,13 +12,14 @@ import io
 import sys
 import py_compile
 from tkinter import W
-from flask import Flask, render_template, request, session, Blueprint, jsonify
+from flask import Flask,send_from_directory ,render_template, request, session, Blueprint, jsonify,send_file
 from werkzeug.utils import secure_filename
 import logging
 import imghdr
 from Cropper import Cropper ,Merge
 logger = logging.getLogger('HELLO WORLD')
 from typing import OrderedDict
+from pathlib import Path
 
 app = Flask(__name__)
 CORS(app)
@@ -64,6 +65,21 @@ def uploader_file():
     return 'file uploaded successfully'
 
 # 여기에서 서버에서 ZepetoInfo 변경 해야 한다 나중에 알략님께 물어볼것
+
+@app.route('/bringimg', methods=['GET', 'POST'])
+def bring_img():
+    files = os.listdir(UPLOAD_FOLD)
+    files_path = ('./image/nft_image.png')
+    filename = "nft_image.png"
+    nofilename = "slimeimg1.png"
+    myfile = Path(app.config['UPLOAD_FOLDER'] + "/"+filename)
+   # if (files_path.exists()):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+        filename, as_attachment=True)
+    #else:
+    #    return send_from_directory(app.config['UPLOAD_FOLDER'],
+    #    nofilename, as_attachment=True)
+
 
 
 @app.route('/changeZepetoInfo', methods=["POST", "GET"])
@@ -125,52 +141,7 @@ image=None
 ############################################## THE REAL DEAL ###############################################
 @app.route('/cropping', methods=['GET', 'POST'])
 def crop_image():
-    def __init__(self,opencv_dict):
-        self.dict=opencv_dict
-        self.nft_template=["Thumb","Index","Middle","Pinky","Ring"]
-        self.zepeto_template={
-        "Top":{
-        "Pinky":[1,1,36,77],
-        "Ring":[38,1,84,104],
-        "Middle":[86,1,135,108],
-        "Index":[137,1,184,106],
-        "Thumb":[186,1,254,124]
-        },
-        "Bottom":{
-        "Thumb": [2,254,69,131],
-        "Index":  [71,254,118,149],
-        "Middle":[120,254,169,148],
-        "Pinky": [171,254,217,151],
-        "Ring": [ 219,254,254,177]
-        }
-    }
-    
-    def swapper(self,a,b):
-        return [a,b] if a<b else [b,a]
 
-    def get_nft_merge(self):
-        mergeImg=None
-        for key in ["Thumb","Index","Middle","Pinky","Ring"]:
-            print("asdfasdf : ", key)
-            print(dict[key])
-            #im = im.permute(0, 2, 3, 1).cpu().numpy()
-            #im = Image.fromarray((im[0] * 255).astype('uint8'))
-            #im = im.resize((192, 320), Image.ANTIALIAS)
-            temp=cv2.resize(dict[key],(100,100),interpolation = cv2.INTER_AREA)
-            mergeImg=temp if mergeImg is None else cv2.hconcat((mergeImg,temp))
-        return mergeImg
-        
-    def get_zepeto_merge(self):
-        mergeImg=255-np.zeros((256,256,3),dtype=np.uint8)
-        flag=False
-        for val in self.zepeto_template.values():
-            flag=True
-            for (key,val) in val.items():
-                x1,y1,x2,y2=val
-                [x1,x2],[y1,y2]=self.swapper(x1,x2),self.swapper(y1,y2)
-                #print("that is : ",dict[key])
-                temp=cv2.resize(dict[key],(x2-x1,y2-y1))
-                mergeImg[y1:y2,x1:x2]= cv2.flip(temp,0)if flag else temp
     try:
         route_request = request.form.get('route')
         file = request.files['file'].read()
@@ -188,17 +159,16 @@ def crop_image():
         dict=cropper.get_opencv_dict()
         #print(dict)
      
-        dict = np.array(dict)
         merge=Merge(opencv_dict=dict)
         print("heelo", merge.dict)
-        #nft_merge_img=get_nft_merge(merge)
+        nft_merge_img=merge.get_nft_merge()
         zepeto_merge_img=merge.get_zepeto_merge()
-        #Merge.save_img_by_path(nft_merge_img,"./image/nft_image.png")
+        Merge.save_img_by_path(nft_merge_img,"./image/nft_image.png")
         Merge.save_img_by_path(zepeto_merge_img,"./image/zepeto_image.png")
         print("finished")
         return "finish"
     except Exception as e:
-        print("Model Name is Wrong!3!", e)
+        print("Model Name is Wrong!3!  ", e)
         return "error occured"
 
 
