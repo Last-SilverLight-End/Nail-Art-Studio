@@ -142,3 +142,33 @@ nav > button {
   right:0px;
 
 }
+.showRotateImage {
+  width: 200px;
+  height : 200px;
+  margin : 0.3em;
+}
+
+.rotatebuttonLeft{
+  background: transparent;
+  border-radius: 3px;
+  border: 2px solid yellow;
+  margin-top: 1rem;
+  color: yellow;
+  margin: 0.5em;
+  padding: 0.25em 1em;
+  font-size: 20px;
+  margin-bottom: 10px;
+
+}
+
+.rotatebuttonRight{
+  background: transparent;
+  border-radius: 3px;
+  border: 2px solid yellow;
+  margin-top: 1rem;
+  color: yellow;
+  margin: 0.5em;
+  padding: 0.25em 1em;
+  font-size: 20px;
+  margin-bottom: 10px;
+}

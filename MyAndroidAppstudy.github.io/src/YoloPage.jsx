@@ -1,7 +1,7 @@
 import { setPlatform } from "@tensorflow/tfjs";
 import axios from "axios";
 import React, { useState, useRef, useEffect, isValidElement } from "react";
-import FileBase64 from 'react-file-base64';
+
 import "./App.css";
 import loadingYoloImages from "./slimeimg1.png";
 const readUrl = (input) => {
@@ -152,9 +152,10 @@ const YoloPage = () => {
                 console.log(gotonextcheck);
                 if(gotonextcheck == true)
                 {
-                    window.sessionStorage.setItem("image_yolo3", savebase64data);
-                    //window.location.href = "/SelectPage";
-                    setPreviewFile("http://localhost:5000/bringimg")
+                    window.sessionStorage.setItem("image_yolo3", previewfile);
+                    window.location.href = "/SelectPage";
+                    // crop 과 merge 해서 보여주는 코드
+                   // setPreviewFile("http://localhost:5000/bringimg")
                     //setPreviewFile(require("./../image/nft_image.png"))  
                 }
                 else{

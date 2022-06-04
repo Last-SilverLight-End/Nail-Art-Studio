@@ -64,6 +64,15 @@ def uploader_file():
         app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
     return 'file uploaded successfully'
 
+# 각각 이미지 send
+@app.route('/uploader2', methods=['GET', 'POST'])
+def uploader_file2():
+    f = request.files['file']
+    finger_name = request.form.get('name')
+    f.save(os.path.join(
+        app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+    return 'file2 uploaded successfully'
+
 # 여기에서 서버에서 ZepetoInfo 변경 해야 한다 나중에 알략님께 물어볼것
 
 @app.route('/bringimg', methods=['GET', 'POST'])
