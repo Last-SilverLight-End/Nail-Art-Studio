@@ -34,135 +34,75 @@ const YoloPage = () => {
     const [image, setimage] = useState('');
     const [file, setFile] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
     const [file2, setFile2] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
-    const [previewfile, setPreviewFile] = useState(sessionStorage.getItem("image"));
-    const [previewfile2, setPreviewFile2] = useState(sessionStorage.getItem("image"));
-    const [gotonextcheck, setGoToNextCheck] = useState(true);
+    const [previewfile0, setPreviewFile0] = useState("http://localhost:5000/bringimg2/finger0.png");
+    const [previewfile1, setPreviewFile1] = useState("http://localhost:5000/bringimg2/finger1.png");
+    const [previewfile2, setPreviewFile2] = useState("http://localhost:5000/bringimg2/finger2.png");
+    const [previewfile3, setPreviewFile3] = useState("http://localhost:5000/bringimg2/finger3.png");
+    const [previewfile4, setPreviewFile4] = useState("http://localhost:5000/bringimg2/finger4.png");
     const [savebase64data, setSaveBase64Data] = useState("");
     const [rotate, setRotate] = useState([0, 0, 0, 0, 0]);
     const [rotateleft, setRotateleft] = useState(0);
-    const handleInputChange = async (e) => {
-
-        console.log(e.target.files[0]);
-
-        // console.log(e.target.files) // 이걸로 먼저 들어온 파일 리스트 인식
-        //console.log(e.target.files[0]); // 파일 안의 내용 인식
-
-        setPreviewFile(URL.createObjectURL(e.target.files[0]));
-        setFile(e.target.files[0]);
-        setPreviewFile2(URL.createObjectURL(e.target.files[0]));
-        setFile2(e.target.files[0]);
-        console.log(file);
-        console.log(file2);
-
-        const reader = new FileReader();
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onloadend = () => {
-            const base64data = reader.result;
-            console.log(base64data);
-            setSaveBase64Data(base64data);
-        }
 
 
 
-    };
+    const previewFiles = [previewfile0, previewfile1, previewfile2, previewfile3, previewfile4];
 
-    
 
     const Submit = async () => {
+
+
         for (let i = 0; i < 5; i++) {
-            const canvas = document.createElement("canvas");
 
-            canvas.width = 200;
-            canvas.height = 200;
-            let image_temp = document.getElementById(`image${i}`);
-            let ctx = canvas.getContext("2d");
-            drawRotated(rotate[i])
-            function drawRotated(degrees) {
+            const image_temp2 = document.createElement("img")
+            image_temp2.src = previewFiles[i];
+            image_temp2.crossOrigin = 'anonymous';
+            image_temp2.onload = () => {
+                const canvas = document.createElement("canvas");
 
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.save();
-                ctx.translate(canvas.width / 2, canvas.height / 2);
-                ctx.rotate(degrees * Math.PI / 180);
-                ctx.drawImage(image_temp, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
-                ctx.restore();
+                canvas.width = 200;
+                canvas.height = 200;
+                let image_temp = document.getElementById(`image${i}`);
+
+                let ctx = canvas.getContext("2d");
+                drawRotated(rotate[i])
+                function drawRotated(degrees) {
+
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.save();
+                    ctx.translate(canvas.width / 2, canvas.height / 2);
+                    ctx.rotate(degrees * Math.PI / 180);
+                    ctx.drawImage(image_temp2, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+                    ctx.restore();
+
+                } 
+                console.log(canvas.toDataURL());
+
+                const formData = new FormData();
+                let name = "finger" + i;
+                const convertedFile = dataURLtoFile(canvas.toDataURL(), name + ".png");
+
+                console.warn(convertedFile)
+                formData.append('file', convertedFile)
+                formData.append('name', name);
+
+                let url = "/uploader2";
+                axios.post(url, formData, {
+                }).then(res => {
+                    console.log(res.data);
+                    if (res.data == "error occured") {
+                        console.log("not good")
+                        console.log(res.data)
+                    }
+                    else {
+                        console.log("good")
+                        console.log(res.data)
+                    }
+
+                }).catch(err => {
+                    console.log("upload error", err);
+                })
             }
-            console.log(canvas.toDataURL());
-
-            const formData = new FormData();
-            let name = "finger" + i;
-            const convertedFile = dataURLtoFile(canvas.toDataURL(), name + ".png");
-            console.warn(convertedFile)
-            formData.append('file', convertedFile)
-            formData.append('name', name);
-            let url = "/uploader2";
-
-            axios.post(url, formData, {
-            }).then(res => {
-                console.log(res.data);
-                if (res.data == "error occured") {
-                    console.log("not good")
-                }
-                else {
-                    console.log("good")
-                }
-
-            }).catch(err => {
-                console.log("upload error", err);
-            })
         }
-
-    }
-
-    const gotoNext = async () => {
-        //console.log(file);
-
-        const formData = new FormData();
-        formData.append('file', file2);
-        let route = file2.name;
-        console.log(route);
-        formData.append('route', route);
-        let url = "/cropping"
-
-        /* axios.post(url,formData,{
-         }).then(res => {
-             console.log(res.data);
-             if(res.data == "error occured")
-             {
-                 console.log("not good")
-                 setGoToNextCheck(false);
-                 setPreviewFile(loadingYoloImages);
-             }
- 
-             else{
-                 console.log("good")
-                 setGoToNextCheck(true);
-             }
-            
-             
-         
-         }).catch(err => {
-             console.log("upload error" , err);
-             setNext(false);
-         })*/
-
-        setTimeout(() => {
-
-
-            if (typeof window !== "undefined") {
-                console.log("gogo");
-                console.log(gotonextcheck);
-                if (gotonextcheck == true) {
-                    window.sessionStorage.setItem("image_yolo3", previewfile);
-                    window.location.href = "/SelectPage";
-                    // crop 과 merge 해서 보여주는 코드
-                    // setPreviewFile("http://localhost:5000/bringimg")
-                    //setPreviewFile(require("./../image/nft_image.png"))  
-                }
-                else {
-                    alert("이미지가 좋지 않습니다 다른 이미지로 시도해 주세요!")
-                }
-            }
-        }, 3000);
 
     }
 
@@ -176,8 +116,6 @@ const YoloPage = () => {
         setRotate([...rotate]);
     }
 
-    const previewFiles = [previewfile, previewfile2, previewfile, previewfile, previewfile];
-
     //let a = [];
 
     //a[0] = 1;   // a = [ 1 ];
@@ -188,7 +126,7 @@ const YoloPage = () => {
         <div className='App'>
             <header className='App-header'>
                 <p>
-                    손가락 돌려보세요!
+                    손가락 돌려보세요! 쪼님 허리 접기 전에
                 </p>
 
                 <div className="pre_img" style={{ display: 'flex' }}>
@@ -210,7 +148,7 @@ const YoloPage = () => {
 
                 {/* <button name="send" id="sendbutton" onClick={() => upLoad()}>Send</button> */}
                 {/*  <button name="send2" id="sendbutton2" onClick = {() => upLoad2()}>Send2</button> */}
-                <button name="next" id="gotonext" onClick={() => gotoNext()}>go to Next</button>
+
             </header>
         </div>
     );

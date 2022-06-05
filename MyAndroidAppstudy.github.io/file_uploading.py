@@ -1,3 +1,4 @@
+from unicodedata import name
 from charset_normalizer import detect
 import numpy as np
 from ZepetoMain import AutoProcess
@@ -89,7 +90,22 @@ def bring_img():
     #    return send_from_directory(app.config['UPLOAD_FOLDER'],
     #    nofilename, as_attachment=True)
 
-
+@app.route('/bringimg2/<path:filename>', methods=['GET', 'POST'])
+def bring_img2(filename):
+    print(filename)
+    name_request = request.form.get('filenaming')
+   # print(name_request)
+    #files = os.listdir(UPLOAD_FOLD)
+    print("hello")
+    print(name_request)
+    filenames = "nft_image.png"
+    #finger_name = request.form.get('name')
+    #print(finger_name)
+    myfile = Path(app.config['UPLOAD_FOLDER'] + "/")
+   # if (files_path.exists()):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+        filename, as_attachment=True)
+        
 
 @app.route('/changeZepetoInfo', methods=["POST", "GET"])
 def change_file_Zepeto():
@@ -156,16 +172,17 @@ def crop_image():
         file = request.files['file'].read()
         
        # print("file is : ",file)
-        print("route is :",  route_request)
+        print("route is :", "image/"+route_request)
         print(type(route_request))
         print(route_request)
 
-        image=Cropper.get_img_by_path("05_06_True_24.jpg")
-        #print(image)
+        image=Cropper.get_img_by_path("image/"+route_request)
+        print(image)
         detect_json=Cropper.openJsonPath("DetectStructure.json")
 
         cropper = Cropper(image,detect_json)
         dict=cropper.get_opencv_dict()
+        print(cropper.img_save("image"))
         #print(dict)
      
         merge=Merge(opencv_dict=dict)

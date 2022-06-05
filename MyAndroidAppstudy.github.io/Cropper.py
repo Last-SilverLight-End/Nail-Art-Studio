@@ -32,10 +32,16 @@ class Cropper:
             [x1,x2],[y1,y2]=self.swapper(x1,x2),self.swapper(y1,y2)
             output=self.Image[y1:y2,x1:x2].copy()#얕은 복사!! .copy()=> 깊은 복사!!
             self.openCV_dict[key]=output
+
+
     def img_save(self,dir_path):#현재 저장하는 디렉토리 최종 위치만 저장
         dir=createFolder(os.path.abspath(".")+f"/{dir_path}/")
+        i=0
         for key,val in self.openCV_dict.items():
-            cv2.imwrite(dir+f"{key}_{self.rawFileName}.jpg",val)
+            
+            print(dir+f"finger{i}.png")
+            cv2.imwrite(dir+f"finger{i}.png",val)
+            i+=1
     def get_opencv_dict(self):
         return self.openCV_dict
     def save_as_json_opencv_dict(self,dir_path):
@@ -98,12 +104,13 @@ class Merge:
         return mergeImg
 ### 사용 예시
 #이미지와 영역 감지 json을 경로에서 받아오는 것, 필수 아님
-#image=Cropper.get_img_by_path("05_06_True_24.jpg")
-#detect_json=openJsonPath("DetectStructure.json")
+#image=Cropper.get_img_by_path("MyAndroidAppstudy.github.io/05_06_True_24.jpg")
+#detect_json=openJsonPath("MyAndroidAppstudy.github.io/DetectStructure.json")
 
 #이미지와 영역감지 딕셔너리으로 인스턴스 생성
 #cropper=Cropper(image,detect_json)
 #dict=cropper.get_opencv_dict()# {손톱 라벨: 손톱 이미지}로 매핑된 딕셔너리 구조를 반환한다.
+#cropper.img_save("MyAndroidAppstudy.github.io/image")
 
 
 #merge=Merge(opencv_dict=dict)#{손톱 라벨: 손톱 이미지} 딕셔너리로 인스턴스 생성
