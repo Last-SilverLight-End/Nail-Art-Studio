@@ -1,4 +1,3 @@
-from unicodedata import name
 from charset_normalizer import detect
 import numpy as np
 from ZepetoMain import AutoProcess
@@ -105,7 +104,6 @@ def bring_img2(filename):
    # if (files_path.exists()):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
         filename, as_attachment=True)
-        
 
 @app.route('/changeZepetoInfo', methods=["POST", "GET"])
 def change_file_Zepeto():
@@ -172,20 +170,20 @@ def crop_image():
         file = request.files['file'].read()
         
        # print("file is : ",file)
-        print("route is :", "image/"+route_request)
+        print("route is :",  route_request)
         print(type(route_request))
         print(route_request)
 
-        image=Cropper.get_img_by_path("image/"+route_request)
-        print(image)
+        image=Cropper.get_img_by_path("05_06_True_24.jpg")
+        #print(image)
         detect_json=Cropper.openJsonPath("DetectStructure.json")
 
         cropper = Cropper(image,detect_json)
         dict=cropper.get_opencv_dict()
-        print(cropper.img_save("image"))
-        #print(dict)
-     
-        merge=Merge(opencv_dict=dict)
+        cropper.img_save("image")
+        print(dict)
+        dict = Merge.get_opencv_dict_by_path("./image")
+        merge=Merge(opencv_dict=Merge.get_opencv_dict_by_path("./image"))
         print("heelo", merge.dict)
         nft_merge_img=merge.get_nft_merge()
         zepeto_merge_img=merge.get_zepeto_merge()
@@ -194,8 +192,41 @@ def crop_image():
         print("finished")
         return "finish"
     except Exception as e:
-        print("Model Name is Wrong!3!  ", e)
+        print("Model Name is Wrong! 3 !  ", e)
         return "error occured"
+
+@app.route('/cropping2', methods=['GET', 'POST'])
+def crop_image2():
+
+    try:
+        #route_request = request.form.get('route')
+        #file = request.files['file'].read()
+        
+       # print("file is : ",file)
+        #print("route is :",  route_request)
+        #print(type(route_request))
+        #print(route_request)
+
+        #image=Cropper.get_img_by_path("05_06_True_24.jpg")
+        #print(image)
+        #detect_json=Cropper.openJsonPath("DetectStructure.json")
+
+        #cropper = Cropper(image,detect_json)
+        #dict=cropper.get_opencv_dict()
+        #cropper.img_save("image")
+        #print(dict)
+        #dict = Merge.get_opencv_dict_by_path("./image")
+        merge=Merge(opencv_dict=Merge.get_opencv_dict_by_path("./image"))
+        print("heelo", merge.dict)
+        nft_merge_img=merge.get_nft_merge()
+        zepeto_merge_img=merge.get_zepeto_merge()
+        Merge.save_img_by_path(nft_merge_img,"./image/nft_image.png")
+        Merge.save_img_by_path(zepeto_merge_img,"./image/zepeto_image.png")
+        print("finished")
+        return "finish"
+    except Exception as e:
+        print("Model Name is Wrong! 323 !  ", e)
+        return "error occured2"
 
 
 @app.route('/detectObject', methods=['GET', 'POST'])

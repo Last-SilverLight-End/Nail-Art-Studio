@@ -36,10 +36,6 @@ const YoloPage = () => {
     const [file2, setFile2] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
     const [previewfile, setPreviewFile] = useState(sessionStorage.getItem("image"));
     const [previewfile2, setPreviewFile2] = useState(sessionStorage.getItem("image"));
-    const [previewfile3, setPreviewFile3] = useState(sessionStorage.getItem("image"));
-    const [previewfile4, setPreviewFile4] = useState(sessionStorage.getItem("image"));
-    const [previewfile0, setPreviewFile0] = useState(sessionStorage.getItem("image"));
-    const [previewfile1, setPreviewFile1] = useState(sessionStorage.getItem("image"));
     const [gotonextcheck, setGoToNextCheck] = useState(true);
     const [savebase64data, setSaveBase64Data] = useState("");
 
@@ -52,7 +48,6 @@ const YoloPage = () => {
         
 		setPreviewFile(URL.createObjectURL(e.target.files[0]));
         setFile(e.target.files[0]);
-        console.log(URL.createObjectURL(e.target.files[0]))
         setPreviewFile2(URL.createObjectURL(e.target.files[0]));
         setFile2(e.target.files[0]);
         console.log(file);
@@ -82,6 +77,11 @@ const YoloPage = () => {
         formData.append('file',file)
         let url = "/detectObject";
 
+
+        function SelectPageClick(e){
+            window.location.href = "/SelectPage"
+          }
+         // console.log(previewfile);
           
         axios.post(url,formData,{
         }).then(res => {
@@ -118,27 +118,24 @@ const YoloPage = () => {
         const formData = new FormData();
         formData.append('file',file2);
         let route = file2.name;
-        console.log(file2);
         console.log(route);
         formData.append('route',route);
         let url = "/cropping"
 
-       axios.post(url,formData,{
+        axios.post(url,formData,{
         }).then(res => {
             console.log(res.data);
             if(res.data == "error occured")
             {
                 console.log("not good")
                 setGoToNextCheck(false);
-                //setPreviewFile(loadingYoloImages);
+                setPreviewFile(loadingYoloImages);
             }
-
             else{
                 console.log("good")
                 setGoToNextCheck(true);
             }
            
-            
         
         }).catch(err => {
             console.log("upload error" , err);
@@ -154,7 +151,6 @@ const YoloPage = () => {
                 if(gotonextcheck == true)
                 {
                     window.sessionStorage.setItem("image_yolo3", previewfile);
-
                     window.location.href = "/SelectPage";
                     // crop 과 merge 해서 보여주는 코드
                    // setPreviewFile("http://localhost:5000/bringimg")
@@ -164,7 +160,7 @@ const YoloPage = () => {
                     alert("이미지가 좋지 않습니다 다른 이미지로 시도해 주세요!")
                 }
             }
-        }, 300000);
+        }, 3000000);
     
     }
 

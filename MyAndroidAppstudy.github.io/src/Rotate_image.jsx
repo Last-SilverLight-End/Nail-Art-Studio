@@ -34,11 +34,11 @@ const YoloPage = () => {
     const [image, setimage] = useState('');
     const [file, setFile] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
     const [file2, setFile2] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
-    const [previewfile0, setPreviewFile0] = useState("http://localhost:5000/bringimg2/finger0.png");
-    const [previewfile1, setPreviewFile1] = useState("http://localhost:5000/bringimg2/finger1.png");
-    const [previewfile2, setPreviewFile2] = useState("http://localhost:5000/bringimg2/finger2.png");
-    const [previewfile3, setPreviewFile3] = useState("http://localhost:5000/bringimg2/finger3.png");
-    const [previewfile4, setPreviewFile4] = useState("http://localhost:5000/bringimg2/finger4.png");
+    const [previewfile0, setPreviewFile0] = useState("http://localhost:5000/bringimg2/Thumb.png");
+    const [previewfile1, setPreviewFile1] = useState("http://localhost:5000/bringimg2/Index.png");
+    const [previewfile2, setPreviewFile2] = useState("http://localhost:5000/bringimg2/Middle.png");
+    const [previewfile3, setPreviewFile3] = useState("http://localhost:5000/bringimg2/Ring.png");
+    const [previewfile4, setPreviewFile4] = useState("http://localhost:5000/bringimg2/Pinky.png");
     const [savebase64data, setSaveBase64Data] = useState("");
     const [rotate, setRotate] = useState([0, 0, 0, 0, 0]);
     const [rotateleft, setRotateleft] = useState(0);
@@ -49,8 +49,8 @@ const YoloPage = () => {
 
 
     const Submit = async () => {
-
-
+        const finger_name = ["Thumb","Index","Middle","Pinky","Ring"]
+        
         for (let i = 0; i < 5; i++) {
 
             const image_temp2 = document.createElement("img")
@@ -78,7 +78,7 @@ const YoloPage = () => {
                 console.log(canvas.toDataURL());
 
                 const formData = new FormData();
-                let name = "finger" + i;
+                let name = finger_name[i];
                 const convertedFile = dataURLtoFile(canvas.toDataURL(), name + ".png");
 
                 console.warn(convertedFile)
@@ -101,8 +101,36 @@ const YoloPage = () => {
                 }).catch(err => {
                     console.log("upload error", err);
                 })
+                let url2 = "/cropping2"
+                axios.get(url2,{
+                }).then(res => {
+                    console.log(res.data);
+                    if(res.data == "error occured")
+                    {
+                        console.log("not good")
+                       
+                    }
+                    else{
+                        console.log("good")
+                        
+                    }
+                   
+                
+                }).catch(err => {
+                    console.log("upload error" , err);
+                    
+                })
             }
+
+
         }
+
+    /*    let url2 = "/uploading"
+        const formData2 = new FormData();
+        formData2.append('route')
+        axios.post(ulr2,formData2{
+
+        }).*/
 
     }
 
@@ -126,7 +154,7 @@ const YoloPage = () => {
         <div className='App'>
             <header className='App-header'>
                 <p>
-                    손가락 돌려보세요! 쪼님 허리 접기 전에
+                    손가락 돌려보세요! 
                 </p>
 
                 <div className="pre_img" style={{ display: 'flex' }}>
