@@ -24,10 +24,11 @@ class AutoProcess:
 
         #upload()
         self.uploadImage()
-        
-        self.writeInfo(self)
+        print(text)
+        self.writeInfo()
 
         self.info.close()
+        time.sleep(1)
         self.driver.quit()
 
     def LogInInfo2(self,form,id,pwd):
@@ -92,19 +93,22 @@ class AutoProcess:
         
 
     def writeInfo(self):
-        with open(r'zepetoText.txt','r') as info:
-            text = info.readlines()
-        self.driver.implicitly_wait(3)
-        self.driver.find_element_by_xpath('//*[@id="user_name"]').send_keys(text[3])
-        print('이름 입력')
+        # # with open(r'zepetoText.txt','r') as info:
+        # #     text = info.readlines()
+        # self.driver.implicitly_wait(3)
+        # self.driver.find_element_by_xpath('//*[@id="user_name"]').send_keys(text[3])
+        # print('이름 입력')
 
-        time.sleep(10)
-        self.driver.implicitly_wait(10)
+        # time.sleep(10)
+        # self.driver.implicitly_wait(10)
+        # self.driver.find_element_by_xpath('/html/body/div[6]/div/div/div/header/div/button[1]').click()
+
+        # time.sleep(1)
+        # self.driver.find_element_by_xpath('/html/body/div[6]/div/div/div/button').click()
+        #오류
         self.driver.find_element_by_xpath('/html/body/div[6]/div/div/div/header/div/button[1]').click()
-
         time.sleep(1)
-        self.driver.find_element_by_xpath('/html/body/div[6]/div/div/div/button').click()
-
+        print('완료')
   
 if __name__ == '__main__':
     autoprocess = AutoProcess()

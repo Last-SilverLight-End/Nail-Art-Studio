@@ -121,7 +121,7 @@ def change_file_Zepeto():
             elif i == 1:
                 new_string = pwd_request
             elif i == 2:
-                new_string = 'sam.png'
+                new_string = 'zepeto_image.png'
 
             if new_string:
                 new_text_content += new_string + '\n'

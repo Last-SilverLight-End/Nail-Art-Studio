@@ -122,6 +122,8 @@ const YoloPage = () => {
                 })
             }
 
+            window.location.href = "/SelectPage";
+
 
         }
 

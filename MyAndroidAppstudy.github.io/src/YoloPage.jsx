@@ -151,7 +151,7 @@ const YoloPage = () => {
                 if(gotonextcheck == true)
                 {
                     window.sessionStorage.setItem("image_yolo3", previewfile);
-                    window.location.href = "/SelectPage";
+                    window.location.href = "/Rotate_image";
                     // crop 과 merge 해서 보여주는 코드
                    // setPreviewFile("http://localhost:5000/bringimg")
                     //setPreviewFile(require("./../image/nft_image.png"))  
@@ -160,7 +160,7 @@ const YoloPage = () => {
                     alert("이미지가 좋지 않습니다 다른 이미지로 시도해 주세요!")
                 }
             }
-        }, 3000000);
+        }, 3000);
     
     }
 

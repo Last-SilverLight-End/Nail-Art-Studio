@@ -70,7 +70,7 @@ class Merge:
 
     def __init__(self,opencv_dict):
         self.raw_dict=opencv_dict
-        self.nft_template=["Thumb","Index","Middle","Pinky","Ring"]
+        self.nft_template=["Thumb","Index","Middle","Ring","Pinky"]
         self.dict={}
         self.zepeto_template={
         "Top":{
@@ -84,8 +84,8 @@ class Merge:
         "Thumb": [2,254,69,131],
         "Index":  [71,254,118,149],
         "Middle":[120,254,169,148],
-        "Pinky": [171,254,217,151],
-        "Ring": [ 219,254,254,177]
+        "Ring": [171,254,217,151],
+        "Pinky": [ 219,254,254,177]
         }
     }
         self.__call__()
@@ -104,18 +104,18 @@ class Merge:
         b_x_center,b_y_center=int(b.shape[1]/2),int(b.shape[0]/2)
         x1,x2,y1,y2=b_x_center-a_x_center,b_x_center+a_x_center,b_y_center-a_y_center,b_y_center+a_y_center
         c=b[y1:y2,x1:x2]
-        return c[int(c.shape[0]*1/10):,]
+        return cv2.flip(c[int(c.shape[0]*1/10):,],0)
     #제페토 형식으로 합병 후 해당 이미지 형식 반환
     def get_zepeto_merge(self):
         mergeImg=255-np.zeros((256,256,3),dtype=np.uint8)
         flag=False
         for val in self.zepeto_template.values():
-            flag=True
             for (key,val) in val.items():
                 x1,y1,x2,y2=val
                 [x1,x2],[y1,y2]=self.swapper(x1,x2),self.swapper(y1,y2)
                 temp=cv2.resize(self.dict[key],(x2-x1,y2-y1))
-                mergeImg[y1:y2,x1:x2]= cv2.flip(temp,0)if flag else temp
+                mergeImg[y1:y2,x1:x2]=temp if flag else cv2.flip(temp,0)
+            flag=True
         return mergeImg
     def get_nft_merge(self):
         mergeImg=None
