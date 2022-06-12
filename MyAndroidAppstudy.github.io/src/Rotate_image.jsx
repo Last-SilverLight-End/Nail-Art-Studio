@@ -158,7 +158,6 @@ const YoloPage = () => {
                 <p>
                     손가락 돌려보세요! 
                 </p>
-
                 <div className="pre_img" style={{ display: 'flex' }}>
                     {Array(5).fill().map((_, i) => <div key={i}>
                         <div style={{ overflow: "hidden" }}>
@@ -166,8 +165,8 @@ const YoloPage = () => {
                                 style={{ transform: `rotate(${rotate[i]}deg)` }} />
                         </div>
                         <br />
-                        <button className="rotatebuttonLeft" onClick={() => { Rotating_Left(i) }}>Right</button>
-                        <button className="rotatebuttonRight" onClick={() => { Rotating_Right(i) }}>Left</button>
+                        <button className="rotatebuttonLeft" onClick={() => { Rotating_Left(i) }}>Left</button>
+                        <button className="rotatebuttonRight" onClick={() => { Rotating_Right(i) }}>Right</button>
                     </div>)}
                 </div>
 

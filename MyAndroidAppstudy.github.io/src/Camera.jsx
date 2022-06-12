@@ -7,11 +7,12 @@ import { Navigate, useNavigate } from "react-router";
 import * as tmImage from '@teachablemachine/image';
 //import { model } from "@tensorflow/tfjs";
 import Resizer from "react-image-file-resizer";
-
+import Modal from "./Modal";
 import styled from "styled-components";
 import asdf from "./Loginpage"
 
-import tempimage from './KakaoTalk_20211129_161520094.jpg'
+import tempimage from "./showExampleImg.png"
+import finishPage_zepeto from "finishPage_zepeto";
 
 const Wrapper = styled.div`
   background-position: center;
@@ -47,7 +48,24 @@ const Component = () => {
   const [showImage, setShowImage] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [Check, setCheck] = useState(false);
+  const [Check2, setCheck2] = useState(false);
   const canvasRef = useRef(null);
+  const [modalOpen, setModalOpen] = useState(true);
+  const [readyModalOpen, setReadyModalOpen] = useState(false);
+  const [readyModalOpen2, setReadyModalOpen2] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  }; 
+  const readyCloseModal = () => {
+    setReadyModalOpen(false);
+  }
+  const readyCloseModal2 = () => {
+    setReadyModalOpen2(false);
+  }
   //const [photo,setPhoto] = useState('');
 
   // teachable machine 모텔 불러오기 코드
@@ -93,7 +111,7 @@ const Component = () => {
   async function predict() {
 
 
-
+    setCheck2(false);
     model = await tmImage.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
 
@@ -111,18 +129,22 @@ const Component = () => {
       //console.log(prediction[i].probability);
     }
     
-    alert(" 잠시만 기다려 주세요! ");
+    
     if (prediction[0].probability >= 0.0) {
       setCheck(true);
-      alert("준비 되었습니다! 업로드 하시려면 버튼을 눌러주세요!")
+      
+      // alert("준비 되었습니다! 업로드 하시려면 버튼을 눌러주세요!")
       //submit();
+      setReadyModalOpen(true);
     }
     else {
       setCheck(false);
-      alert("다시 찍어 주세요");
-    }
-  }
 
+      //alert("다시 찍어 주세요");
+      setReadyModalOpen2(true);
+    }
+    setCheck2(true);
+  }
 
   const dataURLtoFile = (dataurl, fileName) => {
 
@@ -180,21 +202,31 @@ const Component = () => {
 
 
       setTimeout(() => {
-        //navigate('/Loading');
-      }, 1000);
+       // navigate('/Loading');
+       navigate('/YoloPage');
+      }, 2000);
     }
     else {
-      alert("사진이 정확하지 않습니다 다시 찍어 주세요!")
+      if(Check2 == false)
+      alert("잠시만 기다려 주세요!")
+      else if(Check == false)
+      alert("잘못된 사진 입니다 다시 찍어 주세요!")
     }
   }
+  console.log(readyModalOpen);
 
   return (
 
     <div>
-
       {showImage ? (
 
         <div className="App-header3">
+          {readyModalOpen && <Modal open close={readyCloseModal} header= "완료 되었습니다!">
+            준비 되었습니다! 업로드 하시려면 버튼을 눌러주세요!
+          </Modal>}
+          {readyModalOpen2 && <Modal open close={readyCloseModal2} header= "완료 되었습니다!">
+          사진이 정확하지 않습니다 다시 찍어 주세요!
+          </Modal>}
           <Wrapper>
             <img id="srcImg"
               className="temp" src={image} alt='이미지 미리보기'>
@@ -209,6 +241,10 @@ const Component = () => {
 
       ) : (
         <div className="App-header3">
+          <Modal open={modalOpen} close={closeModal} header= "사진 찍는 방법">
+          이런 형식으로 찍어주세요!
+            <img  style={{ width: "100%", height: "100%x" }} src = {tempimage}></img>
+          </Modal>
           <Wrapper>
             <Camera ref={camera} className="temp"
               numberOfCamerasCallback={setNumberOfCameras}
