@@ -76,7 +76,9 @@ const YoloPage = () => {
         const formData = new FormData();
         formData.append('file',file)
         let url = "/detectObject";
-
+        let route = file2.name;
+        console.log(route);
+        formData.append('route',route);
 
         function SelectPageClick(e){
             window.location.href = "/SelectPage"
@@ -130,6 +132,7 @@ const YoloPage = () => {
                 console.log("not good")
                 setGoToNextCheck(false);
                 setPreviewFile(loadingYoloImages);
+                alert("잘못 되었습니다 다시 찍어주세요!")
             }
             else{
                 console.log("good")
@@ -139,7 +142,8 @@ const YoloPage = () => {
         
         }).catch(err => {
             console.log("upload error" , err);
-            setNext(false);
+            alert("잘못 되었습니다 다시 찍어주세요!")
+            setGoToNextCheck(false);
         })
         
         setTimeout(() => {
@@ -151,7 +155,7 @@ const YoloPage = () => {
                 if(gotonextcheck == true)
                 {
                     window.sessionStorage.setItem("image_yolo3", previewfile);
-                    window.location.href = "/Rotate_image";
+                    //window.location.href = "/Rotate_image";
                     // crop 과 merge 해서 보여주는 코드
                    // setPreviewFile("http://localhost:5000/bringimg")
                     //setPreviewFile(require("./../image/nft_image.png"))  
@@ -160,7 +164,7 @@ const YoloPage = () => {
                     alert("이미지가 좋지 않습니다 다른 이미지로 시도해 주세요!")
                 }
             }
-        }, 3000);
+        }, 2000);
     
     }
 
@@ -176,12 +180,12 @@ const YoloPage = () => {
                
                 </div>
 
-                <form>
-                    <input id="imageinput" type="file" name="image" onChange={ handleInputChange }  />
+                <form >
+                    <input id="imageinput"  type="file" name="image" onChange={ handleInputChange }  />
                 </form>
-                <button name="send" id="sendbutton" onClick = {() => upLoad()}>Send</button>
+                <button name="send" className="rotatebuttonLeft" id="sendbutton" onClick = {() => upLoad()}>Send</button>
                {/*  <button name="send2" id="sendbutton2" onClick = {() => upLoad2()}>Send2</button> */}
-               <button name = "next" id = "gotonext" onClick = {() => gotoNext()}>go to Next</button>
+               <button name = "next" className="rotatebuttonLeft" id = "gotonext" onClick = {() => gotoNext()}>go to Next</button>
             </header>
         </div>
     );

@@ -40,6 +40,8 @@
         await predict();
         window.requestAnimationFrame(loop);
     }
+    
+    // 빌어머글 내가 내 코드 쳐 못알아 먹겟네 이게 나라냐
 
     // run the webcam image through the image model
     async function predict() {

@@ -122,7 +122,7 @@ const YoloPage = () => {
                 })
             }
 
-            window.location.href = "/SelectPage";
+            //window.location.href = "/SelectPage";
 
 
         }
@@ -166,13 +166,13 @@ const YoloPage = () => {
                                 style={{ transform: `rotate(${rotate[i]}deg)` }} />
                         </div>
                         <br />
-                        <button className="rotatebuttonLeft" onClick={() => { Rotating_Left(i) }}>돌리기</button>
-                        <button className="rotatebuttonRight" onClick={() => { Rotating_Right(i) }}>돌리기</button>
+                        <button className="rotatebuttonLeft" onClick={() => { Rotating_Left(i) }}>Right</button>
+                        <button className="rotatebuttonRight" onClick={() => { Rotating_Right(i) }}>Left</button>
                     </div>)}
                 </div>
 
                 <div>
-                    <button className=" submit " onClick={() => { Submit() }}> 저장하기</button>
+                    <button className="rotatebuttonLeft" Name=" submit "  onClick={() => { Submit() }}> 저장하기</button>
                 </div>
 
 

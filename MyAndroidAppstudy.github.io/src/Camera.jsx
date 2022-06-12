@@ -9,8 +9,9 @@ import * as tmImage from '@teachablemachine/image';
 import Resizer from "react-image-file-resizer";
 
 import styled from "styled-components";
+import asdf from "./Loginpage"
 
-import tempimage from "./KakaoTalk_20211129_161520094.jpg"
+import tempimage from './KakaoTalk_20211129_161520094.jpg'
 
 const Wrapper = styled.div`
   background-position: center;
@@ -56,7 +57,7 @@ const Component = () => {
   const [predictionArr, setPredictionArr] = useState([]);
   let maxPredictions;
   let model;
-
+  let imagenametemp;
   //현재 시간
   const todayTime = () => {
     let now = new Date().toString();
@@ -142,18 +143,21 @@ const Component = () => {
     if (Check == true) {
       // 먼저 파일 변환 후에 
       console.log(image);
-      const convertedFile = dataURLtoFile(image, todayTime() + ".png");
+      const convertedFile = dataURLtoFile(image, "anonymous" + ".png");
       console.warn(convertedFile);
 
       //파일 사이즈 조절
       const file = convertedFile;
       const imagetemp = await resizeFile(file);
       console.log(imagetemp);
-      const newFile = dataURLtoFile(imagetemp, todayTime() + ".png");
+
+      const newFile = dataURLtoFile(imagetemp, "tempo" + ".png");
+      
 
      if(typeof window !== "undefined"){
         window.sessionStorage.setItem("image", imagetemp);
-        window.location.href = "/YoloPage";
+        //window.sessionStoarage.setItem("imageName",imagetemp.name)
+       // window.location.href = "/YoloPage";
       }
 
 
@@ -177,7 +181,7 @@ const Component = () => {
 
       setTimeout(() => {
         //navigate('/Loading');
-      }, 1000000);
+      }, 1000);
     }
     else {
       alert("사진이 정확하지 않습니다 다시 찍어 주세요!")

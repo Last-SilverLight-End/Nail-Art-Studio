@@ -50,6 +50,7 @@ const SelectPage = () => {
       .then(res => { 
         //상태 출력
           console.warn(res);
+          alert("다 완료 했습니다!")
       })
       .catch(err => {
           console.warn(err);

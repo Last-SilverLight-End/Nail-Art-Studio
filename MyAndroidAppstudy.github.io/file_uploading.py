@@ -174,7 +174,7 @@ def crop_image():
         print(type(route_request))
         print(route_request)
 
-        image=Cropper.get_img_by_path("05_06_True_24.jpg")
+        image=Cropper.get_img_by_path("/image/tempo.png")
         #print(image)
         detect_json=Cropper.openJsonPath("DetectStructure.json")
 
@@ -191,6 +191,7 @@ def crop_image():
         Merge.save_img_by_path(zepeto_merge_img,"./image/zepeto_image.png")
         print("finished")
         return "finish"
+        
     except Exception as e:
         print("Model Name is Wrong! 3 !  ", e)
         return "error occured"
