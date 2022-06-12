@@ -171,7 +171,7 @@ const YoloPage = () => {
                 </div>
 
                 <div>
-                    <button className="rotatebuttonLeft" Name=" submit "  onClick={() => { Submit() }}> 저장하기</button>
+                    <button className="rotatebuttonLeft" name=" submit "  onClick={() => { Submit() }}> 저장하기</button>
                 </div>
 
 

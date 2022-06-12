@@ -72,7 +72,7 @@ const YoloPage = () => {
         console.log(file2.name);
         let directory_file = "./"
 
-
+        console.log(file)
         const formData = new FormData();
         formData.append('file',file)
         let url = "/detectObject";
@@ -119,6 +119,20 @@ const YoloPage = () => {
 
         const formData = new FormData();
         formData.append('file',file2);
+
+        let url0 = "/uploader"
+        axios.post(url0, formData, {
+            // 주소와 formdata를 posting 한다
+          })
+            .then(res => {
+              //상태 출력
+              console.warn(res);
+            }).catch(err => {
+              console.log(err);
+            });
+
+
+        console.log(file2)
         let route = file2.name;
         console.log(route);
         formData.append('route',route);
@@ -155,7 +169,7 @@ const YoloPage = () => {
                 if(gotonextcheck == true)
                 {
                     window.sessionStorage.setItem("image_yolo3", previewfile);
-                    window.location.href = "/Rotate_image";
+                    //window.location.href = "/Rotate_image";
                     // crop 과 merge 해서 보여주는 코드
                    // setPreviewFile("http://localhost:5000/bringimg")
                     //setPreviewFile(require("./../image/nft_image.png"))  

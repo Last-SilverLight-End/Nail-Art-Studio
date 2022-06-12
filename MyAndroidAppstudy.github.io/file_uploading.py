@@ -174,7 +174,7 @@ def crop_image():
         print(type(route_request))
         print(route_request)
 
-        image=Cropper.get_img_by_path("/image/tempo.png")
+        image=Cropper.get_img_by_path("/image/"+route_request)
         #print(image)
         detect_json=Cropper.openJsonPath("DetectStructure.json")
 
