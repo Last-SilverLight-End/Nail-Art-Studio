@@ -169,7 +169,8 @@ const YoloPage = () => {
                 if(gotonextcheck == true)
                 {
                     window.sessionStorage.setItem("image_yolo3", previewfile);
-                    //window.location.href = "/Rotate_image";
+                    window.sessionStorage.setItem("image_name",file2.name)
+                    window.location.href = "/Rotate_image";
                     // crop 과 merge 해서 보여주는 코드
                    // setPreviewFile("http://localhost:5000/bringimg")
                     //setPreviewFile(require("./../image/nft_image.png"))  

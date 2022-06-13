@@ -181,7 +181,7 @@ def crop_image():
         cropper = Cropper(image,detect_json)
         dict=cropper.get_opencv_dict()
         cropper.img_save("image")
-        print(dict)
+       
         dict = Merge.get_opencv_dict_by_path("./image")
         merge=Merge(opencv_dict=Merge.get_opencv_dict_by_path("./image"))
         print("heelo", merge.dict)
@@ -218,16 +218,20 @@ def crop_image2():
         #print(dict)
         #dict = Merge.get_opencv_dict_by_path("./image")
         merge=Merge(opencv_dict=Merge.get_opencv_dict_by_path("./image"))
-        print("heelo", merge.dict)
+       # print("heelo", merge.dict)
         nft_merge_img=merge.get_nft_merge()
         zepeto_merge_img=merge.get_zepeto_merge()
+        print(" hei ")
+        print( merge )
+        merge.save_retouching_image()
         Merge.save_img_by_path(nft_merge_img,"./image/nft_image.png")
         Merge.save_img_by_path(zepeto_merge_img,"./image/zepeto_image.png")
-        print("finished")
+        print(" finished")
         return "finish"
     except Exception as e:
         print("Model Name is Wrong! 323 !  ", e)
         return "error occured2"
+
 
 
 @app.route('/detectObject', methods=['GET', 'POST'])
