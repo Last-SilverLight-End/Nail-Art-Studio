@@ -106,6 +106,7 @@ class Merge:
         c=b[y1:y2,x1:x2]
         return cv2.flip(c[int(c.shape[0]*1/10):,],0)
     #제페토 형식으로 합병 후 해당 이미지 형식 반환
+   
     def get_zepeto_merge(self):
         mergeImg=255-np.zeros((256,256,3),dtype=np.uint8)
         flag=False
@@ -117,6 +118,12 @@ class Merge:
                 mergeImg[y1:y2,x1:x2]=temp if flag else cv2.flip(temp,0)
             flag=True
         return mergeImg
+
+    def save_retouching_image(self):
+        for (key,item) in self.dict.items():
+            print(key)
+            self.save_img_by_path(item,f"./image/{key}.jpg")
+
     def get_nft_merge(self):
         mergeImg=None
         for key in self.nft_template:
@@ -136,5 +143,6 @@ class Merge:
 #merge=Merge(opencv_dict=dict)#{손톱 라벨: 손톱 이미지} 딕셔너리로 인스턴스 생성
 #nft_merge_img=merge.get_nft_merge()#nft 합병 이미지 가져옴
 #zepeto_merge_img=merge.get_zepeto_merge()# 제페토 합병 이미지 가져옴
+#tempo = merge.save_retouching_image()
 #Merge.save_img_by_path(nft_merge_img,"./hello.png")# 특정 디렉토리에 이미지 저장
 #Merge.save_img_by_path(zepeto_merge_img,"./hello.png")# 특정 디렉토리에 이미지 저장

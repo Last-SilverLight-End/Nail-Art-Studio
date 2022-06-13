@@ -49,8 +49,8 @@ const YoloPage = () => {
 
 
     const Submit = async () => {
-        const finger_name = ["Thumb","Index","Middle","Pinky","Ring"]
-        
+        const finger_name = ["Thumb", "Index", "Middle", "Ring", "Pinky"]
+        let check=0
         for (let i = 0; i < 5; i++) {
 
             const image_temp2 = document.createElement("img")
@@ -74,7 +74,7 @@ const YoloPage = () => {
                     ctx.drawImage(image_temp2, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
                     ctx.restore();
 
-                } 
+                }
                 console.log(canvas.toDataURL());
 
                 const formData = new FormData();
@@ -101,38 +101,41 @@ const YoloPage = () => {
                 }).catch(err => {
                     console.log("upload error", err);
                 })
-                let url2 = "/cropping2"
-                axios.get(url2,{
-                }).then(res => {
-                    console.log(res.data);
-                    if(res.data == "error occured")
-                    {
-                        console.log("not good")
-                       
-                    }
-                    else{
-                        console.log("good")
-                        
-                    }
-                   
                 
-                }).catch(err => {
-                    console.log("upload error" , err);
-                    
-                })
             }
-
-            //window.location.href = "/SelectPage";
+            
 
 
         }
 
-    /*    let url2 = "/uploading"
-        const formData2 = new FormData();
-        formData2.append('route')
-        axios.post(ulr2,formData2{
+        let url2 = "/cropping2"
+        axios.get(url2,{
+        }).then(res => {
+            console.log(res.data);
+            if(res.data == "error occured")
+            {
+                console.log("not good")
+               
+            }
+            else{
+                console.log("good")
+                
+            }
+           
+        
+        }).catch(err => {
+            console.log("upload error" , err);
+            
+        })
 
-        }).*/
+    //window.location.href = "/SelectPage";
+
+        /*    let url2 = "/uploading"
+            const formData2 = new FormData();
+            formData2.append('route')
+            axios.post(ulr2,formData2{
+    
+            }).*/
 
     }
 
@@ -156,7 +159,7 @@ const YoloPage = () => {
         <div className='App'>
             <header className='App-header'>
                 <p>
-                    손가락 돌려보세요! 
+                    손가락 돌려보세요!
                 </p>
                 <div className="pre_img" style={{ display: 'flex' }}>
                     {Array(5).fill().map((_, i) => <div key={i}>
@@ -171,7 +174,7 @@ const YoloPage = () => {
                 </div>
 
                 <div>
-                    <button className="rotatebuttonLeft" name=" submit "  onClick={() => { Submit() }}> 저장하기</button>
+                    <button className="rotatebuttonLeft" name=" submit " onClick={() => { Submit() }}> 저장하기</button>
                 </div>
 
 
