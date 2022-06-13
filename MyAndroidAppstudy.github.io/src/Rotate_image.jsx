@@ -107,7 +107,20 @@ const YoloPage = () => {
 
 
         }
+        Gocropping();
 
+    //window.location.href = "/SelectPage";
+
+        /*    let url2 = "/uploading"
+            const formData2 = new FormData();
+            formData2.append('route')
+            axios.post(ulr2,formData2{
+    
+            }).*/
+
+    }
+
+    const Gocropping = () => {
         let url2 = "/cropping2"
         axios.get(url2,{
         }).then(res => {
@@ -127,16 +140,6 @@ const YoloPage = () => {
             console.log("upload error" , err);
             
         })
-
-    //window.location.href = "/SelectPage";
-
-        /*    let url2 = "/uploading"
-            const formData2 = new FormData();
-            formData2.append('route')
-            axios.post(ulr2,formData2{
-    
-            }).*/
-
     }
 
     const Rotating_Left = (i) => {

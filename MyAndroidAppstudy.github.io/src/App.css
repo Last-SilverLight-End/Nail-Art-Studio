@@ -255,3 +255,15 @@ nav > button {
     opacity: 1;
   }
 }
+
+.input-file-button{
+  background: transparent;
+  border-radius: 3px;
+  border: 2px solid yellow;
+  margin-top: 3rem;
+  color: yellow;
+  margin: 1em;
+  padding: 0.25em 1em;
+  font-size: 20px;
+  margin-bottom: 15px;
+}

@@ -17,11 +17,16 @@ const Loading = () => {
     useEffect(() => {
         setIsLoading(true)
        axios("/rendering",{}).then(res => {
-            console.warn(res)
+            console.warn(res.data)
+           // if(res.data = "error occured")
+           // alert("제대로 올리지 못했습니다 다시 시도해 주세요")
+           // else
+            alert("다 끝났습니다 확인해 주세요!")
             SelectPageClick()
        }).catch(res => {
            console.warn(res +  "error must be fix!")
-           CameraClick()
+           alert("문제 발생!")
+           //CameraClick()
        })
     },[])
 

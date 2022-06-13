@@ -6,6 +6,10 @@ const ZepetoAuto = () => {
     
 }
 
+function LoadingClick(){
+    window.location.href = "/Loading"
+}
+
 const GuideZepeto = () => 
 {
     axios.get('/rendering',
@@ -56,7 +60,8 @@ const SelectPage = () => {
           console.warn(err);
           alert("문제가 발생")
       })
-      GuideZepeto()
+      
+      LoadingClick();
     }
     else
     {

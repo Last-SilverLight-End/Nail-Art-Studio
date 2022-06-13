@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState, useRef, useEffect, isValidElement } from "react";
 
 import "./App.css";
-import loadingYoloImages from "./slimeimg1.png";
+import loadingYoloImages from "./showExampleIfWrong.png";
 const readUrl = (input) => {
 
     console.log(input);
@@ -12,26 +12,26 @@ const readUrl = (input) => {
 const dataURLtoFile = (dataurl, fileName) => {
 
     var arr = dataurl.split(','),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
 
     while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
+        u8arr[n] = bstr.charCodeAt(n);
     }
 
     return new File([u8arr], fileName, { type: mime });
-  }
+}
 
 const YoloPage = () => {
 
     const [yolo_Images, setyolo_Images] = useState(loadingYoloImages);
     const [InputImage, setInputImage] = useState('');
-    const [next,setNext] = useState(false);
-    const [input,setinput] = useState("");
-    const [bytestring,setbytestring] = useState('');
-    const [image,setimage] = useState('');
+    const [next, setNext] = useState(false);
+    const [input, setinput] = useState("");
+    const [bytestring, setbytestring] = useState('');
+    const [image, setimage] = useState('');
     const [file, setFile] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
     const [file2, setFile2] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
     const [previewfile, setPreviewFile] = useState(sessionStorage.getItem("image"));
@@ -43,10 +43,10 @@ const YoloPage = () => {
 
         console.log(e.target.files[0]);
 
-       // console.log(e.target.files) // 이걸로 먼저 들어온 파일 리스트 인식
+        // console.log(e.target.files) // 이걸로 먼저 들어온 파일 리스트 인식
         //console.log(e.target.files[0]); // 파일 안의 내용 인식
-        
-		setPreviewFile(URL.createObjectURL(e.target.files[0]));
+
+        setPreviewFile(URL.createObjectURL(e.target.files[0]));
         setFile(e.target.files[0]);
         setPreviewFile2(URL.createObjectURL(e.target.files[0]));
         setFile2(e.target.files[0]);
@@ -61,12 +61,14 @@ const YoloPage = () => {
             setSaveBase64Data(base64data);
         }
 
-
-    
     };
 
+    function CameraClick(e) {
+        window.location.href = "/Camera"
+    }
+
     const upLoad = async () => {
-        
+
         console.warn("upload")
         console.log(file.name);
         console.log(file2.name);
@@ -74,28 +76,27 @@ const YoloPage = () => {
 
         console.log(file)
         const formData = new FormData();
-        formData.append('file',file)
+        formData.append('file', file)
         let url = "/detectObject";
         let route = file2.name;
         console.log(route);
-        formData.append('route',route);
+        formData.append('route', route);
 
-        function SelectPageClick(e){
+        function SelectPageClick(e) {
             window.location.href = "/SelectPage"
-          }
-         // console.log(previewfile);
-          
-        axios.post(url,formData,{
+        }
+        // console.log(previewfile);
+
+        axios.post(url, formData, {
         }).then(res => {
             console.log(res.data);
-            if(res.data == "error occured")
-            {
+            if (res.data == "error occured") {
                 console.log("not good")
                 setGoToNextCheck(false);
                 setPreviewFile(loadingYoloImages)
-                
+
             }
-            else{
+            else {
                 console.log("good")
                 setGoToNextCheck(true);
                 const bytestring = res.data.status.split('\'')[1];
@@ -103,84 +104,82 @@ const YoloPage = () => {
                 //console.log(previewfile);
                 setNext(true);
             }
-           
-            
-        
+
+
+
         }).catch(err => {
-            console.log("upload error" , err);
+            console.log("upload error", err);
             setNext(false);
         })
 
-       // upLoad2();
+        // upLoad2();
     }
 
     const gotoNext = async () => {
         //console.log(file);
 
         const formData = new FormData();
-        formData.append('file',file2);
+        formData.append('file', file2);
 
         let url0 = "/uploader"
         axios.post(url0, formData, {
             // 주소와 formdata를 posting 한다
-          })
+        })
             .then(res => {
-              //상태 출력
-              console.warn(res);
+                //상태 출력
+                console.warn(res);
             }).catch(err => {
-              console.log(err);
+                console.log(err);
             });
 
 
         console.log(file2)
         let route = file2.name;
         console.log(route);
-        formData.append('route',route);
+        formData.append('route', route);
         let url = "/cropping"
 
-        axios.post(url,formData,{
+        axios.post(url, formData, {
         }).then(res => {
             console.log(res.data);
-            if(res.data == "error occured")
-            {
+            if (res.data == "error occured") {
                 console.log("not good")
                 setGoToNextCheck(false);
                 setPreviewFile(loadingYoloImages);
                 alert("잘못 되었습니다 다시 찍어주세요!")
             }
-            else{
+            else {
                 console.log("good")
                 setGoToNextCheck(true);
             }
-           
-        
+
+
         }).catch(err => {
-            console.log("upload error" , err);
+            console.log("upload error", err);
             alert("잘못 되었습니다 다시 찍어주세요!")
             setGoToNextCheck(false);
         })
-        
+
         setTimeout(() => {
 
-            
-            if(typeof window !== "undefined"){
+
+            if (typeof window !== "undefined") {
                 console.log("gogo");
                 console.log(gotonextcheck);
-                if(gotonextcheck == true)
-                {
+                if (gotonextcheck == true) {
                     window.sessionStorage.setItem("image_yolo3", previewfile);
-                    window.sessionStorage.setItem("image_name",file2.name)
+                    window.sessionStorage.setItem("image_name", file2.name)
                     window.location.href = "/Rotate_image";
                     // crop 과 merge 해서 보여주는 코드
-                   // setPreviewFile("http://localhost:5000/bringimg")
+                    // setPreviewFile("http://localhost:5000/bringimg")
                     //setPreviewFile(require("./../image/nft_image.png"))  
                 }
-                else{
+                else {
                     alert("이미지가 좋지 않습니다 다른 이미지로 시도해 주세요!")
                 }
             }
         }, 2000);
-    
+
     }
 
     return (
@@ -191,16 +190,20 @@ const YoloPage = () => {
                 </p>
 
                 <div className="pre_img">
-                {gotonextcheck ? <img src={previewfile} /> : <img src = {loadingYoloImages}/>}
-               
+                    {gotonextcheck ? <img src={previewfile} /> : <img src={loadingYoloImages} />}
+
                 </div>
 
                 <form >
-                    <input id="imageinput"  type="file" name="image" onChange={ handleInputChange }  />
+                    <label className="input-file-button" htmlFor="imageinput">
+                        파일 업로드
+                    </label>
+                    <input id="imageinput" type="file" name="image" style={{ display: "none" }} onChange={handleInputChange} />
                 </form>
-                <button name="send" className="rotatebuttonLeft" id="sendbutton" onClick = {() => upLoad()}>Send</button>
-               {/*  <button name="send2" id="sendbutton2" onClick = {() => upLoad2()}>Send2</button> */}
-               <button name = "next" className="rotatebuttonLeft" id = "gotonext" onClick = {() => gotoNext()}>go to Next</button>
+                <button name="send" className="rotatebuttonLeft" id="sendbutton" onClick={CameraClick}>Return Camera</button>
+                <button name="send" className="rotatebuttonLeft" id="sendbutton" onClick={() => upLoad()}>Send</button>
+                {/*  <button name="send2" id="sendbutton2" onClick = {() => upLoad2()}>Send2</button> */}
+                <button name="next" className="rotatebuttonLeft" id="gotonext" onClick={() => gotoNext()}>go to Next</button>
             </header>
         </div>
     );
