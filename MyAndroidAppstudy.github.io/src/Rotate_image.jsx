@@ -9,6 +9,7 @@ const readUrl = (input) => {
     console.log(input);
 }
 
+
 const dataURLtoFile = (dataurl, fileName) => {
 
     var arr = dataurl.split(','),
@@ -46,7 +47,12 @@ const YoloPage = () => {
 
 
     const previewFiles = [previewfile0, previewfile1, previewfile2, previewfile3, previewfile4];
-
+    function SelectPageClick(e){
+        window.location.href = "/SelectPage"
+      }
+      function LoadingClick(){
+        window.location.href = "/Loading"
+    }
 
     const Submit = async () => {
         const finger_name = ["Thumb", "Index", "Middle", "Ring", "Pinky"]
@@ -140,6 +146,9 @@ const YoloPage = () => {
             console.log("upload error" , err);
             
         })
+
+        //LoadingClick()
+        SelectPageClick()
     }
 
     const Rotating_Left = (i) => {

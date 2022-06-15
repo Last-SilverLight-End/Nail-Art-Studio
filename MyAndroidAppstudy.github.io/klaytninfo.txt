@@ -1,0 +1,9 @@
+0x4c58228918F5639A62F10100b8e1F896AFBD56bc
+
+'C:\Users\mvr\Desktop\JM\NFT\klatynIDE
+klaytn.sol
+
+C:\Users\mvr\Desktop\JM\NFT\keyStore
+kaikas-0x4c58228918f5639a62f10100b8e1f896afbd56bc (2)
+
+NFTName = 'lab715'

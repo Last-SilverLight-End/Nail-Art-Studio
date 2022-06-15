@@ -8,13 +8,13 @@ import Camera from './Camera';
 const Loading = () => {
 
     function SelectPageClick(){
-        window.location.href = "/SelectPage"
+        window.location.href = "/SelectPage2"
     }
     function CameraClick(){
         window.location.href = "/Camera"
     }
     const [isLoading, setIsLoading] = useState(true);
-    useEffect(() => {
+    /*useEffect(() => {
         setIsLoading(true)
        axios("/rendering",{}).then(res => {
             console.warn(res.data)
@@ -28,6 +28,12 @@ const Loading = () => {
            alert("문제 발생!")
            //CameraClick()
        })
+    },[])*/
+
+    useEffect(() => {
+        setTimeout(() => {
+            alert("다 끝났습니다 확인해 주세요!")
+        }, 10000);
     },[])
 
 

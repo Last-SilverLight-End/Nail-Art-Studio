@@ -100,7 +100,7 @@ const SelectPage = () => {
        
             
                 <button className="buttonshow" onClick={() =>
-                window.open('https://accounts.snapchat.com/accounts/login?continue=%2Faccounts%2Fwelcome', '_blank')}>
+                LoadingClick()}>
                 snapchat으로 안내</button>
 
             <h1>NFT</h1>
@@ -108,7 +108,7 @@ const SelectPage = () => {
        
             
                 <button className="buttonshow" onClick={() =>
-                window.open('https://accounts.snapchat.com/accounts/login?continue=%2Faccounts%2Fwelcome', '_blank')}>
+                LoadingClick()}>
                 NFT로 안내</button>
 
         </div>

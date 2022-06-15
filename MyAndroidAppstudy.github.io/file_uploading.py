@@ -21,6 +21,7 @@ logger = logging.getLogger('HELLO WORLD')
 from typing import OrderedDict
 from pathlib import Path
 
+
 app = Flask(__name__)
 CORS(app)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -43,6 +44,7 @@ def hellos():
     return{
         'hola': "oh yeah"
     }
+
 # change image file how much big or not
 
 
@@ -155,7 +157,10 @@ def Rendering():
         return "all ok"
     except:
         return "error occured"
-
+@app.route('/rendering2')
+def Rendering2():
+    
+    return "heeddlo"
 
 image=None
 
