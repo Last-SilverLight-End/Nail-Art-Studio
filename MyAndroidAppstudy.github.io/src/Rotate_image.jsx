@@ -35,11 +35,11 @@ const YoloPage = () => {
     const [image, setimage] = useState('');
     const [file, setFile] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
     const [file2, setFile2] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
-    const [previewfile0, setPreviewFile0] = useState("http://localhost:5000/bringimg2/Thumb.png");
-    const [previewfile1, setPreviewFile1] = useState("http://localhost:5000/bringimg2/Index.png");
-    const [previewfile2, setPreviewFile2] = useState("http://localhost:5000/bringimg2/Middle.png");
-    const [previewfile3, setPreviewFile3] = useState("http://localhost:5000/bringimg2/Ring.png");
-    const [previewfile4, setPreviewFile4] = useState("http://localhost:5000/bringimg2/Pinky.png");
+    const [previewfile0, setPreviewFile0] = useState(`/hkbb/bringimg2/Thumb.png`);
+    const [previewfile1, setPreviewFile1] = useState(`/hkbb/bringimg2/Index.png`);
+    const [previewfile2, setPreviewFile2] = useState(`/hkbb/bringimg2/Middle.png`);
+    const [previewfile3, setPreviewFile3] = useState(`/hkbb/bringimg2/Ring.png`);
+    const [previewfile4, setPreviewFile4] = useState(`/hkbb/bringimg2/Pinky.png`);
     const [savebase64data, setSaveBase64Data] = useState("");
     const [rotate, setRotate] = useState([0, 0, 0, 0, 0]);
     const [rotateleft, setRotateleft] = useState(0);
@@ -57,62 +57,67 @@ const YoloPage = () => {
     const Submit = async () => {
         const finger_name = ["Thumb", "Index", "Middle", "Ring", "Pinky"]
         let check=0
+        const promises = [];
+
         for (let i = 0; i < 5; i++) {
 
             const image_temp2 = document.createElement("img")
             image_temp2.src = previewFiles[i];
             image_temp2.crossOrigin = 'anonymous';
-            image_temp2.onload = () => {
-                const canvas = document.createElement("canvas");
+            // promise 로 다 한뒤 후에 gocropping 실행
+            promises.push(new Promise(res => {
+                // 불러 온 뒤에 캔버스 회전
+                image_temp2.onload = () => {
+                    const canvas = document.createElement("canvas");
 
-                canvas.width = 200;
-                canvas.height = 200;
-                let image_temp = document.getElementById(`image${i}`);
+                    canvas.width = 200;
+                    canvas.height = 200;
+                    let image_temp = document.getElementById(`image${i}`);
 
-                let ctx = canvas.getContext("2d");
-                drawRotated(rotate[i])
-                function drawRotated(degrees) {
+                    let ctx = canvas.getContext("2d");
+                    drawRotated(rotate[i])
+                    function drawRotated(degrees) {
 
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.save();
-                    ctx.translate(canvas.width / 2, canvas.height / 2);
-                    ctx.rotate(degrees * Math.PI / 180);
-                    ctx.drawImage(image_temp2, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
-                    ctx.restore();
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.save();
+                        ctx.translate(canvas.width / 2, canvas.height / 2);
+                        ctx.rotate(degrees * Math.PI / 180);
+                        ctx.drawImage(image_temp2, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+                        ctx.restore();
 
+                    }
+                    console.log(canvas.toDataURL());
+                    res();
+
+                    const formData = new FormData();
+                    let name = finger_name[i];
+                    const convertedFile = dataURLtoFile(canvas.toDataURL(), name + ".png");
+
+                    console.warn(convertedFile)
+                    formData.append('file', convertedFile)
+                    formData.append('name', name);
+
+                    let url = "/uploader2";
+                    axios.post(url, formData, {
+                    }).then(res => {
+                        console.log(res.data);
+                        if (res.data == "error occured") {
+                            console.log("not good")
+                            console.log(res.data)
+                        }
+                        else {
+                            console.log("good")
+                            console.log(res.data)
+                        }
+
+                    }).catch(err => {
+                        console.log("upload error", err);
+                    })
                 }
-                console.log(canvas.toDataURL());
-
-                const formData = new FormData();
-                let name = finger_name[i];
-                const convertedFile = dataURLtoFile(canvas.toDataURL(), name + ".png");
-
-                console.warn(convertedFile)
-                formData.append('file', convertedFile)
-                formData.append('name', name);
-
-                let url = "/uploader2";
-                axios.post(url, formData, {
-                }).then(res => {
-                    console.log(res.data);
-                    if (res.data == "error occured") {
-                        console.log("not good")
-                        console.log(res.data)
-                    }
-                    else {
-                        console.log("good")
-                        console.log(res.data)
-                    }
-
-                }).catch(err => {
-                    console.log("upload error", err);
-                })
-                
-            }
-            
-
+            }));
 
         }
+        await Promise.all(promises);
         Gocropping();
 
     //window.location.href = "/SelectPage";
@@ -128,6 +133,7 @@ const YoloPage = () => {
 
     const Gocropping = () => {
         let url2 = "/cropping2"
+        console.log("lets crop!!")
         axios.get(url2,{
         }).then(res => {
             console.log(res.data);
@@ -148,7 +154,7 @@ const YoloPage = () => {
         })
 
         //LoadingClick()
-        SelectPageClick()
+        //SelectPageClick()
     }
 
     const Rotating_Left = (i) => {
