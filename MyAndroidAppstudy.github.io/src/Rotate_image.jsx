@@ -35,11 +35,11 @@ const YoloPage = () => {
     const [image, setimage] = useState('');
     const [file, setFile] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
     const [file2, setFile2] = useState(dataURLtoFile(sessionStorage.getItem("image"), "anonymous.png"));
-    const [previewfile0, setPreviewFile0] = useState(`/hkbb/bringimg2/Thumb.png`);
-    const [previewfile1, setPreviewFile1] = useState(`/hkbb/bringimg2/Index.png`);
-    const [previewfile2, setPreviewFile2] = useState(`/hkbb/bringimg2/Middle.png`);
-    const [previewfile3, setPreviewFile3] = useState(`/hkbb/bringimg2/Ring.png`);
-    const [previewfile4, setPreviewFile4] = useState(`/hkbb/bringimg2/Pinky.png`);
+    const [previewfile0, setPreviewFile0] = useState(`http://localhost:5000/bringimg2/Thumb.png`);
+    const [previewfile1, setPreviewFile1] = useState(`http://localhost:5000/bringimg2/Index.png`);
+    const [previewfile2, setPreviewFile2] = useState(`http://localhost:5000/bringimg2/Middle.png`);
+    const [previewfile3, setPreviewFile3] = useState(`http://localhost:5000/bringimg2/Ring.png`);
+    const [previewfile4, setPreviewFile4] = useState(`http://localhost:5000/bringimg2/Pinky.png`);
     const [savebase64data, setSaveBase64Data] = useState("");
     const [rotate, setRotate] = useState([0, 0, 0, 0, 0]);
     const [rotateleft, setRotateleft] = useState(0);
@@ -50,8 +50,9 @@ const YoloPage = () => {
     function SelectPageClick(e){
         window.location.href = "/SelectPage"
       }
+      // nft는 loading2이다.
       function LoadingClick(){
-        window.location.href = "/Loading"
+        window.location.href = "/Loading2"
     }
 
     const Submit = async () => {
@@ -153,7 +154,7 @@ const YoloPage = () => {
             
         })
 
-        //LoadingClick()
+        LoadingClick()
         //SelectPageClick()
     }
 

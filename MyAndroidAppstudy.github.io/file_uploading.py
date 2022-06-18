@@ -20,7 +20,7 @@ from werkzeug.utils import secure_filename
 import logging
 import imghdr
 from Cropper import Cropper, Merge
-from AutoPy import main
+import main
 logger = logging.getLogger('HELLO WORLD')
 
 app = Flask(__name__)
@@ -178,7 +178,7 @@ def Rendering2():
 # snap-chat 자동 진행
 @app.route('/rendering3')
 def Rendering3():
-    autoprocess3 = main.main()
+
     try:
         exec(open(main).read())
         return "all ok"
