@@ -24,6 +24,7 @@ class AutoProcess3:
         app.close()
         return publishCode
 
+
 if __name__=='__main__':
     autoprocess = AutoProcess3()
     autoprocess.main() 
