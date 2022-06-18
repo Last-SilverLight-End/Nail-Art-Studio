@@ -23,14 +23,17 @@ const Loading3 = () => {
            // if(res.data = "error occured")
            // alert("제대로 올리지 못했습니다 다시 시도해 주세요")
            // else
-            alert("다 끝났습니다 확인해 주세요!")
-            SelectPageClick()
+           console.log(res.data);
+           let temp2 ="다 끝났습니다! "+res.data+" 으로 접속해주세요! ";
+           window.sessionStorage.setItem("snapchat", res.data);
+            alert(temp2);
+            SelectPageClick();
        }).catch(res => {
-           console.warn(res +  "error must be fix!")
-           alert("문제 발생! 선택 페이지로 되돌아갑니다")
+           console.warn(res +  "error must be fix!");
+           alert("문제 발생! 선택 페이지로 되돌아갑니다");
            SelectPageClick();
        })
-    },[])
+    },[]);
 
     /*useEffect(() => {
         setTimeout(() => {

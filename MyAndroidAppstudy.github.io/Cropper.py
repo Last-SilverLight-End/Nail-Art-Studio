@@ -36,6 +36,12 @@ class Cropper:
         dir=createFolder(os.path.abspath(".")+f"/{dir_path}/")
         for key,val in self.openCV_dict.items():
             cv2.imwrite(dir+f"{key}.png",val)
+    def img_save2(self):#현재 저장하는 디렉토리 최종 위치만 저장
+            dir="C:/nailTracking/Public/FingerTexture/"
+            print(dir)            
+            for key,val in self.openCV_dict.items():                
+                cv2.imwrite(dir+f"{key}.png",val)
+
     def get_opencv_dict(self):
         return self.openCV_dict
     def save_as_json_opencv_dict(self,dir_path):
@@ -123,7 +129,10 @@ class Merge:
         for (key,item) in self.dict.items():
             print(key)
             self.save_img_by_path(item,f"./image/{key}.jpg")
-
+    def save_retouching_image2(self):
+        for (key,item) in self.dict.items():
+            print(key)
+            self.save_img_by_path(item,f"C:/nailTracking/Public/FingerTexture/{key}.jpg")    
     def get_nft_merge(self):
         mergeImg=None
         for key in self.nft_template:

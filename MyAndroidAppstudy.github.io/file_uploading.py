@@ -20,7 +20,7 @@ from werkzeug.utils import secure_filename
 import logging
 import imghdr
 from Cropper import Cropper, Merge
-import main
+from main import AutoProcess3
 logger = logging.getLogger('HELLO WORLD')
 
 app = Flask(__name__)
@@ -30,7 +30,7 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLD = './image'
 UPLOAD_FOLDER = os.path.join(APP_ROOT, UPLOAD_FOLD)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLD
-
+UPLOAD_SNAP = 'C:/nailTracking/Public/FingerTexture'
 # 서버 킬때 기본으로 나오는 부분
 
 
@@ -79,6 +79,7 @@ def uploader_file2():
     return 'file2 uploaded successfully'
 
 # 여기에서 서버에서 ZepetoInfo 변경 해야 한다 나중에 알략님께 물어볼것
+
 
 
 @app.route('/bringimg', methods=['GET', 'POST'])
@@ -178,12 +179,14 @@ def Rendering2():
 # snap-chat 자동 진행
 @app.route('/rendering3')
 def Rendering3():
-
+    utoprocess3 = AutoProcess3()
     try:
-        exec(open(main).read())
-        return "all ok"
+        temp = utoprocess3.main()
+        print(temp)
+        return temp
     except:
         return "error occured"
+
 
 
 image = None
@@ -212,7 +215,6 @@ def crop_image():
         cropper = Cropper(image, detect_json)
         dict = cropper.get_opencv_dict()
         cropper.img_save("image")
-
         dict = Merge.get_opencv_dict_by_path("./image")
         merge = Merge(opencv_dict=Merge.get_opencv_dict_by_path("./image"))
         print("heelo", merge.dict)
@@ -256,6 +258,7 @@ def crop_image2():
         print(" hei ")
         print(merge)
         merge.save_retouching_image()
+        merge.save_retouching_image2()
         Merge.save_img_by_path(nft_merge_img, "./image/nft_image.png")
         Merge.save_img_by_path(zepeto_merge_img, "./image/zepeto_image.png")
         print(" finished")

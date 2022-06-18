@@ -20,10 +20,12 @@ const GuideZepeto = () =>
 }
 
 const SelectPage = () => {
+
     const [image, setShowImage] = useState('');
     const [values, setValues] = useState({ id: "", password: "" });
     const [submitting, setSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
+    
     const navigate = useNavigate();
     const [previewyolo,setPreviewYolo] = useState(sessionStorage.getItem("image_yolo3"));
 
@@ -100,7 +102,11 @@ const SelectPage = () => {
                 window.open('https://accounts.snapchat.com/accounts/login?continue=%2Faccounts%2Fwelcome', '_blank')}>
                 snapchat으로 안내</button>
 
+                <p>  </p>
+
         </div>
+
+
     );
 };
 

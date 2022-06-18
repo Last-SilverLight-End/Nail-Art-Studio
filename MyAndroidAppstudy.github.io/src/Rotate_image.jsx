@@ -114,6 +114,7 @@ const YoloPage = () => {
                     }).catch(err => {
                         console.log("upload error", err);
                     })
+                    
                 }
             }));
 

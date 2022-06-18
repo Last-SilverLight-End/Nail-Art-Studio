@@ -30,6 +30,7 @@ const SelectPage = () => {
     const [image, setShowImage] = useState('');
     const [values, setValues] = useState({ id: "", password: "" });
     const [submitting, setSubmitting] = useState(false);
+    const [snapchat,setSnapChat] = useState(sessionStorage.getItem("snapchat"));
     const [errors, setErrors] = useState({});
     const [previewyolo,setPreviewYolo] = useState(sessionStorage.getItem("image_yolo3"));
 
@@ -103,9 +104,10 @@ const SelectPage = () => {
        
             
                 <button className="buttonshow" onClick={() =>
-                Loading3Click()}>
+                Loading3Click()
+                }>
                 snapchat으로 안내</button>
-
+                
         </div>
     );
 };
