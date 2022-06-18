@@ -1,3 +1,6 @@
+#from pinataMain import PinataAutoProcess
+from pathlib import Path
+from typing import OrderedDict
 from charset_normalizer import detect
 import numpy as np
 from ZepetoMain import AutoProcess
@@ -12,15 +15,13 @@ import io
 import sys
 import py_compile
 from tkinter import W
-from flask import Flask,send_from_directory ,render_template, request, session, Blueprint, jsonify,send_file
+from flask import Flask, send_from_directory, render_template, request, session, Blueprint, jsonify, send_file
 from werkzeug.utils import secure_filename
 import logging
 import imghdr
-from Cropper import Cropper ,Merge
+from Cropper import Cropper, Merge
+from AutoPy import main
 logger = logging.getLogger('HELLO WORLD')
-from typing import OrderedDict
-from pathlib import Path
-
 
 app = Flask(__name__)
 CORS(app)
@@ -67,6 +68,8 @@ def uploader_file():
     return 'file uploaded successfully'
 
 # 각각 이미지 send
+
+
 @app.route('/uploader2', methods=['GET', 'POST'])
 def uploader_file2():
     f = request.files['file']
@@ -77,6 +80,7 @@ def uploader_file2():
 
 # 여기에서 서버에서 ZepetoInfo 변경 해야 한다 나중에 알략님께 물어볼것
 
+
 @app.route('/bringimg', methods=['GET', 'POST'])
 def bring_img():
     files = os.listdir(UPLOAD_FOLD)
@@ -86,10 +90,11 @@ def bring_img():
     myfile = Path(app.config['UPLOAD_FOLDER'] + "/"+filename)
    # if (files_path.exists()):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
-        filename, as_attachment=True)
-    #else:
+                               filename, as_attachment=True)
+    # else:
     #    return send_from_directory(app.config['UPLOAD_FOLDER'],
     #    nofilename, as_attachment=True)
+
 
 @app.route('/bringimg2/<path:filename>', methods=['GET', 'POST'])
 def bring_img2(filename):
@@ -101,11 +106,12 @@ def bring_img2(filename):
     print(name_request)
     filenames = "nft_image.png"
     #finger_name = request.form.get('name')
-    #print(finger_name)
+    # print(finger_name)
     myfile = Path(app.config['UPLOAD_FOLDER'] + "/")
    # if (files_path.exists()):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
-        filename, as_attachment=True)
+                               filename, as_attachment=True)
+
 
 @app.route('/changeZepetoInfo', methods=["POST", "GET"])
 def change_file_Zepeto():
@@ -148,7 +154,7 @@ def User_data():
 
 # 랜더링 과정 유무
 
-
+# zepeto 자동 진행
 @app.route('/rendering')
 def Rendering():
     autoprocess = AutoProcess()
@@ -157,49 +163,70 @@ def Rendering():
         return "all ok"
     except:
         return "error occured"
+
+# nft 자동 진행
 @app.route('/rendering2')
 def Rendering2():
-    
-    return "heeddlo"
 
-image=None
+    #autoprocess2 = PinataAutoProcess()
+    try:
+    #    autoprocess2.movePage_Pinata()
+        return "all ok"
+    except:
+        return "error occured"
+
+# snap-chat 자동 진행
+@app.route('/rendering3')
+def Rendering3():
+    autoprocess3 = main.main()
+    try:
+        exec(open(main).read())
+        return "all ok"
+    except:
+        return "error occured"
+
+
+image = None
 
 # 여기부터 YOLO 돌리기 위한 작업들 시작
 
 ############################################## THE REAL DEAL ###############################################
+
+
 @app.route('/cropping', methods=['GET', 'POST'])
 def crop_image():
 
     try:
         route_request = request.form.get('route')
         file = request.files['file'].read()
-        
+
        # print("file is : ",file)
         print("route is :",  route_request)
         print(type(route_request))
         print(route_request)
 
-        image=Cropper.get_img_by_path("/image/"+route_request)
-        #print(image)
-        detect_json=Cropper.openJsonPath("DetectStructure.json")
+        image = Cropper.get_img_by_path("/image/"+route_request)
+        # print(image)
+        detect_json = Cropper.openJsonPath("DetectStructure.json")
 
-        cropper = Cropper(image,detect_json)
-        dict=cropper.get_opencv_dict()
+        cropper = Cropper(image, detect_json)
+        dict = cropper.get_opencv_dict()
         cropper.img_save("image")
-       
+
         dict = Merge.get_opencv_dict_by_path("./image")
-        merge=Merge(opencv_dict=Merge.get_opencv_dict_by_path("./image"))
+        merge = Merge(opencv_dict=Merge.get_opencv_dict_by_path("./image"))
         print("heelo", merge.dict)
-        nft_merge_img=merge.get_nft_merge()
-        zepeto_merge_img=merge.get_zepeto_merge()
-        Merge.save_img_by_path(nft_merge_img,"./image/nft_image.png")
-        Merge.save_img_by_path(zepeto_merge_img,"./image/zepeto_image.png")
+        nft_merge_img = merge.get_nft_merge()
+        zepeto_merge_img = merge.get_zepeto_merge()
+        Merge.save_img_by_path(nft_merge_img, "./image/nft_image.png")
+        Merge.save_img_by_path(zepeto_merge_img, "./image/zepeto_image.png")
         print("finished")
         return "finish"
-        
+
     except Exception as e:
         print("Model Name is Wrong! 3 !  ", e)
         return "error occured"
+
 
 @app.route('/cropping2', methods=['GET', 'POST'])
 def crop_image2():
@@ -207,36 +234,35 @@ def crop_image2():
     try:
         #route_request = request.form.get('route')
         #file = request.files['file'].read()
-        
+
        # print("file is : ",file)
         #print("route is :",  route_request)
-        #print(type(route_request))
-        #print(route_request)
+        # print(type(route_request))
+        # print(route_request)
 
-        #image=Cropper.get_img_by_path("05_06_True_24.jpg")
-        #print(image)
-        #detect_json=Cropper.openJsonPath("DetectStructure.json")
+        # image=Cropper.get_img_by_path("05_06_True_24.jpg")
+        # print(image)
+        # detect_json=Cropper.openJsonPath("DetectStructure.json")
 
         #cropper = Cropper(image,detect_json)
-        #dict=cropper.get_opencv_dict()
-        #cropper.img_save("image")
-        #print(dict)
+        # dict=cropper.get_opencv_dict()
+        # cropper.img_save("image")
+        # print(dict)
         #dict = Merge.get_opencv_dict_by_path("./image")
-        merge=Merge(opencv_dict=Merge.get_opencv_dict_by_path("./image"))
+        merge = Merge(opencv_dict=Merge.get_opencv_dict_by_path("./image"))
        # print("heelo", merge.dict)
-        nft_merge_img=merge.get_nft_merge()
-        zepeto_merge_img=merge.get_zepeto_merge()
+        nft_merge_img = merge.get_nft_merge()
+        zepeto_merge_img = merge.get_zepeto_merge()
         print(" hei ")
-        print( merge )
+        print(merge)
         merge.save_retouching_image()
-        Merge.save_img_by_path(nft_merge_img,"./image/nft_image.png")
-        Merge.save_img_by_path(zepeto_merge_img,"./image/zepeto_image.png")
+        Merge.save_img_by_path(nft_merge_img, "./image/nft_image.png")
+        Merge.save_img_by_path(zepeto_merge_img, "./image/zepeto_image.png")
         print(" finished")
         return "finish"
     except Exception as e:
         print("Model Name is Wrong! 323 !  ", e)
         return "error occured2"
-
 
 
 @app.route('/detectObject', methods=['GET', 'POST'])
@@ -252,7 +278,7 @@ def mask_image():
     file = request.files['file'].read()  # byte file
     npimg = np.fromstring(file, np.uint8)
     img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
-    image=img
+    image = img
     ######### Do preprocessing here ################
     # img[img > 150] = 0
     # any random stuff do here
@@ -260,18 +286,16 @@ def mask_image():
 
     # 여기서 못받음 -> 이제 받음
     detector = Detection(img, "./nail_best.pt")
-      # 여기에서 빈 객체인지 아닌지 확인  { }
+    # 여기에서 빈 객체인지 아닌지 확인  { }
     print(detector.getDetectInfo())
     tempo = "{}".format(detector.getDetectInfo())
-    tempo2= "sat"
+    tempo2 = "sat"
     print(tempo)
     print(type(detector.getDetectInfo()))
-
 
     if (tempo == "{}"):
         print("error")
         return "error occured"
-
 
     else:
         print("this is ok!")

@@ -9,6 +9,8 @@ import Users from "./Users";
 import Home from "./Home";
 import Camera from "./Camera";
 import Loading from "./Loading";
+import Loading2 from "./Loading2";
+import Loading3 from "./Loading3";
 import Loginpage from "./Loginpage";
 import SelectPage from "./SelectPage";
 import Notfound from "./Notfound";
@@ -27,6 +29,8 @@ function Buttons() {
                 <Route path ="/Users" element={<Users/>}/>
                 <Route path ="/Camera" element={<Camera/>}/>
                 <Route path ="/Loading" element={<Loading/>}/>
+                <Route path ="/Loading2" element={<Loading2/>}/>
+                <Route path ="/Loading3" element={<Loading3/>}/>
                 <Route path ="/Loginpage" element={<Loginpage/>}/>
                 <Route path ="/finishPage_zepeto" element={<finishPage_zepeto/>}/>
                 <Route path ="/SelectPage" element={<SelectPage/>}/>

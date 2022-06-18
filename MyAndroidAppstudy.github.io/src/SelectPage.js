@@ -9,6 +9,9 @@ const ZepetoAuto = () => {
 function LoadingClick(){
     window.location.href = "/Loading"
 }
+function Loading3Click(){
+    window.location.href = "/Loading3"
+}
 
 const GuideZepeto = () => 
 {
@@ -100,16 +103,8 @@ const SelectPage = () => {
        
             
                 <button className="buttonshow" onClick={() =>
-                LoadingClick()}>
+                Loading3Click()}>
                 snapchat으로 안내</button>
-
-            <h1>NFT</h1>
-
-       
-            
-                <button className="buttonshow" onClick={() =>
-                LoadingClick()}>
-                NFT로 안내</button>
 
         </div>
     );

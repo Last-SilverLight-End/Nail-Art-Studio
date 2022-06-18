@@ -95,8 +95,6 @@ const SelectPage = () => {
             </form>
 
             <h1>SnapChat</h1>
-
-       
             
                 <button className="buttonshow" onClick={() =>
                 window.open('https://accounts.snapchat.com/accounts/login?continue=%2Faccounts%2Fwelcome', '_blank')}>

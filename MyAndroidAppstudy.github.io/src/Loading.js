@@ -5,16 +5,19 @@ import SelectPage from './SelectPage';
 import "./App.css";
 import axios from 'axios';
 import Camera from './Camera';
+
+// zepeto 진행
 const Loading = () => {
 
     function SelectPageClick(){
-        window.location.href = "/SelectPage2"
+        window.location.href = "/SelectPage"
     }
     function CameraClick(){
         window.location.href = "/Camera"
     }
+    
     const [isLoading, setIsLoading] = useState(true);
-    /*useEffect(() => {
+    useEffect(() => {
         setIsLoading(true)
        axios("/rendering",{}).then(res => {
             console.warn(res.data)
@@ -25,16 +28,17 @@ const Loading = () => {
             SelectPageClick()
        }).catch(res => {
            console.warn(res +  "error must be fix!")
-           alert("문제 발생!")
-           //CameraClick()
+           alert("문제 발생! 선택 페이지로 되돌아갑니다")
+           SelectPageClick();
        })
-    },[])*/
+    },[])
 
-    useEffect(() => {
+    /*useEffect(() => {
         setTimeout(() => {
             alert("다 끝났습니다 확인해 주세요!")
-        }, 10000);
-    },[])
+            SelectPageClick()
+        }, 3000);
+    },[])*/
 
 
 
