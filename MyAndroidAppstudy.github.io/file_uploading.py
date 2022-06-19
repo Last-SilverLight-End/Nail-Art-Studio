@@ -196,7 +196,7 @@ def Rendering3():
 
 image = None
 
-@app.route('/start',methods=['GET'])
+@app.route('/start',methods=['GET','POST'])
 def start():
     #URL 가져오는 자동화
     lens["lensStudio"]=LensStudio.run()

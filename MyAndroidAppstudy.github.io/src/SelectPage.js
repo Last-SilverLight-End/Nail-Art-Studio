@@ -49,13 +49,10 @@ const SelectPage = () => {
             SetShowLoginPage(res.data);
         })
 
-        useEffect(() => {
-           SetShowLoginPage(res.data); 
-         
-        },[showloginpage]);
+        
     }
     useEffect(() => {
-        SetShowLoginPage(res.data); 
+        SetShowLoginPage(); 
       
      },[showloginpage]);
 
