@@ -22,7 +22,7 @@ const Loading3 = () => {
         let formdata = new FormData;
         formdata.append("val",snapchatemail);
         console.log(snapchatemail);
-        axios.post("/method", {}).then(res => {
+        axios.post("/methoding",formdata, {}).then(res => {
             console.warn(res.data)
             // if(res.data = "error occured")
             // alert("제대로 올리지 못했습니다 다시 시도해 주세요")

@@ -33,6 +33,7 @@ const SelectPage = () => {
     const [submitting2, setSubmitting2] = useState(false);
     const [snapchat, setSnapChat] = useState(sessionStorage.getItem("snapchat"));
     const [errors, setErrors] = useState({});
+    const [gogo,setGogo] = useState(0);
     const [previewyolo, setPreviewYolo] = useState(sessionStorage.getItem("image_yolo3"));
     const [showloginpage, SetShowLoginPage] = useState("");
     const handleChange = (event) => {
@@ -51,10 +52,11 @@ const SelectPage = () => {
 
         
     }
-    useEffect(() => {
-        SetShowLoginPage(); 
-      
-     },[showloginpage]);
+   /* useEffect(() => {
+        if(gogo==1)
+      loginPagego();
+      setGogo(0);
+     },[showloginpage]);*/
 
     const handleEmail = (event) => {
         event.preventDefault();
@@ -135,8 +137,13 @@ const SelectPage = () => {
 
             <h1>SnapChat</h1>
 
-            <button className="buttonshow" onClick={() => loginPagego()}>여기를 눌러서 아래에 표시된 주소로 로그인 해주시고 아래에 로그인된 이메일을 넣어주세요!</button>
+            <button className="buttonshow" onClick={() =>{
+                setGogo(1);
+                 loginPagego();
+                 }}>여기를 눌러서 아래에 표시된 주소로 로그인 해주시고 아래에 로그인된 이메일을 넣어주세요!</button>
             <span>{showloginpage}</span>
+
+            
             <form onSubmit={handleEmail}>
             
 

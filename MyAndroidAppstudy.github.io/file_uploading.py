@@ -209,13 +209,14 @@ def start():
     print(lens["URL"])
     return lens["URL"]
 
-@app.route("/method",methods=["GET","POST"])
+@app.route("/methoding",methods=["GET","POST"])
 def method():
     #나머지 동기화
     if request.method=="GET":
         num=request.args["val"]
         return "GET으로 전달된 데이터({})".format(num)
     else:
+        print(lens["lensStudio"])
         num = request.form["val"]
         lens["lensStudio"].openLens(num)
         lens["lensStudio"].maximize()
