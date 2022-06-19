@@ -8,7 +8,7 @@ import Camera from './Camera';
 
 // snap-chat 자동 진행
 const Loading3 = () => {
-
+    
     function SelectPageClick() {
         window.location.href = "/SelectPage"
     }
@@ -19,13 +19,16 @@ const Loading3 = () => {
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         setIsLoading(true)
-        axios("/rendering3", {}).then(res => {
+        let formdata = new FormData;
+        formdata.append("val",snapchatemail);
+        console.log(snapchatemail);
+        axios.post("/method", {}).then(res => {
             console.warn(res.data)
             // if(res.data = "error occured")
             // alert("제대로 올리지 못했습니다 다시 시도해 주세요")
             // else
             console.log(res.data);
-            console.log(snapchatemail); // 잘 받아와지는거 확인
+            //console.log(snapchatemail); // 잘 받아와지는거 확인
             if (res.data == "error occured") {
                 alert("하는 도중 오류가 발생하였습니다!");
                 SelectPageClick();

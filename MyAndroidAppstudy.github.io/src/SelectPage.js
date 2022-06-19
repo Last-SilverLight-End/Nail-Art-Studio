@@ -34,11 +34,30 @@ const SelectPage = () => {
     const [snapchat, setSnapChat] = useState(sessionStorage.getItem("snapchat"));
     const [errors, setErrors] = useState({});
     const [previewyolo, setPreviewYolo] = useState(sessionStorage.getItem("image_yolo3"));
-
+    const [showloginpage, SetShowLoginPage] = useState("");
     const handleChange = (event) => {
         const { name, value } = event.target;
         setValues({ ...values, [name]: value });
     };
+
+    const loginPagego = () =>{
+        let url = "/start"
+        axios.get(url,{
+
+        }).then(res =>{
+            console.log(res.data);
+            SetShowLoginPage(res.data);
+        })
+
+        useEffect(() => {
+           SetShowLoginPage(res.data); 
+         
+        },[showloginpage]);
+    }
+    useEffect(() => {
+        SetShowLoginPage(res.data); 
+      
+     },[showloginpage]);
 
     const handleEmail = (event) => {
         event.preventDefault();
@@ -46,7 +65,7 @@ const SelectPage = () => {
         if (values.email != ""  || values.email !="\n") {
 
             console.log(values.email);
-            window.sessionStorage.setItem("snapvalues", values.email);
+            window.sessionStorage.setItem("snapvalues", "https://"+values.email);
             Loading3Click();
         }
         else {
@@ -92,6 +111,7 @@ const SelectPage = () => {
 
 
     }
+     
     return (
         <div className="App-header">
             <h1 > 사진 미리보기 </h1>
@@ -118,7 +138,8 @@ const SelectPage = () => {
 
             <h1>SnapChat</h1>
 
-            <button className="buttonshow" onClick={() => window.open('[url 링크]', '_blank')}>여기를 눌러서 로그인 해주시고 아래에 로그인된 이메일을 넣어주세요!</button>
+            <button className="buttonshow" onClick={() => loginPagego()}>여기를 눌러서 아래에 표시된 주소로 로그인 해주시고 아래에 로그인된 이메일을 넣어주세요!</button>
+            <span>{showloginpage}</span>
             <form onSubmit={handleEmail}>
             
 

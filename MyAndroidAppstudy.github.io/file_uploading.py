@@ -21,6 +21,7 @@ import logging
 import imghdr
 from Cropper import Cropper, Merge
 from main import AutoProcess3
+from snapWarn import LensStudio
 logger = logging.getLogger('HELLO WORLD')
 
 app = Flask(__name__)
@@ -33,6 +34,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLD
 UPLOAD_SNAP = 'C:/nailTracking/Public/FingerTexture'
 # 서버 킬때 기본으로 나오는 부분
 
+lens={
+    "lensStudio":None,
+    "URL":None
+}
 
 @app.route('/')
 def hello():
@@ -190,6 +195,30 @@ def Rendering3():
 
 
 image = None
+
+@app.route('/start',methods=['GET'])
+def start():
+    #URL 가져오는 자동화
+    lens["lensStudio"]=LensStudio.run()
+    lens["lensStudio"].maximize()
+    lens["URL"]=lens["lensStudio"].getLogInURL()
+    print(lens["URL"])
+    return lens["URL"]
+
+@app.route("/method",methods=["GET","POST"])
+def method():
+    #나머지 동기화
+    if request.method=="GET":
+        num=request.args["val"]
+        return "GET으로 전달된 데이터({})".format(num)
+    else:
+        num = request.form["val"]
+        lens["lensStudio"].openLens(num)
+        lens["lensStudio"].maximize()
+        publishCode=lens["lensStudio"].publishLens()
+        lens["lensStudio"].LogOut()
+        lens["lensStudio"].close()
+        return publishCode
 
 # 여기부터 YOLO 돌리기 위한 작업들 시작
 
