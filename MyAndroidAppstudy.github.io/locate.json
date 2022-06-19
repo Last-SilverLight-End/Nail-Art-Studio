@@ -18,8 +18,17 @@
         "fileName":[245,447]
     },
     "Pinata":{
-        "dirLocate":[350,50],        
-        "uploadButtonForDir":[499,482]
+        "selectaFile":[962,672],
+        "dirLocate":[431,50],        
+        "uploadButtonForDir":[499,482],
+        "uploadbtn":[1752,1008],
+        "fileNameClickLocate":[479,977],
+        "imagelastbtn":[901,745]
+        
+    },
+    "Klaytn":{
+        "dirLocate":[848,48],
+        "fileNameClickLocate":[479,977]
     }
 }
 

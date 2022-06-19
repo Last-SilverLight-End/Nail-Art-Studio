@@ -16,18 +16,21 @@ dirLoacte  = json_data['Pinata']['dirLocate']
 uploadBtn = json_data['Pinata']['uploadbtn']
 Imageupload = json_data['Pinata']['selectaFile']
 fileNameClickLocate = json_data['Pinata']['fileNameClickLocate']
+imagelastbtn = json_data['Pinata']['imagelastbtn']
 
-dirPath = r'C:/Users/mvr/Desktop/JM/NFT/'
+# 여기에서 디렉토리 수정하기
+dirPath = r'C:/Users/xnote/OneDrive/문서/reactCreateProject/MyAndroidAppstudy.github.io/MyAndroidAppstudy.github.io'
 def uploadImageAuto():
-    time.sleep(1)
+    
+    time.sleep(2)
     pyautogui.moveTo(Imageupload)
-    time.sleep(1)
+    time.sleep(3)
     pyautogui.click()
-    time.sleep(1)
+    time.sleep(2)
 
     pyautogui.moveTo(dirLoacte)
     print(pyautogui.position())
-    time.sleep(1)
+    time.sleep(3)
     pyautogui.click()
     pyautogui.typewrite(dirPath,interval=0.03)
     pyautogui.hotkey('ENTER')
@@ -36,10 +39,13 @@ def uploadImageAuto():
     pyautogui.click()
     pyautogui.typewrite(text.file_name,interval=0.03)
     pyautogui.hotkey('ENTER')
+    time.sleep(3)
+    pyautogui.moveTo(imagelastbtn)
+    pyautogui.click()
 
 
 def uploadPinataAutogui():
-    time.sleep(1)
+    time.sleep(3)
     pyautogui.moveTo(dirLoacte)
     print(pyautogui.position())
     pyautogui.click()
@@ -54,5 +60,5 @@ def uploadPinataAutogui():
     pyautogui.hotkey('ENTER')
 
 
-time.sleep(1)
-print(pyautogui.position())
+# time.sleep(3)
+# print(pyautogui.position())

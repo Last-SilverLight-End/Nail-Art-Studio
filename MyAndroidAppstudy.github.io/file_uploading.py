@@ -20,6 +20,7 @@ from werkzeug.utils import secure_filename
 import logging
 import imghdr
 from Cropper import Cropper, Merge
+from pinataMain import PinataAutoProcess
 from main import AutoProcess3
 from snapWarn import LensStudio
 logger = logging.getLogger('HELLO WORLD')
@@ -174,10 +175,13 @@ def Rendering():
 @app.route('/rendering2')
 def Rendering2():
 
-    #autoprocess2 = PinataAutoProcess()
+    autoprocess2 = PinataAutoProcess()
     try:
-    #    autoprocess2.movePage_Pinata()
-        return "all ok"
+        temp = autoprocess2.movePage_Pinata()
+        if(temp =="ipfs업로드 완료"):
+            return "all ok" 
+        else:
+            return "nft 내 오류 발생"
     except:
         return "error occured"
 

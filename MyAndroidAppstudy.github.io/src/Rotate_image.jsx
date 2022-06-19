@@ -120,8 +120,10 @@ const YoloPage = () => {
 
         }
         await Promise.all(promises);
-        Gocropping();
-
+        
+            Gocropping();
+           
+        
     //window.location.href = "/SelectPage";
 
         /*    let url2 = "/uploading"
@@ -154,9 +156,10 @@ const YoloPage = () => {
             console.log("upload error" , err);
             
         })
-
-        LoadingClick()
-        //SelectPageClick()
+        setTimeout(() => {
+        //LoadingClick()
+        SelectPageClick()
+        },2000)
     }
 
     const Rotating_Left = (i) => {

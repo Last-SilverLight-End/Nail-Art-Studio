@@ -2,6 +2,7 @@
 #------------------------------
 import json
 from collections import OrderedDict
+import datetime
 import text as text
 import os
 #------------------------------
@@ -13,7 +14,6 @@ folderPath = text.username
 def main():
     createFolder(folderPath)
     createJson(folderPath)
-
  
  
 
@@ -27,10 +27,15 @@ def createFolder(folderName):
 
 
 def createJson(FolderPath):
-    for i in range(0,text.count):
-        makeJson["name"] = text.NFTname+'#'+str(i+1)
-        makeJson["description"] = text.description
-        makeJson["image"] = text.ipfs
-        #with open(str(i+1)+'.json','w') as saveFile: 
+    #makeJson["name"] = text.NFTname
+    name = datetime.datetime.now()
+    makeJson["name"] = str(name)
+    makeJson["description"] = text.description
+    with open('Pinata/ipfs.txt','r') as f:
+        line = f.readlines()
+    makeJson["image"] = line[0]
+    #with open(str(i+1)+'.json','w') as saveFile: 
+
+    for i in range(0,100):
         with open(FolderPath+'/'+str(i+1)+'.json','w') as saveFile: 
             json.dump(makeJson,saveFile,indent=4)

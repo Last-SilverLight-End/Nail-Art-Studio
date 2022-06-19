@@ -13,21 +13,29 @@ import pinataAuto
 #Graphics405!
 #chrome.exe --remote-debugging-port=9222 --user-data-dir="C:/ChromeTEMP"
 
-options = webdriver.ChromeOptions()
-options.add_argument('start-maximized')
-driver = webdriver.Chrome('chromedriver.exe', options=options)
+
+class PinataAutoProcess:
+    pinataUrl = "https://app.pinata.cloud/signin"
+    def __init__(self) -> None:
+        self.options = webdriver.ChromeOptions()
+        self.options.add_argument('start-maximized')
+        self.driver = webdriver.Chrome('chromedriver.exe', options=self.options)
+
+
 
 # chrome_options = webdriver.ChromeOptions()
 # chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 # chrome_driver = 'C:\Program Files\Google\Chrome\Application\chromedriver.exe'
 # driver = webdriver.Chrome(chrome_driver, options= chrome_options)
-pinataUrl = "https://app.pinata.cloud/signin"
 
-with open(r'Pinata/pinatatext.txt','r') as Pinatatext:
+
+with open(r'pinatatext.txt','r') as Pinatatext:
         Pinatatext.readlines()
-def movePage_Pinata():
-    
-    driver.get(pinataUrl)
+
+def movePage_Pinata(self):
+    with open(r'pinatatext.txt','r') as Pinatatext:
+        Pinatatext.readlines()    
+    self.driver.get(self.pinataUrl)
 
     logIn_Pinata()
     upLoad()
@@ -43,58 +51,81 @@ def movePage_Pinata():
     
     
     
-def logIn_Pinata():
-    driver.implicitly_wait(3)
-    driver.find_element_by_name('email').send_keys(text.email)
-    driver.implicitly_wait(3)
-    driver.find_element_by_name('password').send_keys(text.password)
-    driver.find_element_by_xpath('//*[@id="root"]/div/div/div/div/div[2]/div[2]/div[2]/form/div[1]/button').click()
+def logIn_Pinata(self):
+    with open(r'pinatatext.txt','r') as Pinatatext:
+        Pinatatext.readlines()
+    self.driver.implicitly_wait(3)
+    self.driver.find_element_by_name('email').send_keys(text.email)
+    self.driver.implicitly_wait(3)
+    self.driver.find_element_by_name('password').send_keys(text.password)
+    self.driver.find_element_by_xpath('//*[@id="root"]/div/div/div/div/div[2]/div[2]/div[2]/form/div[1]/button').click()
     print("complete")
     
 
-def upLoad():  
+def upLoad(self):
+    with open(r'pinatatext.txt','r') as Pinatatext:
+        Pinatatext.readlines()
+    time.sleep(3)  
     while(True):
+        time.sleep(3)
         try:
-            time.sleep(0.5)
-            driver.find_element_by_xpath('//*[@id="layout-wrapper"]/div[4]/div/div/div/div/div[1]/div/div[1]/div/div/button').click()
+            time.sleep(3)
+            self.driver.find_element_by_xpath('//*[@id="layout-wrapper"]/div[4]/div/div/div/div/div[1]/div/div[1]/div/div/button').click()
+            
             print("+upload btn")
+            break
         except:
             print('ipfs loading....')
-            time.sleep(1)
+            time.sleep(3)
 
-        while(True):
-            try:
-                time.sleep(1)
-                driver.find_element_by_xpath('//*[@id="layout-wrapper"]/div[4]/div/div/div/div/div[1]/div/div[1]/div/div/div/a[2]').click()
-                print("file btn")
-                break
-            except:
-                print('find File btn')
-                time.sleep(1)
-        time.sleep(1)
-        pinataAuto.uploadImageAuto()
+    while(True):
+        try:
+            time.sleep(3)
+            self.driver.find_element_by_xpath('//*[@id="layout-wrapper"]/div[4]/div/div/div/div/div[1]/div/div[1]/div/div/div/a[2]').click()
+            print("file btn")
+            break
+        except:
+            print('find File btn')
+            time.sleep(3)
+        time.sleep(3)
+    while(True):
+        try:
+            pinataAuto.uploadImageAuto()
+            time.sleep(3)
+            break
+        except:
+            time.sleep(3)
+            print('gui auto loading')
+        
         # driver.find_element_by_xpath("/html/body/div[3]/div/div[1]/div/div/div[2]/div/div[2]/div/div/button']").send_keys(r"C:\Users\mvr\Desktop\JM\NFT/"+text.file_name) # 상대경로로 변경하기 사진 경로
         # driver.find_element_by_xpath("/html/body/div[3]/div/div[1]/div/div/div[2]/div/div[2]/div/div/button']").click()
         # print("upLoad")
-
         
         # driver.find_element_by_xpath("/html/body/div[3]/div/div[1]/div/div/div[2]/div/div[2]/div/button").click()
         # print("image upload complete")
-        time.sleep(1)
-        driver.implicitly_wait(10)
-        driver.find_element_by_xpath("/html/body/div[3]/div/div[1]/div/div/div[2]/div/div[2]/div/button").click()
-        print("image upload complete")
-        break
+        while(True):
+            try:
+                time.sleep(3)
+                self.driver.implicitly_wait(10)
+                driver.find_element_by_xpath("/html/body/div[3]/div/div[1]/div/div/div[2]/div/div[2]/div/button").click()
+                print("image upload complete")
+                break
+            except:
+                print('load')
+                time.sleep(3)        
     driver.implicitly_wait(5)
+
     while(1):
         try:
             copyPath()
             break
         except:
             print('로딩중..')
-            time.sleep(1)
+            time.sleep(3)
    
 def copyPath():
+    with open(r'pinatatext.txt','r') as Pinatatext:
+        Pinatatext.readlines()
     '''
     global ipfs 
     ipfs = driver.find_element_by_link_text(text.file_name).get_attribute('href')
@@ -103,6 +134,7 @@ def copyPath():
     ipfs_split= ipfs.split('/')
     ipfs = ipfs_split[4]
     ipfs = 'ipfs://'+ipfs
+sample_zepeto.png
 
     text.ipfs = ipfs
     createJson.main()
@@ -134,6 +166,8 @@ def copyPath():
         #print(text.json_ipfs)
 
 def uploadFolder():
+    with open(r'pinatatext.txt','r') as Pinatatext:
+        Pinatatext.readlines()
     time.sleep(3)
     driver.find_element_by_xpath('//*[@id="layout-wrapper"]/div[4]/div/div/div/div/div[1]/div/div[1]/div/div/button').click()
 
@@ -166,6 +200,10 @@ def uploadFolder():
     #여기서 json ipfs 추출하기
 
 
-movePage_Pinata()
+if __name__ == '__main__':
+    pinataAutoProcess = PinataAutoProcess()
+    
+    pinataAutoProcess.movePage_Pinata()
+
 #uploadFolder()
 #QmWj3vMLQg43Dp6nzSgMbRdVLE36euT57ro7RDAR2eGYZD

@@ -31,7 +31,7 @@ const Loading2 = () => {
        }).catch(res => {
            console.warn(res +  "error must be fix!")
            alert("문제 발생! yolo로 되돌아 갑니다")
-           CameraClick()
+           YoloClick()
        })
     },[])
 
