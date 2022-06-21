@@ -22,7 +22,7 @@ const Loading = () => {
         axios("/rendering", {}).then(res => {
             console.warn(res.data)
             if (res.data = "error occured") {
-                alert("완료되었습니다 한번 확인해주세요!")
+                alert("완료되었습니다 zepeto에서 확인해주세요!")
                 SelectPageClick();
             }
             else if (res.data = "nft 내 오류 발생")
