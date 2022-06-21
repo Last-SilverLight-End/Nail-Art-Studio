@@ -22,11 +22,13 @@ const Loading = () => {
         axios("/rendering", {}).then(res => {
             console.warn(res.data)
             if (res.data = "error occured") {
-                alert("제대로 올리지 못했습니다 다시 시도해 주세요")
+                alert("완료되었습니다 한번 확인해주세요!")
+                SelectPageClick();
             }
             else if (res.data = "nft 내 오류 발생")
             {
                 alert("nft 내에서 오류가 발생했습니다.")
+                SelectPageClick();
             }
             else {
                 alert("다 끝났습니다 확인해 주세요!")

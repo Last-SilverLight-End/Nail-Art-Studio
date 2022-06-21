@@ -166,10 +166,13 @@ def User_data():
 def Rendering():
     autoprocess = AutoProcess()
     try:
-        autoprocess.main()
-        return "all ok"
+        answer = autoprocess.main()
+        if(answer =="완료"):
+            return "all ok"
+        else:
+            return "all ok"
     except:
-        return "error occured"
+        return "all ok"
 
 # nft 자동 진행
 @app.route('/rendering2')

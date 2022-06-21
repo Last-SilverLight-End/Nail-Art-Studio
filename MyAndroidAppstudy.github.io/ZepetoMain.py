@@ -24,11 +24,12 @@ class AutoProcess:
         #upload()
         self.uploadImage()
         print(text)
-        self.writeInfo()
-
+        tempo = self.writeInfo()
+        print(tempo)
         self.info.close()
         time.sleep(1)
         self.driver.quit()
+        return tempo
 
     def LogInInfo2(self,form,id,pwd):
         with open(r'zepetoText.txt','r') as info:
@@ -108,6 +109,7 @@ class AutoProcess:
         self.driver.find_element_by_xpath('/html/body/div[6]/div/div/div/header/div/button[1]').click()
         time.sleep(1)
         print('완료')
+        return "완료"
   
 if __name__ == '__main__':
     autoprocess = AutoProcess()
