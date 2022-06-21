@@ -3,7 +3,7 @@
 # 지금은 고쳐진 상태 입니다 2022/04/02
 
 
-실행 시키기 https://myandroidappstudy.github.io/
+실행 시키기 [https://myandroidappstudy.github.io/](https://5826-223-195-37-95.jp.ngrok.io)
 
 
 
