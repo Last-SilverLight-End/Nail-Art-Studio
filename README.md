@@ -5,7 +5,7 @@
 + KSC 학부 논문으로 개제 하여 장려 수상
  
 ### [관련 자료](http://board.sejong.ac.kr/boardview.do?pkid=154050&currentPage=1&searchField=D.TITLE&siteGubun=19&menuGubun=1&bbsConfigFK=804&searchLowItem=ALL&searchValue=%EB%84%A4%EC%9D%BC)
- 관련 자료 내용 입니다.
++ 관련 자료 내용 입니다.
  
  ## 내용
 
