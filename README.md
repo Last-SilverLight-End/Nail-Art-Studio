@@ -1,1 +1,3 @@
-# 창의학기제 NFT 자동화 서비스 플랫폼 입니다. 포트폴리오를 참고해 주세요
+# Nail Art Studio 플랫폼 입니다. 
+
+## http://www.riss.kr/search/detail/DetailView.do?p_mat_type=1a0202e37d52c72d&control_no=2b74a069d1ebaab66aae8a972f9116fb
